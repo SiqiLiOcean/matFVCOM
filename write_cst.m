@@ -2,8 +2,8 @@
 % Write out the coastline in cst format
 % 
 % Input  : --- fout, output cst file
-%          --- cst_x, x of coastlines
-%          --- cst_y, y of coastlines
+%          --- cst_x, x of coastlines (different islands are seperated by nan)
+%          --- cst_y, y of coastlines (different islands are seperated by nan)
 %
 % Output :
 % 

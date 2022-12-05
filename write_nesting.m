@@ -13,6 +13,8 @@
 %   U               x-velocity          (nele, siglay, nt)   m/s
 %   V               y-velocity          (nele, siglay, nt)   m/s
 %   Hyw             z-velocity          (node, siglev, nt)   m/s
+%   weight_node     weight on node      (node, nt)           1
+%   weight_cell     weight on cell      (nele, nt)           1
 % 
 % output :
 %
@@ -33,6 +35,10 @@ varargin = read_varargin(varargin, {'Salinity'}, {[]});
 varargin = read_varargin(varargin, {'U'}, {[]});
 varargin = read_varargin(varargin, {'V'}, {[]});
 varargin = read_varargin(varargin, {'Hyw'}, {[]});
+varargin = read_varargin(varargin, {'Weight_node'}, {[]});
+varargin = read_varargin(varargin, {'Weight_cell'}, {[]});
+
+
 
 
 % w_nesting_node = interp_2d_calc_weight('ID', f1.x, f1.y, f2.x(nesting_node), f2.y(nesting_node));
@@ -48,6 +54,13 @@ else
 %     time = Time - datenum(1858, 11, 17);
 %     Itime = floor(time);
 %     Itime2 = (time - Itime)*24*3600 * 1000;
+end
+
+if length(Weight_node(:)) == fn.node
+    Weight_node = repmat(Weight_node(:), 1, nt);
+end
+if length(Weight_cell(:)) == fn.nele
+    Weight_cell = repmat(Weight_cell(:), 1, nt);
 end
 
 dzc = -diff(fn.siglevc, 1, 2);
@@ -202,7 +215,18 @@ if ~isempty(Hyw)
     netcdf.putAtt(ncid, hyw_varid, 'long_name', 'hydrostatic vertical velocity');
     netcdf.putAtt(ncid, hyw_varid, 'units', 'm/s');
 end
-
+if ~isempty(Weight_node)
+    % Weight_node
+    weight_node_varid = netcdf.defVar(ncid, 'weight_node', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, weight_node_varid, 'long_name', 'Weights for nodes in relaxation zone');
+    netcdf.putAtt(ncid, weight_node_varid, 'units', '1');
+end
+if ~isempty(Weight_cell)
+    % Weight_cell
+    weight_cell_varid = netcdf.defVar(ncid, 'weight_cell', 'float', [nele_dimid time_dimid]);
+    netcdf.putAtt(ncid, weight_cell_varid, 'long_name', 'Weights for elements in relaxation zone');
+    netcdf.putAtt(ncid, weight_cell_varid, 'units', '1');
+end
 % End define mode
 netcdf.endDef(ncid);
 
@@ -248,6 +272,12 @@ for it = 1 : nt
     if ~isempty(Hyw)
         netcdf.putVar(ncid, hyw_varid, [0 0 it-1], [fn.node fn.kb 1], Hyw(:, :, it));
     end
+    if ~isempty(Weight_node)
+        netcdf.putVar(ncid, weight_node_varid, [0 it-1], [fn.node 1], Weight_node(:, it));
+    end    
+    if ~isempty(Weight_cell)
+        netcdf.putVar(ncid, weight_cell_varid, [0 it-1], [fn.nele 1], Weight_cell(:, it));
+    end    
 end
 % Close the nesting file
 netcdf.close(ncid);

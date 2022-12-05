@@ -51,8 +51,10 @@ while sum(flag)>0
         
     end   
     
-    string{i} = string1;
+    string{i,1} = string1;
     num = num + length(string1) - 1;
     
-    disp([i, length(string1) - 1, num, n])
+    if mod(i, 1000) == 0
+        disp([i, length(string1) - 1, num, n])
+    end
 end

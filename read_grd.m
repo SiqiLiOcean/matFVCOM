@@ -73,10 +73,18 @@ switch version
         fid=fopen(finput);
         % Read the node number
         line=textscan(fid,'%s %s %s %d',1);
-        node=line{4};
+        if strcmpi(line{1}, 'node')
+            node=line{4};
+        elseif strcmpi(line{1}, 'cell')
+            nele = line{4};
+        end
         % Read the nele number
         line=textscan(fid,'%s %s %s %d',1);
-        nele=line{4};
+        if strcmpi(line{1}, 'node')
+            node=line{4};
+        elseif strcmpi(line{1}, 'cell')
+            nele = line{4};
+        end
         % Read the nv
         data=textscan(fid,'%d %d %d %d %d',nele);
         nv=cell2mat(data(:,2:4));

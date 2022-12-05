@@ -17,8 +17,10 @@
 % Updates:
 % 2022-10-16  Siqi Li  Added LON and LAT (required for nesting files)
 %==========================================================================
-function fn = f_load_grid_nesting(fgrid, nesting_node, nesting_cell)
+function fn = f_load_grid_nesting(fgrid, nesting_node, nesting_cell, varargin)
 
+varargin = read_varargin(varargin, {'Node_weight'}, {nesting_node*0+1});
+varargin = read_varargin(varargin, {'Cell_weight'}, {nesting_cell*0+1});
 
 % Generate the nesting boundary
 if ~exist('nesting_cell', 'var')
@@ -41,3 +43,6 @@ if isfield(fgrid, 'LON') && isfield(fgrid, 'LAT')
     fn.LON = fgrid.LON(nesting_node);
     fn.LAT = fgrid.LAT(nesting_node);
 end
+
+fn.node_weight = Node_weight;
+fn.cell_weight = Cell_weight;

@@ -38,10 +38,12 @@ varargin = read_varargin(varargin, {'Color'}, {'k'});
 varargin = read_varargin(varargin, {'Vh'}, {[]});
 
 
+% Xh = 4;
+% Yh = 2.5; %1.5;
+% Yt = 0.3;
 Xh = 4;
-Yh = 2.5; %1.5;
+Yh = 3; %2.5; %1.5;
 Yt = 0.3;
-
 
 nx = wgrid.nx;
 ny = wgrid.ny;

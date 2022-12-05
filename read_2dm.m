@@ -72,7 +72,7 @@ else
     end
     ns_num = str2num(ns_str);
     ns_end = find(ns_num<0);
-    ns_start = [1 ns_end(1:end-1)+1];
+    ns_start = [1 ns_end(1:end-1)+2];
     for i = 1 : length(ns_start)
         ns{i,1} = ns_num(ns_start(i):ns_end(i));
         ns{i,1}(end) = -ns{i}(end);

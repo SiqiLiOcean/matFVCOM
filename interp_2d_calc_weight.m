@@ -362,9 +362,10 @@ switch upper(METHOD_2D)
 
         x_center = mean(rec_x, 3);
         y_center = mean(rec_y, 3);
-        
-        k(isnan(k)) = knnsearch([x_center(:) y_center(:)], [xo(isnan(k)) yo(isnan(k))]);
 
+        if any(isnan(k))
+            k(isnan(k)) = knnsearch([x_center(:) y_center(:)], [xo(isnan(k)) yo(isnan(k))]);
+        end
         % This mehtod does not work with WRF regional grid.
         %         x_center = (x_in1 + x_in2 + x_in3 + x_in4) / 4;
         %         y_center = (y_in1 + y_in2 + y_in3 + y_in4) / 4;

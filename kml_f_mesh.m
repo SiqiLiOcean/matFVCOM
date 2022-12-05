@@ -25,9 +25,10 @@ function k = kml_f_mesh(fgrid, fout, varargin)
 % Default settings:
 varargin = read_varargin(varargin, {'Model'}, {'FVCOM Mesh'});
 varargin = read_varargin(varargin, {'Altitude'}, {0});
-if numel(Altitude) == 1
-    Altitude = ones(fgrid.node) * Altitude;
-end
+% if numel(Altitude) == 1
+%     Altitude = ones(size(fgrid.lines_x,1)*3, 1) * Altitude;
+%     Altitude(3:3:end) = nan;
+% end
 varargin = read_varargin(varargin, {'LineWidth'}, {1.5});
 % varargin = read_varargin(varargin, {'LineColor'}, {'FFF1F258'});
 varargin = read_varargin(varargin, {'LineColor'}, {[88 242 241]});
@@ -83,51 +84,54 @@ n = size(fgrid.lines_x, 1);
 
 k = kml(Model);
 
-if n < 600000000
-    
-    x = fgrid.lines_x;
-    y = fgrid.lines_y;
-    x(:,3) = nan;
-    y(:,3) = nan;
-    x = reshape(x', 1, []);
-    y = reshape(y', 1, []);
-    
-    slice = 60000;
-    
-    for i = 1 : ceil(length(x)/slice)
-        i1 = (i-1)*slice + 1;
-        i2 = min(i*slice, length(x));
-        k.plot(x(i1:i2), y(i1:i2), ...
-            'altitude', Altitude(i1:i2),              ...
-            'altitudeMode', 'absolute', ...
-            'lineWidth', LineWidth,     ...
-            'lineColor', LineColor,     ...
-            'name', 'FVCOM Mesh');
-    end
-%     for i = 1 : n
-%         if mod(i, 1000) == 0; disp([num2str(i) ' / ' num2str(n)]);end
-%         k.plot(fgrid.lines_x(i,:), fgrid.lines_y(i,:), ...
-%             'altitude', 0,              ...
-%             'altitudeMode', 'absolute', ...
-%             'lineWidth', LineWidth,     ...
-%             'lineColor', LineColor,     ...
-%             'name', 'FVCOM Mesh');
-%     end
+% if n < 600000000
+method = 3;
+switch method
+    case 1
+        for i = 1 : n
+            if mod(i, 1000) == 0; disp([num2str(i) ' / ' num2str(n)]);end
+            k.plot(fgrid.lines_x(i,:), fgrid.lines_y(i,:), ...
+                'altitude', Altitude,              ...
+                'altitudeMode', 'absolute', ...
+                'lineWidth', LineWidth,     ...
+                'lineColor', LineColor,     ...
+                'name', 'FVCOM Mesh');
+        end
+        
+    case 2
+        x = fgrid.lines_x;
+        y = fgrid.lines_y;
+        x(:,3) = nan;
+        y(:,3) = nan;
+        x = reshape(x', 1, []);
+        y = reshape(y', 1, []);
 
-else
-    
-    % This method takes too much time on calculating strings.
-    string = f_calc_string(fgrid);
-    n = length(string);
-    for i = 1 : n
-        if mod(i, 1000) == 0; disp([num2str(i) ' / ' num2str(n)]);end
-        k.plot(fgrid.x(string{i}), fgrid.y(string{i}), ...
-            'altitude', Altitude(string{i}),              ...
-            'altitudeMode', 'absolute', ...
-            'lineWidth', LineWidth,     ...
-            'lineColor', LineColor,     ...
-            'name', 'FVCOM Mesh');
-    end
+        slice = 60000;
+
+        for i = 1 : ceil(length(x)/slice)
+            i1 = (i-1)*slice + 1;
+            i2 = min([i*slice, length(x)]);
+            k.plot(x(i1:i2), y(i1:i2), ...
+                'altitude', Altitude,              ...
+                'altitudeMode', 'absolute', ...
+                'lineWidth', LineWidth,     ...
+                'lineColor', LineColor,     ...
+                'name', 'FVCOM Mesh');
+        end
+
+    case 3
+        % This method takes too much time on calculating strings.
+        string = f_calc_string(fgrid);
+        n = length(string);
+        for i = 1 : n
+            if mod(i, 1000) == 0; disp([num2str(i) ' / ' num2str(n)]);end
+            k.plot(fgrid.x(string{i}), fgrid.y(string{i}), ...
+                'altitude', Altitude,              ...
+                'altitudeMode', 'absolute', ...
+                'lineWidth', LineWidth,     ...
+                'lineColor', LineColor,     ...
+                'name', 'FVCOM Mesh');
+        end
 
 end
 

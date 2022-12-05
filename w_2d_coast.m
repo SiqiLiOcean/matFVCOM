@@ -52,8 +52,10 @@ else
 %     gshhs_path = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.b'];
 %     gshhs_index = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.i'];
     if contains(computer, 'WIN')
-        gshhs_path = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.b'];
-        gshhs_index = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.i'];
+%         gshhs_path = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.b'];
+%         gshhs_index = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.i'];
+        gshhs_path = ['D:\data\gshhs_' Resolution '.b'];
+        gshhs_index = ['D:\data\gshhs_' Resolution '.i'];
     else
         gshhs_path = [fundir('w_2d_coast') 'data/gshhs_' Resolution '.b'];
         gshhs_index = [fundir('w_2d_coast') 'data/gshhs_' Resolution '.i'];
