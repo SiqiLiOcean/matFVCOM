@@ -64,7 +64,7 @@ theta = atan2d(v, u);
 spd = sqrt(u.^2 + v.^2);
 
 if isempty(Vh)
-    spd_sorted = sort(spd(~isnan(spd(:) & spd(:)>0)));
+    spd_sorted = sort(spd);
     n_percent = max(round(length(spd_sorted)*0.05), 1);
     v_percent = spd_sorted(n_percent);
     p = floor(log10(v_percent));

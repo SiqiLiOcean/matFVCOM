@@ -2,11 +2,16 @@
 % Add longshore forcing to FVCOM restart file.
 %
 % input  :
+%   fin
+%   fout
+%   lsf_nodes --- longshore flow node id
+%   geo       --- thermal wind flow adjustment scaling
+%   wdf       --- wind driven flow adjustment scaling
 % 
 % output :
 %
 % Siqi Li, SMAST
-% yyyy-mm-dd
+% 2022-11-07
 %
 % Updates:
 %
@@ -26,12 +31,10 @@ ncid = netcdf.open(fout, 'WRITE');
 [ndims, nvars] = netcdf.inq(ncid);
 % Check the dimension nlsf
 nlsf_dimid = -1;
-nlsf_length = -1;
 for i = 1 : ndims
-    [dimname, dimlen] = netcdf.inqDim(ncid, i-1);
+    dimname = netcdf.inqDim(ncid, i-1);
     if strcmp(dimname, 'nlsf')
         nlsf_dimid = i-1;
-        nlsf_length = dimlen;
         break
     end
 end

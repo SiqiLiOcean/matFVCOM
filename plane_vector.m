@@ -45,7 +45,7 @@ v = v(:);
 
 % varargin = read_varargin(varargin, {'LengthScale'}, {1});
 % varargin = read_varargin(varargin, {'WidthScale'}, {1});
-% varargin = read_varargin(varargin, {'Scale'}, {1});
+varargin = read_varargin(varargin, {'Scale'}, {1});
 varargin = read_varargin(varargin, {'Color'}, {'k'});
 varargin = read_varargin(varargin, {'Vh'}, {[]});
 % varargin = read_varargin(varargin, {'Xh'}, {4});
@@ -62,8 +62,8 @@ Yt = 0.3;
 %     v(spd<Vmin) = Vmin;
 % end
 
-DataAspectRatio = get(gca, 'DataAspectRatio')
-aspect = DataAspectRatio(1) / DataAspectRatio(2)
+DataAspectRatio = get(gca, 'DataAspectRatio');
+aspect = DataAspectRatio(1) / DataAspectRatio(2);
 
 xlims = get(gca, 'xlim');
 Scale0 = diff(xlims) / 500;
@@ -93,8 +93,8 @@ yt = ones(n, 1) * Yt;
 ax = [ZERO   x1   x1   x2   x1   x1 ZERO ZERO]';
 ay = [ -yt  -yt  -y1 ZERO   y1   yt   yt  -yt]';
 
-% ax = ax * Scale0 * LengthScale * Scale;
-% ay = ay * Scale0 * WidthScale * Scale;
+ax = ax * Scale0 * Scale;
+ay = ay * Scale0 * Scale;
 
 % Fix the disform due to the axis legnth(the ratio of ylim to xlim)
 ay = ay / aspect;

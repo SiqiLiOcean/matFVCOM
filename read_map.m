@@ -106,9 +106,9 @@ while ~feof(fid)
                     data = textscan(fid, '%f%f%f', n);
                     fgetl(fid);
                     data = cell2mat(data);
-                    ARC(j,1).x = [NODE(n1).x; data(:,1); NODE(n2).x];
-                    ARC(j,1).y = [NODE(n1).y; data(:,2); NODE(n2).y];
-                    ARC(j,1).h = [NODE(n1).h; data(:,3); NODE(n2).h];
+                    ARC(j,1).x = [NODE(n1).x data(:,1)' NODE(n2).x];
+                    ARC(j,1).y = [NODE(n1).y data(:,2)' NODE(n2).y];
+                    ARC(j,1).h = [NODE(n1).h data(:,3)' NODE(n2).h];
                 elseif startsWith(line, 'NODES')
                     ARC(j,1).nodes = read_line(line);
                     n1 = find([NODE.id]==ARC(j,1).nodes(1));
@@ -116,6 +116,12 @@ while ~feof(fid)
                 end
                 
             end
+
+            % Add NaN at the end
+            ARC(j,1).x(end+1) = nan;
+            ARC(j,1).y(end+1) = nan;
+            ARC(j,1).h(end+1) = nan;
+            
             
 %             ARC(j,1).x = [NODE(n1).x; data(:,1); NODE(n2).x];
 %             ARC(j,1).y = [NODE(n1).y; data(:,2); NODE(n2).y];

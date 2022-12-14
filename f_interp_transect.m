@@ -17,7 +17,7 @@ end
 [x_sec, y_sec, d_sec] = interp_transect_pixel_horizontal(x, y, 'npixel', npixel);
 
 if Extrap
-    var1 = interp_2d('TRI', var, fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'Extrap', 'K', K);
+    var1 = interp_2d(var, 'TRI', fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'Extrap', 'K', K);
 else
-    var1 = interp_2d('TRI', var, fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'K', K);
+    var1 = interp_2d(var, 'TRI', fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'K', K);
 end

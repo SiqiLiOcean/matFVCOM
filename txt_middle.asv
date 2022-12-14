@@ -1,0 +1,92 @@
+function  out = txt_middle(txt, str1, str2)
+
+
+
+% Method 3
+[~,I] = regexpi(txt, str1);
+I = I + 1;
+J = regexpi(txt, str2) - 1;
+
+if isempty(I) || isempty(J)
+
+else
+j = 1;
+k = 0;
+for i = 1 : length(I)
+    
+    while I(i) >= J(j)
+        j = j + 1;
+    end
+    
+    if i == length(I)
+        k = k + 1;
+%         out{k,1} = txt(I(i):J(j));
+        out(k,1) = convertCharsToStrings(txt(I(i):J(j)));
+    else
+        if I(i+1)<J(j)
+            continue
+        else
+            k = k + 1;
+            out(k,1) = convertCharsToStrings(txt(I(i):J(j)));
+        end
+    end
+    
+    if j == length(J)
+        break
+    end
+end
+end
+
+if exist('out', 'var')
+else
+    out = "";
+end
+
+% Method 1
+% % pattern = [str1 '(\w*)' str2];
+% % 
+% % [i1, i2] = regexp(txt, pattern);
+% % 
+% % i1 = i1 + length(str1);
+% % i2 = i2 - length(str2);
+
+
+% Method 2
+% i1 = regexp(txt, str1) + length(str1);
+% i2 = regexp(txt, str2) - length(str2);
+% 
+% % Check i2 start
+% k1 = find(i2<min(i1));
+% i2(k1) = [];
+% % Check i1 start
+% k1 = find(i1<min(i2));
+% k1(end) = [];
+% if ~isempty(k1)
+%     i1(k1) = [];
+% end
+% 
+% 
+% % Check i1 end
+% k2 = find(i1>max(i2));
+% i1(k2) = [];
+% % Check i2 end
+% k2 = find(i2>max(i1));
+% k2(1) = [];
+% if ~isempty(k2)
+%     i2(k2) = [];
+% end
+% 
+% 
+% if length(i1)~=length(i2)
+%     disp([str1 '  :  ' num2str(length(i1))])
+%     disp([str2 '  :  ' num2str(length(i2))])
+%     error('The numbers of str1 and str2 do not match.')
+% end
+% 
+% for i = 1 : length(i1)
+%     
+%     out{i,1} = txt(i1(i):i2(i));
+% end
+
+
+

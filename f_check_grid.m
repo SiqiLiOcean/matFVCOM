@@ -87,7 +87,7 @@ id = id(:,2);
 R = R(:,2);
 
 % Get the duplicated nodes match
-k = find(R<1e-8);
+k = find(R<1e-6);
 if isempty(k)
     disp(' There is no duplicated node.')
 else

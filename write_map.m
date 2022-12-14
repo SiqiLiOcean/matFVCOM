@@ -61,10 +61,13 @@ for i = 1 : length(ARC)
     fprintf(fid, '%s\n', 'ARC');
     for j = 1 : length(ARC(i).line)
         fprintf(fid, '%s\n', ARC(i).line{j});
+        if startsWith(ARC(i).line{j}, 'ARCVERTICES')
+            for j = 2 : length(ARC(i).x)-2   % Remove the first and last NODEs.
+                fprintf(fid, [Format ' ' Format ' ' Format '\n'], ARC(i).x(j), ARC(i).y(j), ARC(i).h(j));
+            end
+        end
     end
-    for j = 2 : size((ARC(i).x), 1)-1   % Remove the first and last NODEs.
-        fprintf(fid, [Format ' ' Format ' ' Format '\n'], ARC(i).x(j), ARC(i).y(j), ARC(i).h(j));
-    end
+    
 %     fprintf(fid, '%s\n', 'ARC');
 %     fprintf(fid, '%s %d\n', 'ID', ARC(i).id);
 %     fprintf(fid, '%s %d\n', 'ARCELEVATION', ARC(i).elevation);

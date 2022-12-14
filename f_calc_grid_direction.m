@@ -22,6 +22,9 @@
 %==========================================================================
 function [tf, nv] = f_calc_grid_direction(varargin)
 
+varargin = read_varargin2(varargin, {'Fix'});
+
+
 switch class(varargin{1})
     case 'struct'
         fgrid = varargin{1};
@@ -64,6 +67,11 @@ else
 %     disp('Now modify it in counter clock-wise order.')
 %     nv(tf==1, :) = nv(tf==1, [1 3 2]);
 end
+
+if ~isempty(Fix) && any(tf)
+    nv(tf==1, :) = nv(tf==1, [1 3 2]);
+end
+
 disp('------------------------------------------------')
 disp('')
 
