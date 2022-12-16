@@ -18,6 +18,8 @@
 function var2 = f_smooth(fgrid, var1, varargin)
 
 varargin = read_varargin(varargin, {'CenterWeight'}, {0.5});
+varargin = read_varargin(varargin, {'N'}, {1});
+
 
 node = fgrid.node;
 nele = fgrid.nele;
@@ -39,6 +41,7 @@ else
 end
 
 
+for n = 1 : N
 % Add the fake last element
 var1(end+1, :) = nan;
 
@@ -56,3 +59,5 @@ for i = 1 : size(var1,2)
 end
     
 var2 = reshape(var2, dims1);
+var1 = var2;
+end

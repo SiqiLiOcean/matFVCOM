@@ -17,8 +17,15 @@
 % Updates:
 % 2021-06-08  Siqi Li  the output is updated in fgrid.
 % 2021-06-21  Siqi Li  Re-added the output 'bdy' for replace_river_nml
+% 2022-12-16  Siqi Li  Added global adjustment for bdy_x and bdy_y
 %==========================================================================
-function [bdy_x, bdy_y, lines_x, lines_y, bdy_id, lines_id] = f_calc_boundary(fgrid)
+function [bdy_x, bdy_y, lines_x, lines_y, bdy_id, lines_id] = f_calc_boundary(fgrid, varargin)
+
+varargin = read_varargin(varargin, {'MaxLon'}, {180.});
+MinLon = MaxLon - 360.;
+MidLon = MaxLon - 180.;
+poly0 = polyshape([MinLon MaxLon MaxLon MinLon MinLon], [-90 -90 90 90 -90]);
+
 % 
 % clc
 % clear
@@ -114,6 +121,56 @@ end
 lines_x = fgrid.x(lines_id);
 lines_y = fgrid.y(lines_id);
 
+
+% Adjust the boundary if this is a global grid
+if strcmp(fgrid.type, 'Global')
+    for i = 1 : length(bdy_x)
+        dlon = bdy_x{i}(1:end-1) - bdy_x{i}([2:end-1 1]);
+        k = find(abs(dlon)>180);
+        if ~isempty(k)
+            org_lon = bdy_x{i};
+            org_lat = bdy_y{i};
+            if length(k) == 2
+                org_lon1 = org_lon;
+                if org_lon(k(1)+1) > MidLon
+                    org_lon1(k(1)+1:k(2)) = org_lon1(k(1)+1:k(2)) - 360.;
+                    org_lon2 = org_lon1 + 360.;
+                else
+                    org_lon1(k(1)+1:k(2)) = org_lon1(k(1)+1:k(2)) + 360.;
+                    org_lon2 = org_lon1 - 360.;
+                end
+                poly1 = polyshape(org_lon1, org_lat);
+                poly2 = polyshape(org_lon2, org_lat);
+                polyout1 = intersect(poly0, poly1);
+                polyout2 = intersect(poly0, poly2);
+                bdy_x{i} = [];
+                bdy_y{i} = [];
+                if ~isempty(polyout1.Vertices)
+                    bdy_x{i} = [bdy_x{i} polyout1.Vertices([1:end 1], 1)' nan];
+                    bdy_y{i} = [bdy_y{i} polyout1.Vertices([1:end 1], 2)' nan];
+                end
+                if ~isempty(polyout2.Vertices)
+                    bdy_x{i} = [bdy_x{i} polyout2.Vertices([1:end 1], 1)' nan];
+                    bdy_y{i} = [bdy_y{i} polyout2.Vertices([1:end 1], 2)' nan];
+                end
+
+            elseif length(k) == 1 % This is Antarctic
+                org_lon = org_lon([k+1:end-2 1:k]);
+                org_lat = org_lat([k+1:end-2 1:k]);
+                if (org_lon(1)>MidLon)
+                    org_lon = flip(org_lon);
+                    org_lat = flip(org_lat);
+                end
+                p_lat = interp1([org_lon(end)-360. org_lon(1)], [org_lat(end) org_lat(1)], MinLon);
+                bdy_x{i} = [MinLon org_lon MaxLon MaxLon MinLon MinLon nan];
+                bdy_y{i} = [ p_lat org_lat  p_lat   -90.   -90.  p_lat nan];
+
+            else
+                error('This situation has not been considered.')
+            end
+        end
+    end
+end
 % fgrid.bdy_x = bdy_x;
 % fgrid.bdy_y = bdy_y;
 % fgrid.lines_x = lines_x;

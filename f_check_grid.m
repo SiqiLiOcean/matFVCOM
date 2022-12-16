@@ -15,7 +15,9 @@
 % Updates:
 % 2022-04-15  Siqi Li  Added nodestring
 %==========================================================================
-function fgrid = f_check_grid(fgrid0)
+function fgrid = f_check_grid(fgrid0, varargin)
+
+varargin = read_varargin(varargin, {'Eps'}, {1e-6});
 
 fgrid = fgrid0;
 %==========> Part 1 : check if there is duplicated cell.
@@ -87,7 +89,7 @@ id = id(:,2);
 R = R(:,2);
 
 % Get the duplicated nodes match
-k = find(R<1e-6);
+k = find(R < Eps);
 if isempty(k)
     disp(' There is no duplicated node.')
 else
@@ -99,6 +101,14 @@ else
         end
     end
     
+    % Sometime there are more than two nodes at the same place
+    points = intersect(node_match(:,1), node_match(:,2));
+    for i = 1 : length(points)
+        i1 = node_match(:,1) == points(i);
+        i2 = node_match(:,2) == points(i);
+        node_match(i1,1) = node_match(i2,1);
+    end
+
     id = 1 : length(x);
     disp([' The following ' num2str(size(node_match,1)) ' nodes are duplicated:'])
     for i = 1 : size(node_match, 1)

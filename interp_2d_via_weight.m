@@ -96,10 +96,17 @@ var2 = nan(n2, n_slice);
 % Interpolation
 k = find(~isnan(id(:,1)));
 for i = 1 : n_slice
-    tmp = var1(:,i);
-    tmp = tmp(id(k,:));
-     var2(k, i) = sum(tmp.*w(k,:), 2);
-%    var2(k, i) = sum(tmp'.*w(k,:), 2);
+    if length(k) == 1
+        tmp = var1(:,i);
+        tmp = tmp(id(k,:))';
+        var2(k, i) = sum(tmp.*w(k,:), 2);
+        %    var2(k, i) = sum(tmp'.*w(k,:), 2);
+    else
+        tmp = var1(:,i);
+        tmp = tmp(id(k,:));
+        var2(k, i) = sum(tmp.*w(k,:), 2);
+        %    var2(k, i) = sum(tmp'.*w(k,:), 2);
+    end
 end
 
 

@@ -163,12 +163,25 @@ fgrid.nele = size(nv, 1);
 fgrid.x = x;
 fgrid.y = y;
 
+% Check if the grid is 'Global' or 'Regional'
+xlims = minmax(x);
+ylims = minmax(y);
+if ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=0 && xlims(2)<=360
+    fgrid.type = 'Global';
+elseif ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=-180 && xlims(2)<=180
+    fgrid.type = 'Global';
+else
+    fgrid.type = 'Regional';
+end
 
 % Cell variables
 fgrid.nv = nv;
 [~, fgrid.nv] = f_calc_grid_direction(fgrid);
-fgrid.xc = mean(x(nv), 2);
-fgrid.yc = mean(y(nv), 2);
+% fgrid.xc = mean(x(nv), 2);
+% fgrid.yc = mean(y(nv), 2);
+[fgrid.xc, fgrid.yc] = calc_xcyc(x, y, nv, fgrid.type);
+
+
 
 % nv (node id around each cell)
 % We already have it.
@@ -265,3 +278,4 @@ for i = 1 : nvars
 end
 
 end
+

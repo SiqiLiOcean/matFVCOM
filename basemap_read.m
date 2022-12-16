@@ -50,11 +50,11 @@ hold on
 % geoplot([50 50], [-80 -60], 'w-', 'linewidth', 2)
 % geoplot([30 50], [-80 -80], 'w-', 'linewidth', 2)
 % geoplot([30 50], [-60 -60], 'w-', 'linewidth', 2)
-% % % gx.LatitudeAxis.Visible='off';
-% % % gx.LatitudeLabel.Visible = 'off';
-% % % gx.LongitudeAxis.Visible='off';
-% % % gx.LongitudeLabel.Visible = 'off';
-% % % gx.Scalebar.Visible = 'off';
+gx.LatitudeAxis.Visible='off';
+gx.LatitudeLabel.Visible = 'off';
+gx.LongitudeAxis.Visible='off';
+gx.LongitudeLabel.Visible = 'off';
+gx.Scalebar.Visible = 'off';
 gx.Basemap = 'satellite';
 % gx.OuterPosition = [0 0 1 1];
 % gx.InnerPosition = [0 0 1 1];
@@ -89,13 +89,13 @@ lat2 = bm.ylims(2);
 % tmp_y = linspace(y2, y1, ny);
 % [bm.x, ~] = proj_miller2geo(tmp_x, 0*tmp_x);
 % [~, bm.y] = proj_miller2geo(0*tmp_y, tmp_y);
-[x1, y1] = proj_geo2lony(lon1, lat1);
-[x2, y2] = proj_geo2lony(lon2, lat2);
+[x1, y1] = proj_geo2mercator(lon1, lat1);
+[x2, y2] = proj_geo2mercator(lon2, lat2);
 tmp_x = linspace(x1, x2, nx);
 tmp_y = linspace(y1, y2, ny);
 tmp_y = tmp_y(end:-1:1);
 bm.x = tmp_x;
-[~, bm.y] = proj_lony2geo(0*tmp_y, tmp_y);
+[~, bm.y] = proj_mercator2geo(0*tmp_y, tmp_y);
 
 
 
