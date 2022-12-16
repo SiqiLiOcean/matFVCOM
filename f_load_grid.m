@@ -37,6 +37,7 @@ function fgrid = f_load_grid(varargin)
 
 varargin = read_varargin(varargin, {'Rotate', 'Scale'}, {0, 1});
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+varargin = read_varargin(varargin, {'MaxLon'}, {180})
 
 fgrid.Scale = Scale;
 
@@ -166,12 +167,15 @@ fgrid.y = y;
 % Check if the grid is 'Global' or 'Regional'
 xlims = minmax(x);
 ylims = minmax(y);
+fgrid.type = 'Regional';
 if ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=0 && xlims(2)<=360
-    fgrid.type = 'Global';
+    if all(histcounts(f.x, 0:5:360)>0)
+        fgrid.type = 'Global';
+    end
 elseif ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=-180 && xlims(2)<=180
-    fgrid.type = 'Global';
-else
-    fgrid.type = 'Regional';
+    if all(histcounts(f.x, -180:5:180)>0)
+        fgrid.type = 'Global';
+    end   
 end
 
 % Cell variables
@@ -194,7 +198,7 @@ fgrid.nbsn = f_calc_nbsn(fgrid);
 
 
 % Boundary and all lines
-[fgrid.bdy_x, fgrid.bdy_y, fgrid.lines_x, fgrid.lines_y, fgrid.bdy, fgrid.lines] = f_calc_boundary(fgrid);
+[fgrid.bdy_x, fgrid.bdy_y, fgrid.lines_x, fgrid.lines_y, fgrid.bdy, fgrid.lines] = f_calc_boundary(fgrid, 'MaxLon', MaxLon);
 
 %------------Bathymetry---------------------------------------
 % if ~isnan(h)

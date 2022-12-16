@@ -65,12 +65,13 @@ if strcmp(fgrid.type, 'Global')
 %         case nele
 %             var = [var(~edge_cell); var(edge_cell); var(edge_cell)];
 %     end
+    xlim([MinLon MaxLon])
+    ylim([-90 90])
 end
 
 % 
 h = patch('Vertices',[x,y], 'Faces',nv, 'FaceColor','interp', 'FaceVertexCData',var(:), 'EdgeColor','none');
-xlim([MinLon MaxLon])
-ylim([-90 90])
+
 
 if (~isempty(varargin))
     set(h, varargin{:});
