@@ -12,6 +12,7 @@
 %==========================================================================
 function [h, poly_coast] = w_2d_coast(wgrid, varargin)
 
+PATH = set_path;
 
 varargin = read_varargin2(varargin, {'New'});
 varargin = read_varargin(varargin, ...
@@ -54,11 +55,11 @@ else
     if contains(computer, 'WIN')
 %         gshhs_path = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.b'];
 %         gshhs_index = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.i'];
-        gshhs_path = ['D:\data\gshhs_' Resolution '.b'];
-        gshhs_index = ['D:\data\gshhs_' Resolution '.i'];
+        gshhs_path = [PATH.gshhs '\gshhs_' Resolution '.b'];
+        gshhs_index = [PATH.gshhs '\gshhs_' Resolution '.i'];
     else
-        gshhs_path = [fundir('w_2d_coast') 'data/gshhs_' Resolution '.b'];
-        gshhs_index = [fundir('w_2d_coast') 'data/gshhs_' Resolution '.i'];
+        gshhs_path = [PATH.gshhs '/gshhs_' Resolution '.b'];
+        gshhs_index = [PATH.gshhs '/gshhs_' Resolution '.i'];
     end
     % if contains(computer, 'WIN')
     %     k = strfind(gshhs_path, '\');

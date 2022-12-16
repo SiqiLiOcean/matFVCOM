@@ -20,6 +20,8 @@
 %==========================================================================
 function [C, h, Data] = plane_topo(varargin)
 
+PATH = set_path;
+
 varargin = read_varargin(varargin, ...
             {'FontSize', 'LabelSpacing', 'Color'}, ...
             {        12,           300,     'k'});
@@ -39,11 +41,12 @@ varargin = read_varargin(varargin, {'Data'}, {[]});
 
 if isempty(Data)
 
-    if contains(computer, 'WIN')
-        etopo_path = 'C:\data\ETOPO1_Bed_g_gmt4.grd';
-    else
-        etopo_path = [fundir('plane_topo') 'data/ETOPO1_Bed_g_gmt4.grd'];
-    end
+%     if contains(computer, 'WIN')
+%         etopo_path = 'C:\data\ETOPO1_Bed_g_gmt4.grd';
+%     else
+%         etopo_path = [fundir('plane_topo') 'data/ETOPO1_Bed_g_gmt4.grd'];
+%     end
+    etopo_path = PATH.etopo1;
 
     % Read the etopo coastline data
     x0 = -180 : 1/60 : 180;
