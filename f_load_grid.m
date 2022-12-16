@@ -169,11 +169,11 @@ xlims = minmax(x);
 ylims = minmax(y);
 fgrid.type = 'Regional';
 if ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=0 && xlims(2)<=360
-    if all(histcounts(f.x, 0:5:360)>0)
+    if all(histcounts(x, 0:5:360)>0)
         fgrid.type = 'Global';
     end
 elseif ylims(1)>=-90 && ylims(2)<=90 && xlims(1)>=-180 && xlims(2)<=180
-    if all(histcounts(f.x, -180:5:180)>0)
+    if all(histcounts(x, -180:5:180)>0)
         fgrid.type = 'Global';
     end   
 end
