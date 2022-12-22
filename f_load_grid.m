@@ -37,7 +37,7 @@ function fgrid = f_load_grid(varargin)
 
 varargin = read_varargin(varargin, {'Rotate', 'Scale'}, {0, 1});
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
-varargin = read_varargin(varargin, {'MaxLon'}, {180})
+varargin = read_varargin(varargin, {'MaxLon'}, {180});
 
 fgrid.Scale = Scale;
 
