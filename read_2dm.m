@@ -29,10 +29,10 @@
 % 2021-06-15  Siqi Li  Read the index of nodes.
 % 2021-04-15  Siqi Li  Read nodestrings
 %==========================================================================
-function [x, y,nv, h, ns, tail, id]=read_2dm(finput)
+function [x, y,nv, h, ns, tail, id]=read_2dm(fin)
 
 
-fid=fopen(finput);
+fid=fopen(fin);
 
 % Read the data to find the line #
 data = textscan(fid, '%s', 'Delimiter','\n');
@@ -72,7 +72,7 @@ else
     end
     ns_num = str2num(ns_str);
     ns_end = find(ns_num<0);
-    ns_start = [1 ns_end(1:end-1)+2];
+    ns_start = [1 ns_end(1:end-1)+1];
     for i = 1 : length(ns_start)
         ns{i,1} = ns_num(ns_start(i):ns_end(i));
         ns{i,1}(end) = -ns{i}(end);
@@ -92,7 +92,7 @@ fclose(fid);
 
 disp(' ')
 disp('------------------------------------------------')
-disp(['2dm file: ' finput])
+disp(['2dm file: ' fin])
 disp(['Node #: ' num2str(length(x))])
 disp(['Cell #: ' num2str(size(nv,1))])
 disp(['x range: ' num2str(min(x)) ' ~ ' num2str(max(x))])
