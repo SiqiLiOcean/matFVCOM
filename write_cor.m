@@ -16,13 +16,13 @@
 % Siqi Li, SMAST
 % 2020-07-23
 %==========================================================================
-function write_cor(foutput, x, y, cor)
+function write_cor(fout, x, y, cor)
 
 % Get the dimension
 node = length(cor);
 
 % Create the new file.
-fid=fopen(foutput, 'w');
+fid=fopen(fout, 'w');
 
 % Write the node number
 fprintf(fid, '%s %d\n', 'Node Number =  ', node);

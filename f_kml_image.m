@@ -14,7 +14,7 @@
 % Updates:
 %
 %==========================================================================
-function f_kml_image(f, var, fkmz, varargin)
+function f_kml_image(fgrid, var, fkmz, varargin)
 
 varargin = read_varargin(varargin, {'zlims'}, {minmax(var)});
 varargin = read_varargin(varargin, {'cm'}, {get(0, 'DefaultFigureColormap')});
@@ -23,11 +23,11 @@ varargin = read_varargin(varargin, {'NPixel'}, {600});
 
 
 if length(var) == fgrid.node
-    x = f.x;
-    y = f.y;
+    x = fgrid.x;
+    y = fgrid.y;
 elseif length(var) == fgrid.nele
-    x = f.xc;
-    y = f.yc;
+    x = fgrid.xc;
+    y = fgrid.yc;
 else
     error('Wrong input size.')
 end

@@ -17,13 +17,13 @@
 % Siqi Li, SMAST
 % 2020-07-16
 %==========================================================================
-function write_dep(foutput, x, y, dep)
+function write_dep(fout, x, y, dep)
 
 % Get the dimension
 node = length(dep);
 
 % Create the new file.
-fid=fopen(foutput, 'w');
+fid=fopen(fout, 'w');
 
 % Write the node number
 fprintf(fid, '%s %d\n', 'Node Number =  ', node);

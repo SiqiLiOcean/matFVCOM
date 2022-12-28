@@ -19,13 +19,13 @@
 % Siqi Li, SMAST
 % 2021-12-01
 %==========================================================================
-function write_spg(foutput, spg_node, spg_R, spg_f)
+function write_spg(fout, spg_node, spg_R, spg_f)
 
 
 n = length(spg_node);
 
 % Create the new file.
-fid=fopen(foutput, 'w');
+fid=fopen(fout, 'w');
 
 % Write the node number
 fprintf(fid, '%s %d\n', 'Sponge Node Number =  ', n);

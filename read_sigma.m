@@ -77,7 +77,7 @@ for i = 1 : length(lines)
         continue
     end
 
-    %---------------------GEOMETRIC----------------------------
+    %---------------------TANH----------------------------
     % DU, DL are in the GENERALIZED part
 
     %---------------------GENERALIZED--------------------------

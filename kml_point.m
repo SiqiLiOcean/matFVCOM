@@ -26,6 +26,8 @@ varargin = read_varargin(varargin, {'Name'}, {cellstr(num2str([1:n]'))});
 varargin = read_varargin(varargin, {'alt'}, {zeros(n,1)});
 varargin = read_varargin(varargin, {'iconURL'}, {'http://maps.google.com/mapfiles/kml/pal4/icon57.png'});
 varargin = read_varargin(varargin, {'iconColor'}, {[255 255 0]});
+varargin = read_varargin(varargin, {'iconScale'}, {2});
+
 
 switch class(iconColor)
 case 'char'

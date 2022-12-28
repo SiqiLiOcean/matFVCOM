@@ -40,7 +40,7 @@ else
     error('The first dimension of input should be either node or nele.')
 end
 
-
+var2 = var1;
 for n = 1 : N
 % Add the fake last element
 var1(end+1, :) = nan;
@@ -59,5 +59,5 @@ for i = 1 : size(var1,2)
 end
     
 var2 = reshape(var2, dims1);
-var1 = var2;
+
 end
