@@ -20,10 +20,6 @@ else
     varargin = read_varargin(varargin, {'hmax'}, {500});
 end
 
-hmin = 10;
-hmax = 300;
-sigma = read_sigma('D:\work\Yu\Global_FVCOM\case\input\ascii\gfvcomv1p2_sigma.dat');
-
 % Generate the topography
 for i=1:150
     h(i)=1/(i-200)+2/50;
