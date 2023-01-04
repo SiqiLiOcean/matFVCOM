@@ -20,7 +20,6 @@ else
     varargin = read_varargin(varargin, {'hmax'}, {500});
 end
 
-
 % Generate the topography
 for i=1:150
     h(i)=1/(i-200)+2/50;
