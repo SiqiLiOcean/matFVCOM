@@ -9,9 +9,11 @@
 %
 % This function will do the whole interpolation.
 %
-% input  : METHOD_2D, varargin%    METHOD_2D    interpolation methode, 'TRI', 'BI', 'QU', or 'ID'
+% input  : METHOD_2D, varargin
+%    METHOD_2D    interpolation method, 'TRI', 'BI', 'QU', 'ID', 'GLOBAL_BI'
 %    varargin contains:
-%    1> x           source x
+%    1> 'TRI'
+%       x           source x
 %       y           source y
 %       nv          source nv
 %       xo          destination x
@@ -21,26 +23,33 @@
 %                     the domain, try to increase this value (optional, 
 %                     default 7)
 %
-%    2> x           source x
+%    2> 'BI'
+%       x           source x
 %       y           source y
 %       xo          destination x
 %       yo          destination y
 %       'Global'    the flag to solve the global grid problem (optional)
 %
-%    3> x           source x
+%    3> 'QU'
+%       x           source x
 %       y           source y
 %       xo          destination x
 %       yo          destination y
 %       'Extrap'    the flag to do extrapolation (optional)
 %
-%    4> x           source x
+%    4> 'ID'
+%       x           source x
 %       y           source y
-%       nv          source nv
 %       xo          destination x
 %       yo          destination y
 %       'np'        the flag to do extrapolation (optional)
 %       'Power'     the order of distance in the ID equation (optional, 
 %                     default 2)
+%    5> 'GLOBAL_BI'
+%       x           source x (array)
+%       y           source y (array)
+%       xo          destination x
+%       yo          destination y
 %
 % 
 % output :
@@ -50,7 +59,7 @@
 % 2021-06-22
 %
 % Updates:
-%
+% 2023-01-04  Siqi Li  Added GLOBAL_BI
 %==========================================================================
 function var2 = interp_2d(var1, METHOD_2D, varargin)
 

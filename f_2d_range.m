@@ -30,6 +30,10 @@ switch lower(Coordinate)
         ylims = [min(fgrid.LAT) max(fgrid.LAT)];
 end
 
+if strcmp(fgrid.type, 'Global')
+    ylims = [-90 90];
+    xlims = [fgrid.MaxLon-360 fgrid.MaxLon];
+end
 
 switch nargout 
     case 0

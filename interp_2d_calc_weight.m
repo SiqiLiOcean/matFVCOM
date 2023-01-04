@@ -10,9 +10,10 @@
 % This function will calculate the weight only.
 %
 % input  : METHOD_2D, varargin
-%    METHOD_2D    interpolation methode, 'TRI', 'BI', 'QU', or 'ID'
+%    METHOD_2D    interpolation method, 'TRI', 'BI', 'QU', 'ID', 'GLOBAL_BI'
 %    varargin contains:
-%    1> x           source x
+%    1> 'TRI'
+%       x           source x
 %       y           source y
 %       nv          source nv
 %       xo          destination x
@@ -22,26 +23,33 @@
 %                     the domain, try to increase this value (optional, 
 %                     default 7)
 %
-%    2> x           source x
+%    2> 'BI'
+%       x           source x
 %       y           source y
 %       xo          destination x
 %       yo          destination y
 %       'Global'    the flag to solve the global grid problem (optional)
 %
-%    3> x           source x
+%    3> 'QU'
+%       x           source x
 %       y           source y
 %       xo          destination x
 %       yo          destination y
 %       'Extrap'    the flag to do extrapolation (optional)
 %
-%    4> x           source x
+%    4> 'ID'
+%       x           source x
 %       y           source y
 %       xo          destination x
 %       yo          destination y
 %       'np'        the flag to do extrapolation (optional)
 %       'Power'     the order of distance in the ID equation (optional, 
 %                     default 2)
-%
+%    5> 'GLOBAL_BI'
+%       x           source x (array)
+%       y           source y (array)
+%       xo          destination x
+%       yo          destination y
 % 
 % output :
 %    weight_h       cell of interpolation weight
@@ -52,6 +60,7 @@
 % Updates:
 % 2022-03-02  Siqi Li  Added the global option in BI method
 % 2022-03-03  Siqi Li  Added the Quadrilateral method for WRF regional grid
+% 2023-01-04  Siqi Li  Added GLOBAL_BI
 %==========================================================================
 function weight_h = interp_2d_calc_weight(METHOD_2D, varargin)
 
@@ -138,8 +147,20 @@ switch upper(METHOD_2D)
         varargin(1:4) = [];
         varargin = read_varargin(varargin, {'np', 'Power'}, {6, 2});
         
+    case 'GLOBAL_BI'
+        x = varargin{1}(:);
+        y = varargin{2}(:);
+        xo = varargin{3}(:);
+        yo = varargin{4}(:);
+        if numel(x)~=length(x) || numel(y)~=length(y)
+            error('Wrong input lon and lat. They should be in array.')
+        end
+        x = x(:);
+        y = y(:);
+        xo = calc_lon_same(x, xo);
+
     otherwise
-        error('UNKOWN mehtod. Select TRI, BI or ID.')
+        error('UNKOWN mehtod. Select TRI, BI, QU, ID, or GLOBAL_BI.')
 end
 
 % Part 2: calculate weight
@@ -433,10 +454,6 @@ switch upper(METHOD_2D)
     %----------------------------------------------------------------    
     % Inversed Distance Method
     case 'ID'
-
-        
-
-        
 %         if ~isempty(varargin)
 %             error('Something was un-used.')
 %         end
@@ -456,8 +473,43 @@ switch upper(METHOD_2D)
         weight_h.dims1 = dims;
         weight_h.dims2 = dimso; 
 
+    case 'GLOBAL_BI'
+        nx0 = length(x);
+        ny0 = length(y);
+        x_id = (1:nx0)';
+        y_id = (1:ny0)';
+        if y(1)<y(2)
+            if y(1)~=-90
+                y = [-90; y];
+                y_id = [1; y_id];
+            end
+            if y(end)~=90
+                y = [y; 90];
+                y_id = [y_id; ny0];
+            end
+        else
+            if y(1)~=90
+                y = [90; y];
+                y_id = [1; y_id];
+            end
+            if y(end)~=-90
+                y = [y; -90];
+                y_id = [y_id; ny0];
+            end
+        end
+        if abs( abs(x(nx0)-x(1)) - 360 ) >1e-6
+            x = [x(end)-360; x; x(1)+360];
+            x_id = [nx0; x_id; 1];
+        end
+        [yy, xx] = meshgrid(y, x);
+        [yy_id, xx_id] = meshgrid(y_id, x_id);
+        weight_h = interp_2d_calc_weight('BI', xx, yy, xo, yo);
+        weight_h.method = 'GLOBAL_BI';
+        weight_h.dims1 = [nx0 ny0];
+        ind = sub2ind([nx0, ny0], xx_id, yy_id);
+        weight_h.id = ind(weight_h.id);
     otherwise
-        error('Unkown METHOD_2D.')
+        error('UNKOWN mehtod. Select TRI, BI, QU, ID, or GLOBAL_BI.')
 end
 
 weight_h.Global = Global;

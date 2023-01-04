@@ -166,6 +166,7 @@ fgrid.y = y;
 
 % Check if the grid is 'Global' or 'Regional'
 fgrid.type = check_grid_type(x, y);
+fgrid.MaxLon = MaxLon;
 
 
 % Cell variables
