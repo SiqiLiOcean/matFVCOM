@@ -34,7 +34,7 @@ varargin = read_varargin(varargin, {'Threshold'}, {0.2});
 % wstress = [wstress; wstress; wstress];
 
 time = time(:)';
-nt = length(wstress);
+nt = size(wstress, 2);
 wstress = reshape(wstress, [], nt);
 n = size(wstress, 1);
 
@@ -76,7 +76,6 @@ end
 
 
 
-
 for i = 1 : length(k1)
     ik = k1(i) : k2(i);
     duration = length(ik);
@@ -93,6 +92,6 @@ for i = 1 : length(k1)
     storm(i).Time2 = datestr(time(k2(i)), 'yyyy-mm-dd HH:MM');
     storm(i).t1 = time(k1(i));
     storm(i).t2 = time(k2(i));
-    storm(i).wstress = data;
+%     storm(i).wstress = data;
 end
 

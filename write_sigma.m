@@ -35,14 +35,14 @@ switch type
         if isempty(power)
             error('UNIFORM required setting: \npower%s', '')
         end
-        fprintf(fid, '%s %d\n', 'BUMBER OF SIGMA LEVELS =', kb);
+        fprintf(fid, '%s %d\n', 'NUMBER OF SIGMA LEVELS =', kb);
         fprintf(fid, '%s %s\n', 'SIGMA COORDINATE TYPE =', type);
         fprintf(fid, '%s %f\n', 'SIGMA POWER =', power);
     case 'TANH'
         if isempty(DU) || isempty(DL)
             error('UNIFORM required setting: \nDU \nDL%s', '')
         end
-        fprintf(fid, '%s %d\n', 'BUMBER OF SIGMA LEVELS =', kb);
+        fprintf(fid, '%s %d\n', 'NUMBER OF SIGMA LEVELS =', kb);
         fprintf(fid, '%s %s\n', 'SIGMA COORDINATE TYPE =', type);
         fprintf(fid, '%s %f\n', 'DU =', DU);
         fprintf(fid, '%s %f\n', 'DL =', DL);
@@ -50,7 +50,7 @@ switch type
         if isempty(DU) || isempty(DL) || isempty(hmin) || isempty(KU) || isempty(KL) || isempty(ZKU) || isempty(ZKL)
             error('UNIFORM required setting: \nDU \nDL \nhmin \nKU \nKL \nZKU \nZKL%s', '')
         end
-        fprintf(fid, '%s %d\n', 'BUMBER OF SIGMA LEVELS =', kb);
+        fprintf(fid, '%s %d\n', 'NUMBER OF SIGMA LEVELS =', kb);
         fprintf(fid, '%s %s\n', 'SIGMA COORDINATE TYPE =', type);
         fprintf(fid, '%s %f\n', 'DU =', DU);
         fprintf(fid, '%s %f\n', 'DL =', DL);

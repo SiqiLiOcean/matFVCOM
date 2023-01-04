@@ -166,6 +166,7 @@ if strcmp(fgrid.type, 'Global')
                 bdy_y{i} = [ p_lat org_lat  p_lat   -90.   -90.  p_lat nan];
 
             else
+                length(k)
                 error('This situation has not been considered.')
             end
         end
