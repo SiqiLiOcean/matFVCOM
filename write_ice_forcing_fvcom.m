@@ -1,5 +1,5 @@
 %==========================================================================
-% Write FVCOM meteorological forcing input (FVCOM grid)
+% Write FVCOM ice forcing input (FVCOM grid)
 %
 % input  :
 %   fout --- output file path and name
@@ -19,7 +19,7 @@
 % Updates:
 %
 %==========================================================================
-function write_met_forcing_fvcom(fout, x, y, nv, time, varargin)
+function write_ice_forcing_fvcom(fout, x, y, nv, time, varargin)
 
 varargin = read_varargin{varargin, {'Coordinate'}, {'xy'}};
 
@@ -33,10 +33,7 @@ while i < length(varargin)
     var{ivar} = varargin{i};
 end
 
-varlist = {'uwind_speed', 'vwind_speed', 'uwind_stress', 'vwind_stress', ...
-           'short_wave', 'net_heat_flux', ...
-           'air_pressure', ...
-           'evaporation', 'precipitation'};
+varlist = {'short_wave', 'T2', 'Q2', 'cloud_cover'};
 
 if any(~ismember(varname, varlist)) || isempty(varargin)
     disp('Variable name is not in the list. Select one from the followings:')
@@ -113,59 +110,29 @@ netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
 Times_varid = netcdf.defVar(ncid, 'Times', 'char', [DateStrLen_dimid time_dimid]);
 netcdf.putAtt(ncid, Times_varid, 'time_zone', 'UTC');
 
-% uwind_speed
-if ismember('uwind_speed', varname)
-    uwind_speed_varid = netcdf.defVar(ncid, 'uwind_speed', 'float', [nele_dimid time_dimid]);
-    netcdf.putAtt(ncid, uwind_speed_varid, 'long_name', 'Eastward Wind Speed');
-    netcdf.putAtt(ncid, uwind_speed_varid, 'units', 'm/s');
-end
-% vwind_speed
-if ismember('vwind_speed', varname)
-    vwind_speed_varid = netcdf.defVar(ncid, 'vwind_speed', 'float', [nele_dimid time_dimid]);
-    netcdf.putAtt(ncid, vwind_speed_varid, 'long_name', 'Northtward Wind Speed');
-    netcdf.putAtt(ncid, vwind_speed_varid, 'units', 'm/s');
-end
-% uwind_stress
-if ismember('uwind_stress', varname)
-    uwind_stress_varid = netcdf.defVar(ncid, 'uwind_stress', 'float', [nele_dimid time_dimid]);
-    netcdf.putAtt(ncid, uwind_stress_varid, 'long_name', 'Eastward Wind Stress');
-    netcdf.putAtt(ncid, uwind_stress_varid, 'units', 'Pa');
-end
-% vwind_stress
-if ismember('vwind_stress', varname)
-    vwind_stress_varid = netcdf.defVar(ncid, 'vwind_stress', 'float', [nele_dimid time_dimid]);
-    netcdf.putAtt(ncid, vwind_stress_varid, 'long_name', 'Northward Wind Speed');
-    netcdf.putAtt(ncid, vwind_stress_varid, 'units', 'Pa');
-end
 % short_wave
 if ismember('short_wave', varname)
     short_wave_varid = netcdf.defVar(ncid, 'short_wave', 'float', [node_dimid time_dimid]);
     netcdf.putAtt(ncid, short_wave_varid, 'long_name', 'Short Wave Radiation');
     netcdf.putAtt(ncid, short_wave_varid, 'units', 'W m-2');
 end
-% net_heat_flux
-if ismember('net_heat_flux', varname)
-    net_heat_flux_varid = netcdf.defVar(ncid, 'net_heat_flux', 'float', [node_dimid time_dimid]);
-    netcdf.putAtt(ncid, net_heat_flux_varid, 'long_name', 'Surface Net Heat Flux');
-    netcdf.putAtt(ncid, net_heat_flux_varid, 'units', 'W m-2');
+% T2
+if ismember('T2', varname)
+    T2_varid = netcdf.defVar(ncid, 'T2', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, T2_varid, 'long_name', 'Sea surface air temperature');
+    netcdf.putAtt(ncid, T2_varid, 'units', 'degree (C)');
 end
-% air_pressure
-if ismember('air_pressure', varname)
-    air_pressure_varid = netcdf.defVar(ncid, 'air_pressure', 'float', [node_dimid time_dimid]);
-    netcdf.putAtt(ncid, air_pressure_varid, 'long_name', 'Sea surface air pressure');
-    netcdf.putAtt(ncid, air_pressure_varid, 'units', 'Pa');
+% Q2
+if ismember('Q2', varname)
+    Q2_varid = netcdf.defVar(ncid, 'Q2', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, Q2_varid, 'long_name', 'Specific humidity');
+    netcdf.putAtt(ncid, Q2_varid, 'units', 'kg/kg');
 end
-% precipitation
-if ismember('precipitation', varname)
-    precipitation_varid = netcdf.defVar(ncid, 'precip', 'float', [node_dimid time_dimid]);
-    netcdf.putAtt(ncid, precipitation_varid, 'long_name', 'Precipitation, ocean lose water is negative');
-    netcdf.putAtt(ncid, precipitation_varid, 'units', 'm s-1');
-end
-% evaporation
-if ismember('evaporation', varname)
-    evaporation_varid = netcdf.defVar(ncid, 'evap', 'float', [node_dimid time_dimid]);
-    netcdf.putAtt(ncid, evaporation_varid, 'long_name', 'Evaporation, ocean lose water is negative');
-    netcdf.putAtt(ncid, evaporation_varid, 'units', 'm s-1');
+% cloud_cover
+if ismember('cloud_cover', varname)
+    cloud_cover_varid = netcdf.defVar(ncid, 'cloud_cover', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, cloud_cover_varid, 'long_name', 'Total cloud cover');
+    netcdf.putAtt(ncid, cloud_cover_varid, 'units', '1');
 end
 
 % Global attribute
@@ -189,11 +156,6 @@ for it=1:nt
     netcdf.putVar(ncid, Itime2_varid, it-1, 1, Itime2(it));    
     netcdf.putVar(ncid, Times_varid, [0 it-1], [length(Times(it,:)) 1], Times(it,:));
     for ivar = 1 : length(varname)
-        if contains(varname{ivar}, 'wind')
-            n = nele;
-        else
-            n = node;
-        end
         cmd = ['netcdf.putVar(ncid, ' varname{ivar} '_varid, [0 it-1], [n 1], var{ivar}(:,it));'];
         disp(['   ---Writing data for ' varname{ivar}])
         eval(cmd);
