@@ -66,6 +66,8 @@ l0 = lines_bdy(2:end ,:);
 while ~isempty(l0)
     [i, j] = find(l0==bdy_id{ibdy}(end));
     if ~isempty(i)
+        i = i(1);
+        j = j(1);
         bdy_id{ibdy}(end+1) = l0(i, 3-j);
         l0(i,:) = [];
     else

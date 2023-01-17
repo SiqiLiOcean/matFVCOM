@@ -44,5 +44,7 @@ if isfield(fgrid, 'LON') && isfield(fgrid, 'LAT')
     fn.LAT = fgrid.LAT(nesting_node);
 end
 
+fn.nesting_node = nesting_node;
+fn.nesting_cell = nesting_cell;
 fn.node_weight = Node_weight;
 fn.cell_weight = Cell_weight;

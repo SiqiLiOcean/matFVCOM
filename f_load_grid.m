@@ -85,6 +85,7 @@ switch class(varargin{1})
         
 %         n = 2;
         elseif endsWith(varargin{1}, 'grd.dat')
+            varargin{1}
             [x, y, nv, h] = read_grd(varargin{1});
             LON = x;
             LAT = y;
@@ -111,6 +112,10 @@ switch class(varargin{1})
         x = double(varargin{1}(:));
         y = double(varargin{2}(:));
         nv = varargin{3};
+        LON = x;
+        LAT = y;
+        fgrid.LON = LON;
+        fgrid.LAT = LAT;
         if n>3
             h = double(varargin{4}(:));
         else
@@ -171,7 +176,7 @@ fgrid.MaxLon = MaxLon;
 
 % Cell variables
 fgrid.nv = nv;
-[~, fgrid.nv] = f_calc_grid_direction(fgrid);
+% [~, fgrid.nv] = f_calc_grid_direction(fgrid);
 % fgrid.xc = mean(x(nv), 2);
 % fgrid.yc = mean(y(nv), 2);
 [fgrid.xc, fgrid.yc] = calc_xcyc(x, y, nv, fgrid.type);

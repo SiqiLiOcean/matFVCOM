@@ -85,7 +85,7 @@ disp('------------------------------------------------')
 
 % Find the nearerst neighbor of each node
 [id, R] = knnsearch([x,y], [x,y], 'K',2);
-id = id(:,2);
+% id = id(:,2);
 R = R(:,2);
 
 % Get the duplicated nodes match
@@ -93,35 +93,59 @@ k = find(R < Eps);
 if isempty(k)
     disp(' There is no duplicated node.')
 else
-    
-    node_match = [k id(k)];
-    for i = size(node_match,1) : -1 :1
-        if node_match(i,1) >= node_match(i,2)
-            node_match(i,:) = [];
+    node_match = id(k,:);
+    id = 1 : length(x);
+    for i = 1 : length(k)
+        if node_match(i,1) == k(i)
+            node_match(i,:) = node_match(i,[2 1]);
+        elseif node_match(i,2) == k(i)
+            
+        else
+            error('There seems to be more than two points at the same place')
+        end
+        if node_match(i,1)<k(i)
+            num1 = node_match(i,1);
+            num2 = node_match(i,2);
+
+            fprintf('%9d%s%9d\n', num2, '  ---> ', num1);
+            x(num2) = nan;
+            y(num2) = nan;
+            id(num2) = nan;
+            nv(nv==num2) = num1;
         end
     end
+    disp([' There are totally ' num2str(sum(isnan(x))) ' duplicated nodes'])
     
-    % Sometime there are more than two nodes at the same place
-    points = intersect(node_match(:,1), node_match(:,2));
-    for i = 1 : length(points)
-        i1 = node_match(:,1) == points(i);
-        i2 = node_match(:,2) == points(i);
-        node_match(i1,1) = node_match(i2,1);
-    end
 
-    id = 1 : length(x);
-    disp([' The following ' num2str(size(node_match,1)) ' nodes are duplicated:'])
-    for i = 1 : size(node_match, 1)
-        
-        num1 = node_match(i,1);
-        num2 = node_match(i,2);
-        
-        fprintf('%9d%s%9d\n', num2, '  ---> ', num1);
-        x(num2) = nan;
-        y(num2) = nan;
-        id(num2) = nan;
-        nv(nv==num2) = num1;
-    end
+
+%     node_match = [k id(k)];
+%     for i = size(node_match,1) : -1 :1
+%         if node_match(i,1) >= node_match(i,2)
+%             node_match(i,:) = [];
+%         end
+%     end
+%     
+%     % Sometime there are more than two nodes at the same place
+%     points = intersect(node_match(:,1), node_match(:,2));
+%     for i = 1 : length(points)
+%         i1 = node_match(:,1) == points(i);
+%         i2 = node_match(:,2) == points(i);
+%         node_match(i1,1) = node_match(i2,1);
+%     end
+% 
+%     id = 1 : length(x);
+%     disp([' The following ' num2str(size(node_match,1)) ' nodes are duplicated:'])
+%     for i = 1 : size(node_match, 1)
+%         
+%         num1 = node_match(i,1);
+%         num2 = node_match(i,2);
+%         
+%         fprintf('%9d%s%9d\n', num2, '  ---> ', num1);
+%         x(num2) = nan;
+%         y(num2) = nan;
+%         id(num2) = nan;
+%         nv(nv==num2) = num1;
+%     end
     
     
     x = x(~isnan(x));
@@ -154,6 +178,7 @@ else
     node_used = ismember(1:length(x), id_from_nv);
     
     disp([' There are ' num2str(length(x)-sum(node_used)) ' unused nodes.'])
+    disp([find(~node_used)]')
     disp([' They are removed now.'])
     
     x = x(node_used);

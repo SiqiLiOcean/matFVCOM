@@ -14,6 +14,7 @@
 %==========================================================================
 function fgrid2 = f_merge_grid(varargin)
 
+varargin = read_varargin(varargin, {'Eps'}, {1e-6});
 
 x = [];
 y = [];
@@ -46,5 +47,5 @@ else
     fgrid2 = f_load_grid(x, y, nv);
 end
 
-fgrid2 = f_check_grid(fgrid2);
+fgrid2 = f_check_grid(fgrid2, 'Eps', Eps);
 

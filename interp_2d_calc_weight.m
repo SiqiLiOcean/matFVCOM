@@ -98,6 +98,7 @@ switch upper(METHOD_2D)
                 [y, x] = meshgrid(y, x);
             end
         end
+        dims = size(x);
         
         if Global
             [nx0, ny0] = size(x);
