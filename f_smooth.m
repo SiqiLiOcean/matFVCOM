@@ -47,6 +47,7 @@ var1(end+1, :) = nan;
 
 for i = 1 : size(var1,2)
     var = var1(:,i);
+
     var_interp = nanmean(var(around), 2) * (1-CenterWeight) + var(1:end-1) * CenterWeight;
     
     % Find the nan in the original array
@@ -59,5 +60,6 @@ for i = 1 : size(var1,2)
 end
     
 var2 = reshape(var2, dims1);
+var1 = var2;
 
 end

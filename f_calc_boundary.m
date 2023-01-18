@@ -132,17 +132,24 @@ if strcmp(fgrid.type, 'Global')
         if ~isempty(k)
             org_lon = bdy_x{i};
             org_lat = bdy_y{i};
-            if length(k) == 2
+            if mod(length(k),2) == 0 %length(k) == 2
                 org_lon1 = org_lon;
+                index = [];
+                ii = 0;
+                while ii<length(k)
+                    ii = ii + 1;
+                    index = [index k(ii)+1:k(ii+1)];
+                    ii = ii + 1;
+                end
                 if org_lon(k(1)+1) > MidLon
-                    org_lon1(k(1)+1:k(2)) = org_lon1(k(1)+1:k(2)) - 360.;
+                    org_lon1(index) = org_lon1(index) - 360.;
                     org_lon2 = org_lon1 + 360.;
                 else
-                    org_lon1(k(1)+1:k(2)) = org_lon1(k(1)+1:k(2)) + 360.;
+                    org_lon1(index) = org_lon1(index) + 360.;
                     org_lon2 = org_lon1 - 360.;
                 end
-                poly1 = polyshape(org_lon1, org_lat);
-                poly2 = polyshape(org_lon2, org_lat);
+                poly1 = polyshape(org_lon1, org_lat, 'KeepCollinearPoints', true);
+                poly2 = polyshape(org_lon2, org_lat, 'KeepCollinearPoints', true);
                 polyout1 = intersect(poly0, poly1);
                 polyout2 = intersect(poly0, poly2);
                 bdy_x{i} = [];

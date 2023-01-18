@@ -15,7 +15,7 @@ function h = f_2d_mask_boundary(fgrid, varargin)
 
 
 
-varargin = read_varargin2(varargin, {'Global'});
+% varargin = read_varargin2(varargin, {'Global'});
 
 % fgrid = f2;
 % Global = 1;
@@ -41,7 +41,7 @@ tmpy = fgrid.bdy_y;
 
 nbdy = length(tmpx);
 
-if Global
+if strcmp(fgrid.type, 'Global')
     for i = nbdy : -1 : 1
         ax = tmpx{i};
         ay = tmpy{i};
@@ -91,7 +91,7 @@ if Global
 end
 
 
-
+% % 
 % % close all
 % % figure
 % % hold on
@@ -100,7 +100,7 @@ end
 % % plot(ax(149:end)-360, ay(149:end), 'b.')
 % % 
 % % 
-% plot([tmpx{286}(1:end-0)], [tmpy{286}(1:end-0)], 'k-')
+% % plot([tmpx{286}(1:end-0)], [tmpy{286}(1:end-0)], 'k-')
 % % plot([f2.bdy_x{286}], [f2.bdy_y{286}], 'b-')
 % % 
 % % close all
@@ -129,11 +129,14 @@ y1 = min(y)-pct*(max(y)-min(y));
 x2 = max(x)+pct*(max(x)-min(x));
 y2 = max(y)+pct*(max(y)-min(y));
 
-if Global
+% if Global
+if strcmp(fgrid.type, 'Global')
     xl = [bdy_x(:)'];
     yl = [bdy_y(:)'];
-    xlims = minmax(x);
-    ylims = minmax(y);
+%     xlims = minmax(x);
+%     ylims = minmax(y);
+    xlims = [fgrid.MaxLon-360. fgrid.MaxLon];
+    ylims = [-90 90];
 else
     xl = [x1 x2 x2 x1 nan bdy_x(:)'];
     yl = [y1 y1 y2 y2 nan bdy_y(:)'];

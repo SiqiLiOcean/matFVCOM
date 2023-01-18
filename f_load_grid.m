@@ -41,7 +41,7 @@ varargin = read_varargin(varargin, {'MaxLon'}, {180});
 
 fgrid.Scale = Scale;
 
-fgrid.type = 'FVCOM';
+% fgrid.type = 'FVCOM';
 
 switch class(varargin{1})
     case {'char', 'string'}
@@ -171,6 +171,9 @@ fgrid.y = y;
 
 % Check if the grid is 'Global' or 'Regional'
 fgrid.type = check_grid_type(x, y);
+if strcmp(fgrid.type, 'Global')
+    fgrid.x = calc_lon_same(MaxLon, fgrid.x);
+end
 fgrid.MaxLon = MaxLon;
 
 
@@ -180,6 +183,9 @@ fgrid.nv = nv;
 % fgrid.xc = mean(x(nv), 2);
 % fgrid.yc = mean(y(nv), 2);
 [fgrid.xc, fgrid.yc] = calc_xcyc(x, y, nv, fgrid.type);
+if strcmp(fgrid.type, 'Global')
+    fgrid.xc = calc_lon_same(fgrid.x, fgrid.xc);
+end
 
 
 
@@ -195,6 +201,7 @@ fgrid.nbsn = f_calc_nbsn(fgrid);
 
 % Boundary and all lines
 [fgrid.bdy_x, fgrid.bdy_y, fgrid.lines_x, fgrid.lines_y, fgrid.bdy, fgrid.lines] = f_calc_boundary(fgrid, 'MaxLon', MaxLon);
+
 
 %------------Bathymetry---------------------------------------
 % if ~isnan(h)

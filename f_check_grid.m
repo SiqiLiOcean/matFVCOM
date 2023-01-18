@@ -116,36 +116,34 @@ else
     end
     disp([' There are totally ' num2str(sum(isnan(x))) ' duplicated nodes'])
     
-
-
-%     node_match = [k id(k)];
-%     for i = size(node_match,1) : -1 :1
-%         if node_match(i,1) >= node_match(i,2)
-%             node_match(i,:) = [];
-%         end
-%     end
-%     
-%     % Sometime there are more than two nodes at the same place
-%     points = intersect(node_match(:,1), node_match(:,2));
-%     for i = 1 : length(points)
-%         i1 = node_match(:,1) == points(i);
-%         i2 = node_match(:,2) == points(i);
-%         node_match(i1,1) = node_match(i2,1);
-%     end
-% 
-%     id = 1 : length(x);
-%     disp([' The following ' num2str(size(node_match,1)) ' nodes are duplicated:'])
-%     for i = 1 : size(node_match, 1)
-%         
-%         num1 = node_match(i,1);
-%         num2 = node_match(i,2);
-%         
-%         fprintf('%9d%s%9d\n', num2, '  ---> ', num1);
-%         x(num2) = nan;
-%         y(num2) = nan;
-%         id(num2) = nan;
-%         nv(nv==num2) = num1;
-%     end
+% % %     node_match = [k id(k)];
+% % %     for i = size(node_match,1) : -1 :1
+% % %         if node_match(i,1) >= node_match(i,2)
+% % %             node_match(i,:) = [];
+% % %         end
+% % %     end
+% % %     
+% % %     % Sometime there are more than two nodes at the same place
+% % %     points = intersect(node_match(:,1), node_match(:,2));
+% % %     for i = 1 : length(points)
+% % %         i1 = node_match(:,1) == points(i);
+% % %         i2 = node_match(:,2) == points(i);
+% % %         node_match(i1,1) = node_match(i2,1);
+% % %     end
+% % % 
+% % %     id = 1 : length(x);
+% % %     disp([' The following ' num2str(size(node_match,1)) ' nodes are duplicated:'])
+% % %     for i = 1 : size(node_match, 1)
+% % %         
+% % %         num1 = node_match(i,1);
+% % %         num2 = node_match(i,2);
+% % %         
+% % %         fprintf('%9d%s%9d\n', num2, '  ---> ', num1);
+% % %         x(num2) = nan;
+% % %         y(num2) = nan;
+% % %         id(num2) = nan;
+% % %         nv(nv==num2) = num1;
+% % %     end
     
     
     x = x(~isnan(x));

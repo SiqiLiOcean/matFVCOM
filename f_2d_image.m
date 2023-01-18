@@ -16,7 +16,7 @@
 function h = f_2d_image(fgrid, var, varargin)
 
 % varargin = read_varargin2(varargin, {'Global'});
-varargin = read_varargin(varargin, {'MaxLon'}, {180.});
+varargin = read_varargin(varargin, {'MaxLon'}, {fgrid.MaxLon});
 MinLon = MaxLon - 360.;
 MidLon = MaxLon - 180.;
 

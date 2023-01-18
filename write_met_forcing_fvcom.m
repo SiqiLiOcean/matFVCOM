@@ -21,7 +21,7 @@
 %==========================================================================
 function write_met_forcing_fvcom(fout, x, y, nv, time, varargin)
 
-varargin = read_varargin{varargin, {'Coordinate'}, {'xy'}};
+varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
 
 i = 0;
 ivar = 0;

@@ -21,7 +21,7 @@
 %==========================================================================
 function write_ice_forcing_fvcom(fout, x, y, nv, time, varargin)
 
-varargin = read_varargin{varargin, {'Coordinate'}, {'xy'}};
+varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
 
 i = 0;
 ivar = 0;
@@ -45,6 +45,8 @@ Times = datestr(time, 'YYYY-mm-ddTHH:MM:SS');
 % time = time - datenum(1858, 11, 17);
 [time, Itime, Itime2, Times] = convert_fvcom_time(time);
 
+
+n = length(x);
 
 % Create new file.
 ncid = netcdf.create(fout, 'CLOBBER');

@@ -21,7 +21,10 @@
 % Updates:
 %
 %==========================================================================
-function write_sst(fsst, x, y, time, sst)
+function write_sst(fsst, x, y, time, sst, varargin)
+
+varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+
 
 node = length(x);
 nt = length(time);
@@ -37,14 +40,25 @@ time_dimid = netcdf.defDim(ncid, 'time', netcdf.getConstant('NC_UNLIMITED'));
 DateStrLen_dimid = netcdf.defDim(ncid, 'DateStrLen', 26);
 
 %define variables
-% x
-x_varid = netcdf.defVar(ncid, 'x', 'float', node_dimid);
-netcdf.putAtt(ncid, x_varid, 'long_name', 'nodal x');
-netcdf.putAtt(ncid, x_varid, 'units', 'meter');
-% y
-y_varid = netcdf.defVar(ncid, 'y', 'float', node_dimid);
-netcdf.putAtt(ncid, y_varid, 'long_name', 'nodal y');
-netcdf.putAtt(ncid, y_varid, 'units', 'meter');
+if strcmp(Coordinate, 'Geo')
+    % x
+    x_varid = netcdf.defVar(ncid, 'lon', 'float', node_dimid);
+    netcdf.putAtt(ncid, x_varid, 'long_name', 'nodal longitude');
+    netcdf.putAtt(ncid, x_varid, 'units', 'degrees_east');
+    % y
+    y_varid = netcdf.defVar(ncid, 'lat', 'float', node_dimid);
+    netcdf.putAtt(ncid, y_varid, 'long_name', 'nodal latitude');
+    netcdf.putAtt(ncid, y_varid, 'units', 'degrees_north');
+else
+    % x
+    x_varid = netcdf.defVar(ncid, 'x', 'float', node_dimid);
+    netcdf.putAtt(ncid, x_varid, 'long_name', 'nodal x');
+    netcdf.putAtt(ncid, x_varid, 'units', 'meter');
+    % y
+    y_varid = netcdf.defVar(ncid, 'y', 'float', node_dimid);
+    netcdf.putAtt(ncid, y_varid, 'long_name', 'nodal y');
+    netcdf.putAtt(ncid, y_varid, 'units', 'meter');
+end
 % time
 time_varid = netcdf.defVar(ncid, 'time', 'float', time_dimid);
 netcdf.putAtt(ncid, time_varid, 'long_name', 'time');

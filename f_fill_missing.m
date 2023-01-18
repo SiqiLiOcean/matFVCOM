@@ -17,7 +17,7 @@
 function var2 = f_fill_missing(fgrid, var1)
 
 
-n = length(var1);
+n = size(var1, 1);
 
 switch n
     case fgrid.node
@@ -30,10 +30,10 @@ switch n
         error('Wrong input size.')
 end
 
-i_nan = find(isnan(var1));
-i_num = find(~isnan(var1));
+i_nan = find(isnan(var1(:,1)));
+i_num = find(~isnan(var1(:,1)));
 
 k = knnsearch([x(i_num) y(i_num)], [x(i_nan) y(i_nan)]);
 var2 = var1;
 
-var2(i_nan) = var1(i_num(k));
+var2(i_nan,:) = var1(i_num(k),:);
