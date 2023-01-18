@@ -1,10 +1,11 @@
 %==========================================================================
 % Calculate evaporation
-% (Yu, 2007)
+% (Lisan Yu, 2007: Global variations in oceanic evaporation (1958-2005):
+%    the role of the changing wind speed)
 %
 % input  :
 %   latent --- latent heat flux (W/m2, positive for ocean gain energy) 
-%   sst    --- sea surface temperautre (C)
+%   sst    --- sea surface temperautre (K)
 %   Rho0   --- surface sea water density, default 1021 (kg/m3)
 %
 % output :
