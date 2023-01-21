@@ -17,7 +17,7 @@ varmax = max(var(:));
 %     
 % end
 
-k = sum(isnan(:));
+k = sum(isnan(var(:)));
 if k>0
     disp(['There are ' num2str(k) ' nan.'])
 end

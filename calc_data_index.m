@@ -20,8 +20,8 @@ function [i1, i2, n] = calc_data_index(x1, x0)
 
 
 
-xmin = min(x1(:));
-xmax = max(x1(:));
+xmin = min(double(x1(:)));
+xmax = max(double(x1(:)));
 
 
 i1 = nan;

@@ -87,38 +87,40 @@ switch upper(METHOD_2D)
         y = varargin{2};
         xo = varargin{3}(:);
         yo = varargin{4}(:);
-        dims = size(varargin{1});
+        dims = [length(x) length(y)];
         dimso = size(varargin{4});
         varargin(1:4) = [];
         
-        if length(dims) ~= 2
-            error('The size of input x is wrong')
-        else
-            if dims(1) ==1 || dims(2) == 1
-                [y, x] = meshgrid(y, x);
-            end
+        if numel(x)~=length(x) || numel(y)~=length(y)
+            error('The input x or y is in wrong size')
         end
-        dims = size(x);
-        
-        if Global
-            [nx0, ny0] = size(x);
-            index = reshape(1:nx0*ny0, nx0, ny0);
-            
-            if abs(x(1,1)-x(end,1))>300
-                index = [index(end,:); index; index(1,:)];
-                x = x(index);
-                x(1,:) = x(1,:) - 360;
-                x(end,:) = x(end,:) + 360;
-                y = y(index);
-            else
-                index = [index(:,end) index index(:,1)];
-                x = x(index);
-                x(:,1) = x(:,1) - 360;
-                x(:,end) = x(:,end) + 360;
-                y = y(index);
-            end
-            weight_h.index = index;
-        end
+% %         if length(dims) ~= 2
+% %             error('The size of input x is wrong')
+% %         else
+% %             if dims(1) ==1 || dims(2) == 1
+% %                 [y, x] = meshgrid(y, x);
+% %             end
+% %         end
+% %         
+% %         if Global
+% %             [nx0, ny0] = size(x);
+% %             index = reshape(1:nx0*ny0, nx0, ny0);
+% %             
+% %             if abs(x(1,1)-x(end,1))>300
+% %                 index = [index(end,:); index; index(1,:)];
+% %                 x = x(index);
+% %                 x(1,:) = x(1,:) - 360;
+% %                 x(end,:) = x(end,:) + 360;
+% %                 y = y(index);
+% %             else
+% %                 index = [index(:,end) index index(:,1)];
+% %                 x = x(index);
+% %                 x(:,1) = x(:,1) - 360;
+% %                 x(:,end) = x(:,end) + 360;
+% %                 y = y(index);
+% %             end
+% %             weight_h.index = index;
+% %         end
         
     case 'QU'
         x = varargin{1};
@@ -240,41 +242,49 @@ switch upper(METHOD_2D)
     %----------------------------------------------------------------    
     % Bilinear Interpolation Method
     case 'BI' 
+        nx = length(x);
+        ny = length(y);
+        [yy, xx] = meshgrid(y, x);
+        if x(1)<x(2)
+            ix = sum(repmat(xo, 1, nx) >= repmat(x(:)', length(xo), 1), 2);
+        else
+            ix = sum(repmat(xo, 1, nx) <= repmat(x(:)', length(xo), 1), 2);
+        end
+        if y(1)<y(2)
+            iy = sum(repmat(yo, 1, ny) >= repmat(y(:)', length(yo), 1), 2);
+        else
+            iy = sum(repmat(yo, 1, ny) <= repmat(y(:)', length(yo), 1), 2);
+        end
         
-%         varargin = read_varargin2(varargin, {'Extrap'});
+        ix = min(max(ix,1), nx-1);
+        iy = min(max(iy,1), ny-1);
         
-%         if ~isempty(varargin)
-%             error('Something was un-used.')
-%         end
-        
-
-        
-        [nx, ny] = size(x);
-        
-        x_in1 = x(1:nx-1, 1:ny-1);
-        x_in2 = x(2:nx,   1:ny-1);
-        x_in3 = x(2:nx,   2:ny);
-        x_in4 = x(1:nx-1, 2:ny);
-        
-        y_in1 = y(1:nx-1, 1:ny-1);
-        y_in2 = y(2:nx,   1:ny-1);
-        y_in3 = y(2:nx,   2:ny);
-        y_in4 = y(1:nx-1, 2:ny);
-
-        x_center = (x_in1 + x_in2 + x_in3 + x_in4) / 4;
-        y_center = (y_in1 + y_in2 + y_in3 + y_in4) / 4;
-
-        k = knnsearch([x_center(:) y_center(:)], [xo yo]);
-        
-        [ix, iy] = ind2sub([nx-1, ny-1], k);
+%         [nx, ny] = size(x);
+%         
+%         x_in1 = x(1:nx-1, 1:ny-1);
+%         x_in2 = x(2:nx,   1:ny-1);
+%         x_in3 = x(2:nx,   2:ny);
+%         x_in4 = x(1:nx-1, 2:ny);
+%         
+%         y_in1 = y(1:nx-1, 1:ny-1);
+%         y_in2 = y(2:nx,   1:ny-1);
+%         y_in3 = y(2:nx,   2:ny);
+%         y_in4 = y(1:nx-1, 2:ny);
+% 
+%         x_center = (x_in1 + x_in2 + x_in3 + x_in4) / 4;
+%         y_center = (y_in1 + y_in2 + y_in3 + y_in4) / 4;
+% 
+%         k = knnsearch([x_center(:) y_center(:)], [xo yo]);
+%         
+%         [ix, iy] = ind2sub([nx-1, ny-1], k);
         
         id1 = sub2ind([nx,ny], ix, iy);
         id2 = sub2ind([nx,ny], ix+1, iy);
         id3 = sub2ind([nx,ny], ix+1, iy+1);
         id4 = sub2ind([nx,ny], ix, iy+1);
 
-        px = x([id1 id2 id3 id4]);
-        py = y([id1 id2 id3 id4]);
+        px = xx([id1 id2 id3 id4]);
+        py = yy([id1 id2 id3 id4]);
         
         id = [id1(:) id2(:) id3(:) id4(:)];
         weight = interp_rectangle_calc_weight(px, py, xo, yo);
@@ -502,9 +512,8 @@ switch upper(METHOD_2D)
             x = [x(end)-360; x; x(1)+360];
             x_id = [nx0; x_id; 1];
         end
-        [yy, xx] = meshgrid(y, x);
         [yy_id, xx_id] = meshgrid(y_id, x_id);
-        weight_h = interp_2d_calc_weight('BI', xx, yy, xo, yo);
+        weight_h = interp_2d_calc_weight('BI', x, y, xo, yo);
         weight_h.method = 'GLOBAL_BI';
         weight_h.dims1 = [nx0 ny0];
         ind = sub2ind([nx0, ny0], xx_id, yy_id);
