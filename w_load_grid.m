@@ -21,6 +21,8 @@
 %==========================================================================
 function wgrid = w_load_grid(varargin)
 
+
+
 wgrid.type = 'WRF';
 
 G = 9.81;
@@ -113,6 +115,10 @@ switch class(varargin{1})
         
         n = 2;
 end
+
+wgrid.type = check_grid_type(x, y);
+x = calc_lon_360(x);
+
 
 % Read the rest parameters, if any
 % theta = 0;
