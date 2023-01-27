@@ -21,7 +21,7 @@
 %==========================================================================
 function wgrid = w_load_grid(varargin)
 
-
+varargin = read_varargin(varargin, {'MaxLon'}, {360});
 
 wgrid.type = 'WRF';
 
@@ -117,8 +117,10 @@ switch class(varargin{1})
 end
 
 wgrid.type = check_grid_type(x, y);
-x = calc_lon_360(x);
-
+if strcmp(wgrid.type, 'Global')
+    x = calc_lon_same(MaxLon, x);
+end
+wgrid.MaxLon = MaxLon;
 
 % Read the rest parameters, if any
 % theta = 0;
