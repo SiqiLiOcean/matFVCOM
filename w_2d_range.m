@@ -16,11 +16,16 @@
 %
 %==========================================================================
 
-function varargout = w_2d_range(wgrid, varargin)
+function varargout = w_2d_range(varargin)
 
-
-xlims = [min(wgrid.x(:)) max(wgrid.x(:))];
-ylims = [min(wgrid.y(:)) max(wgrid.y(:))];
+x = [];
+y = [];
+for i = 1 : length(varargin)
+    x = [x; varargin{i}.x(:)];
+    y = [y; varargin{i}.y(:)];
+end
+xlims = [min(x) max(x)];
+ylims = [min(y) max(y)];
 
 switch nargout 
     case 0
