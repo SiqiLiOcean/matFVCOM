@@ -161,6 +161,7 @@ switch upper(METHOD_2D)
         x = x(:);
         y = y(:);
         xo = calc_lon_same(x, xo);
+        dimso = size(varargin{4});
 
     otherwise
         error('UNKOWN mehtod. Select TRI, BI, QU, ID, or GLOBAL_BI.')
@@ -516,6 +517,7 @@ switch upper(METHOD_2D)
         weight_h = interp_2d_calc_weight('BI', x, y, xo, yo);
         weight_h.method = 'GLOBAL_BI';
         weight_h.dims1 = [nx0 ny0];
+        weight_h.dims2 = dimso; 
         ind = sub2ind([nx0, ny0], xx_id, yy_id);
         weight_h.id = ind(weight_h.id);
     otherwise

@@ -155,12 +155,12 @@ if strcmp(fgrid.type, 'Global')
                 bdy_x{i} = [];
                 bdy_y{i} = [];
                 if ~isempty(polyout1.Vertices)
-                    bdy_x{i} = [bdy_x{i} polyout1.Vertices([1:end 1], 1)' nan];
-                    bdy_y{i} = [bdy_y{i} polyout1.Vertices([1:end 1], 2)' nan];
+                    bdy_x{i} = [bdy_x{i} polyout1.Vertices(1:end, 1)' nan];
+                    bdy_y{i} = [bdy_y{i} polyout1.Vertices(1:end, 2)' nan];
                 end
                 if ~isempty(polyout2.Vertices)
-                    bdy_x{i} = [bdy_x{i} polyout2.Vertices([1:end 1], 1)' nan];
-                    bdy_y{i} = [bdy_y{i} polyout2.Vertices([1:end 1], 2)' nan];
+                    bdy_x{i} = [bdy_x{i} polyout2.Vertices(1:end, 1)' nan];
+                    bdy_y{i} = [bdy_y{i} polyout2.Vertices(1:end, 2)' nan];
                 end
 
             elseif length(k) == 1 % This is Antarctic
