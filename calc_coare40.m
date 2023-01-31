@@ -5,7 +5,7 @@
 % 
 %     u = relative wind speed (m/s) at height zu(m)
 %     t = bulk air temperature (degC) at height zt(m)
-%    rh = relative humidity (%) at height zq(m)
+%    rh = relative humidity (%, 0-100) at height zq(m)
 %     P = surface air pressure (mb) (default = 1015)
 %    ts = water temperature (degC)
 %    Rs = downward shortwave radiation (W/m^2) (default = 150) 

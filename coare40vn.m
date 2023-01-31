@@ -50,7 +50,7 @@ jcool=1;
 %    zu = height of wind speed measurement (m)
 %     t = bulk air temperature (degC) at height zt
 %    zt = height of temperature measurement (m)
-%    rh = relative humidity (%) at height zq
+%    rh = relative humidity (%) at height zq  (0-100)
 %    zq = height of relative humidity measurement (m)
 %     P = surface air pressure (mb) (default = 1015)
 %    ts = water temperature (degC) see jcool below

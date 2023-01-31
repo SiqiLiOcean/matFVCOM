@@ -36,7 +36,8 @@ end
 varlist = {'uwind_speed', 'vwind_speed', 'uwind_stress', 'vwind_stress', ...
            'short_wave', 'net_heat_flux', ...
            'air_pressure', ...
-           'evaporation', 'precipitation'};
+           'evaporation', 'precipitation', ...
+           'T2', 'SPQ', 'cloud_cover'};
 
 if any(~ismember(varname, varlist)) || isempty(varargin)
     disp('Variable name is not in the list. Select one from the followings:')
@@ -166,6 +167,23 @@ if ismember('evaporation', varname)
     evaporation_varid = netcdf.defVar(ncid, 'evap', 'float', [node_dimid time_dimid]);
     netcdf.putAtt(ncid, evaporation_varid, 'long_name', 'Evaporation, ocean lose water is negative');
     netcdf.putAtt(ncid, evaporation_varid, 'units', 'm s-1');
+end
+if ismember('T2', varname)
+    T2_varid = netcdf.defVar(ncid, 'T2', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, T2_varid, 'long_name', 'Sea surface air temperature');
+    netcdf.putAtt(ncid, T2_varid, 'units', 'degree (C)');
+end
+% SPQ
+if ismember('SPQ', varname)
+    Q2_varid = netcdf.defVar(ncid, 'SPQ', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, Q2_varid, 'long_name', 'Specific humidity');
+    netcdf.putAtt(ncid, Q2_varid, 'units', 'kg/kg');
+end
+% cloud_cover
+if ismember('cloud_cover', varname)
+    cloud_cover_varid = netcdf.defVar(ncid, 'cloud_cover', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, cloud_cover_varid, 'long_name', 'Total cloud cover');
+    netcdf.putAtt(ncid, cloud_cover_varid, 'units', '1');
 end
 
 % Global attribute

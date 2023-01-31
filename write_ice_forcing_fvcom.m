@@ -33,7 +33,7 @@ while i < length(varargin)
     var{ivar} = varargin{i};
 end
 
-varlist = {'short_wave', 'T2', 'Q2', 'cloud_cover'};
+varlist = {'short_wave', 'T2', 'SPQ', 'cloud_cover'};
 
 if any(~ismember(varname, varlist)) || isempty(varargin)
     disp('Variable name is not in the list. Select one from the followings:')
@@ -124,9 +124,9 @@ if ismember('T2', varname)
     netcdf.putAtt(ncid, T2_varid, 'long_name', 'Sea surface air temperature');
     netcdf.putAtt(ncid, T2_varid, 'units', 'degree (C)');
 end
-% Q2
-if ismember('Q2', varname)
-    Q2_varid = netcdf.defVar(ncid, 'Q2', 'float', [node_dimid time_dimid]);
+% SPQ
+if ismember('SPQ', varname)
+    Q2_varid = netcdf.defVar(ncid, 'SPQ', 'float', [node_dimid time_dimid]);
     netcdf.putAtt(ncid, Q2_varid, 'long_name', 'Specific humidity');
     netcdf.putAtt(ncid, Q2_varid, 'units', 'kg/kg');
 end

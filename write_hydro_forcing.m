@@ -42,7 +42,7 @@ if length(varname) < 7
     disp('Input variables insufficient (<7).')
     disp(varlist)
     error('')
-elseif legnth(varname) == 7 && ismember('RAINRATE', varname)
+elseif length(varname) == 7 && ismember('RAINRATE', varname)
     disp('Input variables insufficient (==7).')
     disp(varlist)
     error('')
