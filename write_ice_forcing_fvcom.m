@@ -22,6 +22,7 @@
 function write_ice_forcing_fvcom(fout, x, y, nv, time, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+Ideal = read_varargin2(varargin, {'Ideal'});
 
 i = 0;
 ivar = 0;
@@ -43,7 +44,7 @@ end
 
 Times = datestr(time, 'YYYY-mm-ddTHH:MM:SS');
 % time = time - datenum(1858, 11, 17);
-[time, Itime, Itime2, Times] = convert_fvcom_time(time);
+[time, Itime, Itime2, Times] = convert_fvcom_time(time, Ideal);
 
 
 n = length(x);
@@ -93,24 +94,40 @@ netcdf.putAtt(ncid, nv_varid, 'long_name', 'nodes surrounding element');
 % netcdf.putAtt(ncid, yc_varid, 'long_name', 'zonal y-coordinate');
 % netcdf.putAtt(ncid, yc_varid, 'units', 'meters');
 
-% time
-time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
-netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
-netcdf.putAtt(ncid, time_varid, 'unit', 'days since 1858-11-17 00:00:00');
-netcdf.putAtt(ncid, time_varid, 'format', 'modified julian dat (MJD)');
-netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
-% Itime
-Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
-netcdf.putAtt(ncid, Itime_varid, 'units', 'days since 1858-11-17 00:00:00');
-netcdf.putAtt(ncid, Itime_varid, 'format', 'modified julian day (MJD)');
-netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
-% Itime2
-Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
-netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
-netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
-% Times
-Times_varid = netcdf.defVar(ncid, 'Times', 'char', [DateStrLen_dimid time_dimid]);
-netcdf.putAtt(ncid, Times_varid, 'time_zone', 'UTC');
+if ~isempty(Ideal)
+    % time
+    time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
+    netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
+    netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
+    % Itime
+    Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
+    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
+    % Itime2
+    Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
+    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
+else
+    % time
+    time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
+    netcdf.putAtt(ncid, time_varid, 'unit', 'days since 1858-11-17 00:00:00');
+    netcdf.putAtt(ncid, time_varid, 'format', 'modified julian dat (MJD)');
+    netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
+    % Itime
+    Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime_varid, 'units', 'days since 1858-11-17 00:00:00');
+    netcdf.putAtt(ncid, Itime_varid, 'format', 'modified julian day (MJD)');
+    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
+    % Itime2
+    Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
+    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
+    % Times
+    Times_varid = netcdf.defVar(ncid, 'Times', 'char', [DateStrLen_dimid time_dimid]);
+    netcdf.putAtt(ncid, Times_varid, 'time_zone', 'UTC');
+end
 
 % short_wave
 if ismember('short_wave', varname)
@@ -155,8 +172,10 @@ for it=1:nt
     disp(['---Writing data for time: ' num2str(it, '%5.5d')])
     netcdf.putVar(ncid, time_varid, it-1, 1, time(it));
     netcdf.putVar(ncid, Itime_varid, it-1, 1, Itime(it));
-    netcdf.putVar(ncid, Itime2_varid, it-1, 1, Itime2(it));    
-    netcdf.putVar(ncid, Times_varid, [0 it-1], [length(Times(it,:)) 1], Times(it,:));
+    netcdf.putVar(ncid, Itime2_varid, it-1, 1, Itime2(it));  
+    if isempty(Ideal)
+        netcdf.putVar(ncid, Times_varid, [0 it-1], [length(Times(it,:)) 1], Times(it,:));
+    end
     for ivar = 1 : length(varname)
         cmd = ['netcdf.putVar(ncid, ' varname{ivar} '_varid, [0 it-1], [n 1], var{ivar}(:,it));'];
         disp(['   ---Writing data for ' varname{ivar}])

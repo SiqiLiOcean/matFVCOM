@@ -21,6 +21,8 @@
 %==========================================================================
 function write_initial_ts(fini, zsl, tsl, ssl, time0)
 
+Ideal = read_varargin2(varargin, {'Ideal'});
+
 ksl = length(zsl);
 
 if ksl~=length(zsl(:))
@@ -42,7 +44,7 @@ if dims1(2)~=ksl
 end
 
 % Generate the four time variables
-[time, Itime, Itime2, Times] = convert_fvcom_time(time0);
+[time, Itime, Itime2, Times] = convert_fvcom_time(time0, Ideal);
 % mjd_ref=datenum(1858,11,17,0,0,0); 
 % time = datenum(time0) - mjd_ref;
 % Times = datestr(time0, 'yyyy-mm-ddTHH:MM:SS.000000');
@@ -59,25 +61,42 @@ DateStrLen_dimid=netcdf.defDim(ncid,'DateStrLen',26);
 ksl_dimid=netcdf.defDim(ncid, 'ksl', ksl);
 
 %define variables
-% time
-time_varid = netcdf.defVar(ncid,'time','float',time_dimid);
-netcdf.putAtt(ncid, time_varid, 'long_name','time');
-netcdf.putAtt(ncid, time_varid, 'unit','days since 1858-11-17 00:00:00');
-netcdf.putAtt(ncid, time_varid, 'format','modified julian dat (MJD)');
-netcdf.putAtt(ncid, time_varid, 'time_zone','UTC');
-% Itime
-Itime_varid = netcdf.defVar(ncid, 'Itime','int',time_dimid);
-netcdf.putAtt(ncid,Itime_varid, 'unit','days since 1858-11-17 00:00:00');
-netcdf.putAtt(ncid,Itime_varid, 'format','modified julian dat (MJD)');
-netcdf.putAtt(ncid,Itime_varid, 'time_zone','UTC');
-% Itime2
-Itime2_varid = netcdf.defVar(ncid, 'Itime2','int',time_dimid);
-netcdf.putAtt(ncid,Itime2_varid, 'unit','mses since 1858-11-17 00:00:00');
-netcdf.putAtt(ncid,Itime2_varid, 'format','modified julian dat (MJD)');
-netcdf.putAtt(ncid,Itime2_varid, 'time_zone','UTC');
-% Times
-Times_varid = netcdf.defVar(ncid, 'Times','char',[DateStrLen_dimid time_dimid]);
-netcdf.putAtt(ncid,Times_varid, 'time_zone','UTC');
+
+if ~isempty(Ideal)
+    % time
+    time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
+    netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
+    netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
+    % Itime
+    Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
+    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
+    % Itime2
+    Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
+    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
+else
+    % time
+    time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
+    netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
+    netcdf.putAtt(ncid, time_varid, 'unit', 'days since 1858-11-17 00:00:00');
+    netcdf.putAtt(ncid, time_varid, 'format', 'modified julian dat (MJD)');
+    netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
+    % Itime
+    Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime_varid, 'units', 'days since 1858-11-17 00:00:00');
+    netcdf.putAtt(ncid, Itime_varid, 'format', 'modified julian day (MJD)');
+    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
+    % Itime2
+    Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
+    netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
+    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
+    % Times
+    Times_varid = netcdf.defVar(ncid, 'Times', 'char', [DateStrLen_dimid time_dimid]);
+    netcdf.putAtt(ncid, Times_varid, 'time_zone', 'UTC');
+end
+
 % zsl
 zsl_varid = netcdf.defVar(ncid, 'zsl', 'float', ksl_dimid);
 netcdf.putAtt(ncid,zsl_varid, 'long_name', 'Standard Depths');
@@ -108,8 +127,9 @@ for i=1:1
     netcdf.putVar(ncid, time_varid, i-1, 1, time(i));
     netcdf.putVar(ncid, Itime_varid, i-1, 1, Itime(i));
     netcdf.putVar(ncid, Itime2_varid, i-1, 1, Itime2(i));
-    netcdf.putVar(ncid, Times_varid, [0 i-1], [26 1], Times(i,:));
-
+    if isempty(Ideal)
+        netcdf.putVar(ncid, Times_varid, [0 i-1], [26 1], Times(i,:));
+    end
     netcdf.putVar(ncid, tsl_varid, [0 0 i-1], [node ksl 1], tsl);
     netcdf.putVar(ncid, ssl_varid, [0 0 i-1], [node ksl 1], ssl);
 end
