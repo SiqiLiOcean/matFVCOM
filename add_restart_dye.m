@@ -31,8 +31,8 @@ netcdf.reDef(ncid);
 % Get the dimension id and length.
 dimid_node = netcdf.inqDimID(ncid, 'node');
 [~, node] = netcdf.inqDim(ncid, dimid_node);
-dimid_siglay = netcdf.inqDimID(ncid, 'siglay');
-[~, nsiglay] = netcdf.inqDim(ncid, dimid_siglay);
+dimid_nsiglay = netcdf.inqDimID(ncid, 'siglay');
+[~, nsiglay] = netcdf.inqDim(ncid, dimid_nsiglay);
 dimid_time = netcdf.inqDimID(ncid, 'time');
 [~, nt] = netcdf.inqDim(ncid, dimid_time);
 
