@@ -24,7 +24,7 @@
 function write_sss(fsss, x, y, time, sss, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 node = length(x);
 nt = length(time);

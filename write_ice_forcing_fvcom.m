@@ -22,7 +22,7 @@
 function write_ice_forcing_fvcom(fout, x, y, nv, time, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 i = 0;
 ivar = 0;
