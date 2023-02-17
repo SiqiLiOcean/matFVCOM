@@ -21,7 +21,7 @@
 %==========================================================================
 function write_river(fout, name, varargin)
 
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 varargin = read_varargin(varargin, {'Time'}, {[]});
 varargin = read_varargin(varargin, {'Flux'}, {[]});

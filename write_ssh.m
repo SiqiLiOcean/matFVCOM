@@ -24,7 +24,7 @@
 function write_ssh(fssh, x, y, time, ssh, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 node = length(x);
 nt = length(time);

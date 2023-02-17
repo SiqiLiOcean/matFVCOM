@@ -1,5 +1,5 @@
 %==========================================================================
-% Add el_press in the restart file.
+% Add dye in the restart file.
 % 
 % Input  : --- fin, original input nesting file
 %          --- fout, the new nesting file with center variables included
@@ -31,8 +31,8 @@ netcdf.reDef(ncid);
 % Get the dimension id and length.
 dimid_node = netcdf.inqDimID(ncid, 'node');
 [~, node] = netcdf.inqDim(ncid, dimid_node);
-dimid_siglay = netcdf.inqDimID(ncid, 'siglay');
-[~, nsiglay] = netcdf.inqDim(ncid, dimid_siglay);
+dimid_nsiglay = netcdf.inqDimID(ncid, 'siglay');
+[~, nsiglay] = netcdf.inqDim(ncid, dimid_nsiglay);
 dimid_time = netcdf.inqDimID(ncid, 'time');
 [~, nt] = netcdf.inqDim(ncid, dimid_time);
 
@@ -44,7 +44,7 @@ end
 
 
 
-% Define the el_press variable.
+% Define the dye variable.
 varid_dye = netcdf.defVar(ncid, 'DYE', 'float', [dimid_node dimid_nsiglay dimid_time]);
 netcdf.putAtt(ncid, varid_dye, 'long_name', 'DYE concentration');
 netcdf.putAtt(ncid, varid_dye, 'units', '');

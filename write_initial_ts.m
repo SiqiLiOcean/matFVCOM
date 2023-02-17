@@ -21,7 +21,7 @@
 %==========================================================================
 function write_initial_ts(fini, zsl, tsl, ssl, time0)
 
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 ksl = length(zsl);
 

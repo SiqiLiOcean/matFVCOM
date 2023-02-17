@@ -23,7 +23,7 @@
 function write_groundwater(fgw, x, y, nv, time, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
-Ideal = read_varargin2(varargin, {'Ideal'});
+varargin = read_varargin2(varargin, {'Ideal'});
 
 node = length(x);
 nele = size(nv, 1);
