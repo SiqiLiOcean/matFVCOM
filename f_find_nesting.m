@@ -15,7 +15,11 @@
 %   fgrid    --- fvcom grid
 %   obc_node --- open boundary node id
 %   nlayer   --- layer number of nesting cells
-% 
+%   *Node_weight --- weights of nodes, size in [nlayer+1,1] {[]}
+%   *Cell_weight --- weights of cells, size in [nlayer,1] {[]}
+%   *a           --- parameter for the weight decay equation {0.1}
+%                    a->1: linear
+%
 % output :
 %   node_layer --- node id of each layer (totally nlayer+1 layers)
 %   cell_layer --- cell id of each layer (totally nlayer layers)
@@ -37,8 +41,22 @@ function [node_layer, cell_layer, weight_node, weight_cell] = f_find_nesting(fgr
 % fgrid = f_load_grid(fin);
 % obc_node = 1 : 130;
 % nlayer = 7;
-varargin = read_varargin(varargin, {'Node_weight'}, {((nlayer+1):-1:1)/(nlayer+1)});
-varargin = read_varargin(varargin, {'Cell_weight'}, {(nlayer:-1:1)/nlayer});
+% varargin = read_varargin(varargin, {'Node_weight'}, {((nlayer+1):-1:1)/(nlayer+1)});
+% varargin = read_varargin(varargin, {'Cell_weight'}, {(nlayer:-1:1)/nlayer});
+varargin = read_varargin(varargin, {'Node_weight'}, {[]});
+varargin = read_varargin(varargin, {'Cell_weight'}, {[]});
+varargin = read_varargin(varargin, {'a'}, {0.1});
+
+% Calculate the weight
+if isempty(Node_weight)
+    I = 1 : nlayer+1;
+    Node_weight = 1 - (1-a.^I)/(1-a);
+end
+if isempty(Cell_weight)
+    I = 1 : nlayer;
+    Cell_weight = 1 - (1-a.^I)/(1-a);
+end
+
 
 
 nv = fgrid.nv;
