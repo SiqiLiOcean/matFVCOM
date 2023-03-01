@@ -47,7 +47,7 @@ nele=length(nv);
 
 % Create output NetCDF
 ncid = netcdf.create(fout, 'CLOBBER');
-%     netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'title',title);
+netcdf.putAtt(ncid, netcdf.getConstant('GLOBAL'), 'type', 'UGRID');
 
 % Dimension
 dimid_node = netcdf.defDim(ncid, 'node', node);
@@ -114,7 +114,7 @@ end
 
 % Create the output NetCDF
 ncid = netcdf.create(fout, 'CLOBBER');
-%     netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'title',title);
+netcdf.putAtt(ncid, netcdf.getConstant('GLOBAL'), 'type', 'ESMF');
 
 % Dimension
 dimid_node = netcdf.defDim(ncid, 'nodeCount', node);
