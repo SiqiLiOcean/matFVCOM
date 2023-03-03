@@ -50,8 +50,11 @@
 %       y           source y (array)
 %       xo          destination x
 %       yo          destination y
-%
-% 
+%    6> 'NEAREST'
+%       x           source x (array)
+%       y           source y (array)
+%       xo          destination x
+%       yo          destination y
 % output :
 %    var2       output
 %

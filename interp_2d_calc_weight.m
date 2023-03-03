@@ -162,9 +162,18 @@ switch upper(METHOD_2D)
         y = y(:);
         xo = calc_lon_same(x, xo);
         dimso = size(varargin{4});
-
+    case 'NEAREST'
+        x = varargin{1}(:);
+        y = varargin{2}(:);
+        xo = varargin{3}(:);
+        yo = varargin{4}(:);
+        x = x(:);
+        y = y(:);
+        xo = calc_lon_same(x, xo);
+        dims = size(varargin{2});
+        dimso = size(varargin{4});
     otherwise
-        error('UNKOWN mehtod. Select TRI, BI, QU, ID, or GLOBAL_BI.')
+        error('UNKOWN mehtod. Select TRI, BI, QU, ID, GLOBAL_BI, or NEAREST.')
 end
 
 % Part 2: calculate weight
@@ -520,6 +529,14 @@ switch upper(METHOD_2D)
         weight_h.dims2 = dimso; 
         ind = sub2ind([nx0, ny0], xx_id, yy_id);
         weight_h.id = ind(weight_h.id);
+    case 'NEAREST'
+        id = knnsearch([x y], [xo yo]);
+        % Merge the weight and id into one cell
+        weight_h.id = id;
+        weight_h.w = ones(size(id));
+        weight_h.method = METHOD_2D;
+        weight_h.dims1 = dims;
+        weight_h.dims2 = dimso;
     otherwise
         error('UNKOWN mehtod. Select TRI, BI, QU, ID, or GLOBAL_BI.')
 end
