@@ -130,10 +130,10 @@ i = s_we(idm) : e_we(idm)-1;
 j = s_sn(idm) : e_sn(idm)-1;
 
 while current_dm>1    
-    i = i_parent_start(idm) + (i-2)/parent_grid_ratio(idm);
-    j = j_parent_start(idm) + (j-2)/parent_grid_ratio(idm);
+    i = i_parent_start(current_dm) + (i-2)/parent_grid_ratio(current_dm);
+    j = j_parent_start(current_dm) + (j-2)/parent_grid_ratio(current_dm);
     
-    current_dm = parent_id(idm);
+    current_dm = parent_id(current_dm);
 end
     
 [jj, ii] = meshgrid(j, i);
