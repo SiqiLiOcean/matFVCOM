@@ -32,10 +32,17 @@ function [flux, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
 
 
 varargin = read_varargin(varargin, {'npixel'}, {200});
-varargin = read_varargin(varargin, {'Zeta'}, {zeros(fgrid.node,size(u,3))});
 varargin = read_varargin(varargin, {'Order'}, {1});
 varargin = read_varargin2(varargin, {'Geo'});
 varargin = read_varargin2(varargin, {'Average'});
+if ~isempty(Average)
+    nt = size(u, 2);
+else
+    nt = size(u, 3);
+end
+varargin = read_varargin(varargin, {'Zeta'}, {zeros(fgrid.node,nt)});
+
+    
 
 
 
@@ -64,7 +71,7 @@ end
 % Interpolate the water depth onto the section
 [h_sec, x_sec, y_sec, d_sec] = f_interp_transect(fgrid, fgrid.h, x0, y0, 'npixel', npixel);
 
-for it = 1 : size(u, 3)
+for it = 1 : nt
 
 % Interpolate the velocity and zeta onto the section
 zeta_sec(:,it) = f_interp_transect(fgrid, Zeta(:,it), x0, y0, 'npixel', npixel);
