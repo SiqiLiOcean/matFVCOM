@@ -28,7 +28,7 @@
 % 2023-03-21  Siqi Li  Allowed to read the depth-averaged variables (ua, 
 %                      va, and cona)
 %==========================================================================
-function [flux, tpt, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
+function [flux, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
 
 
 varargin = read_varargin(varargin, {'npixel'}, {200});
