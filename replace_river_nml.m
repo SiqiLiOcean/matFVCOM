@@ -79,7 +79,7 @@ while ~feof(fid1)
         i = i + 1;
         
         node1(i) = str2double(line(k));
-        [j, dist(i)] = knnsearch([bdy_x bdy_y], [f1.x(node1(i)), f1.y(node1(i))]);
+        [j, dist(i)] = ksearch([bdy_x bdy_y], [f1.x(node1(i)), f1.y(node1(i))]);
         node2(i) = bdy_node(j);
         
         new_line = [line(1:min(k)-1) num2str(node2(i)) line(max(k)+1:end)];

@@ -18,7 +18,7 @@ function [n, d] = f_find_node(fgrid, x0, y0, varargin)
 
 
 % Nearest node
-[n, d] = knnsearch([fgrid.x fgrid.y], [x0(:) y0(:)]);
+[n, d] = ksearch([fgrid.x fgrid.y], [x0(:) y0(:)]);
 
 % if isempty(Extrap)
 %     in = inpolygon([fgrid.bdy_x{:}], [fgrid.bdy_y{:}], x0, y0);

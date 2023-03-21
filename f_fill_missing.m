@@ -33,8 +33,8 @@ end
 i_nan = find(isnan(var1(:,1)));
 i_num = find(~isnan(var1(:,1)));
 
-% k = knnsearch([x(i_nan) y(i_nan)], [x(i_num) y(i_num)]);
-k = knnsearch([x(i_num) y(i_num)], [x(i_nan) y(i_nan)]);
+% k = ksearch([x(i_nan) y(i_nan)], [x(i_num) y(i_num)]);
+k = ksearch([x(i_num) y(i_num)], [x(i_nan) y(i_nan)]);
 
 var2 = var1;
 

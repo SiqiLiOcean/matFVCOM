@@ -196,10 +196,10 @@ switch upper(METHOD_2D)
         % Use (xc, yc) to find the posible cell (default K = 7)
         xc = mean(x(nv), 2);
         yc = mean(y(nv), 2);
-        k = knnsearch([xc yc], [xo yo], 'K', K);
+        k = ksearch([xc yc], [xo yo], 'K', K);
         
 %         % Use (x, y) to find the posible cell (default K = 1)
-%         k_list = knnsearch([x, y], [xo, yo], 'K', K);
+%         k_list = ksearch([x, y], [xo, yo], 'K', K);
         
         jo = nan(n2, 1);
         id = nan(n2, 3);
@@ -219,7 +219,7 @@ switch upper(METHOD_2D)
             % Calculate weight
             if ~isnan(jo(i))
 %                 if Extrap
-%                     id(i, :) = knnsearch([x y], [xo(i) yo(i)], 'K', 1);
+%                     id(i, :) = ksearch([x y], [xo(i) yo(i)], 'K', 1);
 %                     weight(i, :) = [1 0 0];
 %                 end
 %             else
@@ -235,7 +235,7 @@ switch upper(METHOD_2D)
         if Extrap
             out = find(isnan(jo));
             if ~isempty(out)
-                id(out, 1) = knnsearch([x y], [xo(out) yo(out)], 'K', 1);
+                id(out, 1) = ksearch([x y], [xo(out) yo(out)], 'K', 1);
                 id(out, 2:3) = 1;  % Fake
                 weight(out, 1) = 1;
                 weight(out, 2:3) = 0;
@@ -284,7 +284,7 @@ switch upper(METHOD_2D)
 %         x_center = (x_in1 + x_in2 + x_in3 + x_in4) / 4;
 %         y_center = (y_in1 + y_in2 + y_in3 + y_in4) / 4;
 % 
-%         k = knnsearch([x_center(:) y_center(:)], [xo yo]);
+%         k = ksearch([x_center(:) y_center(:)], [xo yo]);
 %         
 %         [ix, iy] = ind2sub([nx-1, ny-1], k);
         
@@ -315,7 +315,7 @@ switch upper(METHOD_2D)
 %             out = find(~in);
 % %             id(out, :) = nan;
 % %             weight(out, :) = nan;
-%             id(out, 1) = knnsearch([x(:) y(:)], [xo(out) yo(out)], 'K', 1);
+%             id(out, 1) = ksearch([x(:) y(:)], [xo(out) yo(out)], 'K', 1);
 %             id(out, 2:4) = 1;  % Fake
 %             weight(out, 1) = 1;
 %             weight(out, 2:4) = 0;
@@ -406,13 +406,13 @@ switch upper(METHOD_2D)
         y_center = mean(rec_y, 3);
 
         if any(isnan(k))
-            k(isnan(k)) = knnsearch([x_center(:) y_center(:)], [xo(isnan(k)) yo(isnan(k))]);
+            k(isnan(k)) = ksearch([x_center(:) y_center(:)], [xo(isnan(k)) yo(isnan(k))]);
         end
         % This mehtod does not work with WRF regional grid.
         %         x_center = (x_in1 + x_in2 + x_in3 + x_in4) / 4;
         %         y_center = (y_in1 + y_in2 + y_in3 + y_in4) / 4;
         %
-        %         k = knnsearch([x_center(:) y_center(:)], [xo yo]);
+        %         k = ksearch([x_center(:) y_center(:)], [xo yo]);
         
         [ix, iy] = ind2sub([nx-1, ny-1], k);
 
@@ -444,7 +444,7 @@ switch upper(METHOD_2D)
             out = find(~in);
 %             id(out, :) = nan;
 %             weight(out, :) = nan;
-            id(out, 1) = knnsearch([x(:) y(:)], [xo(out) yo(out)], 'K', 1);
+            id(out, 1) = ksearch([x(:) y(:)], [xo(out) yo(out)], 'K', 1);
             id(out, 2:4) = 1;  % Fake
             weight(out, 1) = 1;
             weight(out, 2:4) = 0;
@@ -480,7 +480,7 @@ switch upper(METHOD_2D)
 %         end
         
         % Find the nearest np points around each (x2, y2)
-        [id, d] = knnsearch([x, y], [xo, yo], 'K', np);
+        [id, d] = ksearch([x, y], [xo, yo], 'K', np);
         d = max(1e-8, d);
         
         % Calculate the weight
@@ -530,7 +530,7 @@ switch upper(METHOD_2D)
         ind = sub2ind([nx0, ny0], xx_id, yy_id);
         weight_h.id = ind(weight_h.id);
     case 'NEAREST'
-        id = knnsearch([x y], [xo yo]);
+        id = ksearch([x y], [xo yo]);
         % Merge the weight and id into one cell
         weight_h.id = id;
         weight_h.w = ones(size(id));

@@ -21,17 +21,17 @@ varargin = read_varargin(varargin, {'Node_2nd_end'}, {[]});
 
 
 if ~isempty(Node_start)
-    id = knnsearch([f1.x f1.y], Node_start);
+    id = ksearch([f1.x f1.y], Node_start);
     [x, y, nv, h] = move_node('start', id, f1.x, f1.y, f1.nv, f1.h);
     f2 = f_load_grid(x, y, nv, h);
 end
 if ~isempty(Node_end)
-    id = knnsearch([f1.x f1.y], Node_end);
+    id = ksearch([f1.x f1.y], Node_end);
     [x, y, nv, h] = move_node('end', id, f1.x, f1.y, f1.nv, f1.h);
     f2 = f_load_grid(x, y, nv, h);
 end
 if ~isempty(Node_2nd_end)
-    id = knnsearch([f1.x f1.y], Node_2nd_end);
+    id = ksearch([f1.x f1.y], Node_2nd_end);
     [x, y, nv, h] = move_node('2nd_end', id, f1.x, f1.y, f1.nv, f1.h);
     f2 = f_load_grid(x, y, nv, h);
 end
@@ -41,8 +41,8 @@ end
 % % Grid = {f1, f2, f3};
 % % % Now we divide the whole domain into several parts:
 % % for i = 1 : length(Grid)
-% %     node_group{i} = unique(knnsearch([f0.x f0.y], [Grid{i}.x Grid{i}.y]))';
-% %     cell_group{i} = unique(knnsearch([f0.xc f0.yc], [Grid{i}.xc Grid{i}.yc]))';
+% %     node_group{i} = unique(ksearch([f0.x f0.y], [Grid{i}.x Grid{i}.y]))';
+% %     cell_group{i} = unique(ksearch([f0.xc f0.yc], [Grid{i}.xc Grid{i}.yc]))';
 % % end
 % % for i = 1 : length(Grid) - 1
 % %     node_boundary{i} = intersect(node_group{i}, node_group{i+1});

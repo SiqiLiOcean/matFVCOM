@@ -84,7 +84,7 @@ disp(' ')
 disp('------------------------------------------------')
 
 % Find the nearerst neighbor of each node
-[id, R] = knnsearch([x,y], [x,y], 'K',2);
+[id, R] = ksearch([x,y], [x,y], 'K',2);
 % id = id(:,2);
 R = R(:,2);
 

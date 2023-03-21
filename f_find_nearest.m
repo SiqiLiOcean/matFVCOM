@@ -25,6 +25,6 @@ switch lower(LOCATION)
 end
 
 
-[n, d] = knnsearch([x,y], [x0(:) y0(:)]);
+[n, d] = ksearch([x,y], [x0(:) y0(:)]);
 
 

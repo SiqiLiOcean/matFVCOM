@@ -3,12 +3,13 @@
 % Create a new FVCOM restart file from an existing one of a different grid.
 %
 % input  :
-%   fin
-%   fgrid_out ---
-%   fout      ---
-%   std       ---
+%   fin       --- source restart file
+%   fgrid_in  --- source fvcom grid
+%   fgrid_out --- destination fvcom grid
+%   fout      --- output restart file
+%   std       --- standard depth
 %   *Ignore   --- Some variables are unneccessary to run FVCOM, I have set
-%                 some and you can set more (in string).   {[]}
+%                 some and you can set more (in string).   {""}
 %   *More variable can be set after all the settings in the format of 
 %    interp_restart(...,'var1_name',var1_value,'var2_name',var2_value); 
 %    Variables related with obc and lsf are highly recommended to set in
@@ -23,7 +24,7 @@
 % Updates:
 %
 %==========================================================================
-function interp_restart(fin, fgrid_out, fout, std, varargin)
+function interp_restart(fin, fgrid_in, fgrid_out, fout, std, varargin)
 
 if isfile(fout)
     error('The output file already exists. Delete it or set another name.')
@@ -48,8 +49,8 @@ while length(varargin)>1
 end
 
 
-% Read input grid
-fgrid_in = f_load_grid(fin);
+% % Read input grid
+% fgrid_in = f_load_grid(fin);
 
 
 

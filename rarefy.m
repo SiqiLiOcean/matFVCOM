@@ -21,7 +21,7 @@ y1 = y0(k1);
 %-------version 3--------------------------------
 %----32s
 % Re-number the x and y on resolution
-[~, D] = knnsearch([x1,y1], [x1,y1], 'K', 2);
+[~, D] = ksearch([x1,y1], [x1,y1], 'K', 2);
 [~, k2] = sort(D(:,2), 'descend');
 x2 = x1(k2);
 y2 = y1(k2);

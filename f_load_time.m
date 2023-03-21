@@ -17,4 +17,6 @@
 function time = f_load_time(fnc)
 
 Times = ncread(fnc, 'Times')';
-time = datenum(Times, 'yyyy-mm-ddTHH:MM:SS.000000');
+
+delimiter = Times(1,11);
+time = datenum(Times, ['yyyy-mm-dd' delimiter 'HH:MM:SS.000000']);

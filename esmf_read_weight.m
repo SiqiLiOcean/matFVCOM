@@ -43,5 +43,5 @@ if ~isempty(Extrap)
     yc_a = ncread(fweight, 'yc_a');
     xc_b = ncread(fweight, 'xc_b');
     yc_b = ncread(fweight, 'yc_b');
-    weight.out_id = knnsearch([xc_a yc_a], [xc_b(weight.out) yc_b(weight.out)]);
+    weight.out_id = ksearch([xc_a yc_a], [xc_b(weight.out) yc_b(weight.out)]);
 end

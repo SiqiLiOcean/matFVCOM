@@ -80,7 +80,7 @@ for i = 1 : size(lonlat, 1)
                 jt2 = find(time==jtime, 1);
 
                 jdepth = obs(id(j)).depth;
-                jz1 = knnsearch(jdepth(:), depth(:))';
+                jz1 = ksearch(jdepth(:), depth(:))';
                 jz2 = find(ismember(depth, jdepth));
                 jz = jz1(jz2);
 

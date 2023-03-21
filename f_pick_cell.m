@@ -31,7 +31,7 @@ while 1
     
     [a, b, button] = ginput(1);
     
-    c = knnsearch([f.xc,f.yc], [a,b]);
+    c = ksearch([f.xc,f.yc], [a,b]);
     
     if button == 1
         x = [x; a];

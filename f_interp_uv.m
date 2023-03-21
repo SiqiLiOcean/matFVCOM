@@ -25,7 +25,7 @@ function [mod_zt, data_u, data_v, source] = f_interp_uv(fgrid, mod_time, mod_u, 
 n = length(obs);
 
 
-id = knnsearch([fgrid.xc fgrid.yc], [[obs.x]' [obs.y]']);
+id = ksearch([fgrid.xc fgrid.yc], [[obs.x]' [obs.y]']);
 for i = 1 : n
     u0 = squeeze(mod_u(id(i),:,:)); 
     v0 = squeeze(mod_v(id(i),:,:)); 

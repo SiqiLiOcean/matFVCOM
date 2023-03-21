@@ -11,7 +11,7 @@ x0 = x0(:);
 y0 = y0(:);
 n0 = length(x0);
 
-k = knnsearch([xc yc], [x0, y0], 'K',10);
+k = ksearch([xc yc], [x0, y0], 'K',10);
 
 
 id = nan(n0, 1);

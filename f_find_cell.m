@@ -21,13 +21,13 @@ nv = fgrid.nv;
 nele = fgrid.nele;
 
 % Nearest node
-[n0, d] = knnsearch([x,y], [x0(:) y0(:)]);
+[n0, d] = ksearch([x,y], [x0(:) y0(:)]);
 nbve = fgrid.nbve(n0,:);
 
 n = nan(length(x0), 1);
 
 if ~isempty(Extrap)
-    n = knnsearch([fgrid.xc fgrid.yc], [x0(:) y0(:)]);
+    n = ksearch([fgrid.xc fgrid.yc], [x0(:) y0(:)]);
 end
 
 for i = 1 : length(x0)

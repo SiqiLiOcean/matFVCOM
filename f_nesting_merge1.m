@@ -42,10 +42,10 @@ for i = 1 : n-1
     in_cell = inpolygon(f.xc, f.yc, tmpx, tmpy);
     
     inode = find(in_node);
-    jnode = knnsearch([fin{i}.x, fin{i}.y], [f.x(inode), f.y(inode)]);
+    jnode = ksearch([fin{i}.x, fin{i}.y], [f.x(inode), f.y(inode)]);
     
     icell = find(in_cell);
-    jcell = knnsearch([fin{i}.xc, fin{i}.yc], [f.xc(icell), f.yc(icell)]);
+    jcell = ksearch([fin{i}.xc, fin{i}.yc], [f.xc(icell), f.yc(icell)]);
     
     index(i).inode = inode;
     index(i).jnode = jnode;
@@ -60,10 +60,10 @@ end
 i = n;
 
 inode = find(~in_node_all);
-jnode = knnsearch([fin{i}.x, fin{i}.y], [f.x(inode), f.y(inode)]);
+jnode = ksearch([fin{i}.x, fin{i}.y], [f.x(inode), f.y(inode)]);
 
 icell = find(~in_cell_all);
-jcell = knnsearch([fin{i}.xc, fin{i}.yc], [f.xc(icell), f.yc(icell)]);
+jcell = ksearch([fin{i}.xc, fin{i}.yc], [f.xc(icell), f.yc(icell)]);
 
 index(i).inode = inode;
 index(i).jnode = jnode;

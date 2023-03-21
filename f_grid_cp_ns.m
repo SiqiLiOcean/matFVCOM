@@ -22,7 +22,7 @@ y2 = fgrid2.y;
 
 
 for i = 1 : length(ns1)
-    [id, d] = knnsearch([x2, y2], [x1(ns1{i}) y1(ns1{i})]);
+    [id, d] = ksearch([x2, y2], [x1(ns1{i}) y1(ns1{i})]);
     
     if any(d>Eps)
         disp(['The following nodes on NS ' num2str(i) ' does not match those in grid2:'])

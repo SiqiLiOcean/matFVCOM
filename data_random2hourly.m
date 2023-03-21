@@ -89,7 +89,7 @@ if isempty(time0) && isempty(data0)
 end
 
 
-[i1, dt] = knnsearch(time0(:), time);
+[i1, dt] = ksearch(time0(:), time);
 dt = dt * 24 * 60;
 
 i2 = find(dt<=Twindow);

@@ -24,7 +24,7 @@ end
 
 
 % Set the longitude and latitude exactly the same on the nesting boundary.
-nesting_id = knnsearch([fgrid.x, fgrid.y], [nesting_x, nesting_y]);
+nesting_id = ksearch([fgrid.x, fgrid.y], [nesting_x, nesting_y]);
 x(nesting_id) = nesting_x;
 y(nesting_id) = nesting_y;
 if isnan(nesting_h)
