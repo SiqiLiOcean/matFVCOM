@@ -2,35 +2,41 @@
 % Calculate flux using FVCOM data
 % Sign: Standing on one point and facing the next one, the transport is 
 %       positive when water comes from left to right.
-% Unit: m^3/s
+% Unit: C*m^3/s (C is the unit of the input con)
 %
 % input  :
 %   fgrid
-%   u    : (n, siglay, nt)
-%   v    : (n, siglay, nt)
-%   con  : (n, siglay, nt)
+%   u    : (n, siglay, nt) or (n, nt) with 'Average'
+%   v    : (n, siglay, nt) or (n, nt) with 'Average'
+%   con  : (n, siglay, nt) or (n, nt) with 'Average'
 %   x0
 %   y0
 %   'npixel'
 %   'Zeta'
 %   'Order'
 %   'Geo'
+%   'Average'
 % 
+%   Set con = 1 if you want to calcuate the transport
+%
 % output :
 %
 % Siqi Li, SMAST
 % 2021-10-20
 %
 % Updates:
-%
+% 2023-03-21  Siqi Li  Allowed to read the depth-averaged variables (ua, 
+%                      va, and cona)
 %==========================================================================
-function [tpt, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
+function [flux, tpt, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
 
 
 varargin = read_varargin(varargin, {'npixel'}, {200});
 varargin = read_varargin(varargin, {'Zeta'}, {zeros(fgrid.node,size(u,3))});
 varargin = read_varargin(varargin, {'Order'}, {1});
 varargin = read_varargin2(varargin, {'Geo'});
+varargin = read_varargin2(varargin, {'Average'});
+
 
 
 x0 = x0(:);
@@ -45,8 +51,15 @@ for i = size(ii,1) : -1 :1
 end
 
 % Calculate vertically averaged velocity
-[ua, va] = f_calc_ua(fgrid, u, v, 'Order', Order);
-cona = f_calc_depth_avg(fgrid, con, 'Order', Order);
+if ~isempty(Average)
+    ua = u;
+    va = v;
+    cona = con;
+else
+    [ua, va] = f_calc_ua(fgrid, u, v, 'Order', Order);
+    cona = f_calc_depth_avg(fgrid, con, 'Order', Order);
+end
+
 
 % Interpolate the water depth onto the section
 [h_sec, x_sec, y_sec, d_sec] = f_interp_transect(fgrid, fgrid.h, x0, y0, 'npixel', npixel);
@@ -63,7 +76,7 @@ con_sec(:,it) = f_interp_transect(fgrid, cona(:,it), x0, y0, 'npixel', npixel);
 
 
 % Caluclate the transport
-tpt_sec(:,it) = nan(length(h_sec)-1, 1);
+flux_sec(:,it) = nan(length(h_sec)-1, 1);
 for i = 1 : length(h_sec)-1
 
     if ~any(isnan(h_sec(i:i+1)))
@@ -81,14 +94,14 @@ for i = 1 : length(h_sec)-1
         angle_current = atan2d(v, u);
         angle = angle_sec - angle_current;
         current = spd * sind(angle);
-        tpt_sec(i,it) = current * l * h;
+%         tpt_sec(i,it) = current * l * h;
         flux_sec(i,it) = con * current * l * h;
     end
 end
 
 end
 
-tpt = nansum(tpt_sec, 1)';
+flux = nansum(flux_sec, 1)';    % flux
 sec.x = x_sec;
 sec.y = y_sec;
 sec.d = d_sec;
