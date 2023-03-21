@@ -113,5 +113,5 @@ sec.xc = (x_sec(1:end-1) + x_sec(2:end)) * 0.5;
 sec.yc = (y_sec(1:end-1) + y_sec(2:end)) * 0.5;
 sec.dc = (d_sec(1:end-1) + d_sec(2:end)) * 0.5;
 sec.hc = (h_sec(1:end-1) + h_sec(2:end)) * 0.5;
-sec.tpt = tpt_sec;
+% sec.tpt = tpt_sec;
 sec.flux = flux_sec;
