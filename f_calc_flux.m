@@ -27,8 +27,9 @@
 % Updates:
 % 2023-03-21  Siqi Li  Allowed to read the depth-averaged variables (ua, 
 %                      va, and cona)
+% 2023-03-22  Siqi Li  Added transport (tpt)
 %==========================================================================
-function [flux, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
+function [flux, tpt, sec] = f_calc_flux(fgrid, u, v, con, x0, y0, varargin)
 
 
 varargin = read_varargin(varargin, {'npixel'}, {200});
@@ -101,7 +102,7 @@ for i = 1 : length(h_sec)-1
         angle_current = atan2d(v, u);
         angle = angle_sec - angle_current;
         current = spd * sind(angle);
-%         tpt_sec(i,it) = current * l * h;
+        tpt_sec(i,it) = current * l * h;
         flux_sec(i,it) = con * current * l * h;
     end
 end
@@ -109,6 +110,7 @@ end
 end
 
 flux = nansum(flux_sec, 1)';    % flux
+tpt = nansum(tpt_sec, 1)';    % flux
 sec.x = x_sec;
 sec.y = y_sec;
 sec.d = d_sec;
@@ -120,5 +122,5 @@ sec.xc = (x_sec(1:end-1) + x_sec(2:end)) * 0.5;
 sec.yc = (y_sec(1:end-1) + y_sec(2:end)) * 0.5;
 sec.dc = (d_sec(1:end-1) + d_sec(2:end)) * 0.5;
 sec.hc = (h_sec(1:end-1) + h_sec(2:end)) * 0.5;
-% sec.tpt = tpt_sec;
+sec.tpt = tpt_sec;
 sec.flux = flux_sec;
