@@ -19,6 +19,8 @@
 function varargout = f_2d_range(fgrid, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+varargin = read_varargin(varargin, {'Precision'}, {nan});
+
 
 
 switch lower(Coordinate)
@@ -34,6 +36,14 @@ if strcmp(fgrid.type, 'Global')
     ylims = [-90 90];
     xlims = [fgrid.MaxLon-360 fgrid.MaxLon];
 end
+
+if ~isnan(Precision)
+    xlims(1) = floor(xlims(1)/Precision) * Precision;
+    xlims(2) = ceil(xlims(2)/Precision) * Precision;
+    ylims(1) = floor(ylims(1)/Precision) * Precision;
+    ylims(2) = ceil(ylims(2)/Precision) * Precision;
+end
+
 
 switch nargout 
     case 0

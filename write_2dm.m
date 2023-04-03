@@ -100,6 +100,7 @@ nmax = 10;
 for i = 1 : length(ns)
     data = ns{i};
     data(end) = -data(end);
+    data = [data i];
     ntotal = length(data);
     k1 = 1;
     for j = 1 : ceil(ntotal/nmax)

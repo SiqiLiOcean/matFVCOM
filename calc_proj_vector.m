@@ -24,5 +24,5 @@ lenB = norm(B);
 
 cosTheta = dot(A, B) / lenA / lenB;
 
-projB = lenA * cosTheta;
+projB = lenB * cosTheta;
 

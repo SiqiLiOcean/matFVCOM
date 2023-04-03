@@ -15,13 +15,15 @@
 % Updates:
 %
 %==========================================================================
-function [xx, yy, zz] = read_tiff(fin)
+function [xx, yy, zz] = read_tiff(fin, varargin)
+
+varargin = read_varargin2(varargin, {'Increase'});
 
 % Read the tiff file
 [zz,R] = readgeoraster(fin);
 
 % Read the dimension information
-disp(R.CoordinateSystemType)
+% disp(R.CoordinateSystemType)
 switch R.CoordinateSystemType
     case 'geographic'
         xlims = R.LongitudeLimits;
@@ -45,3 +47,15 @@ y = linspace(ylims(2), ylims(1), ny);
 % 2-d depth
 zz = double(zz');
 
+if ~isempty(Increase)
+    if x(1) > x(end)
+        xx = flipud(xx);
+        yy = flipud(yy);
+        zz = flipud(zz);
+    end
+    if y(1) > y(end)
+        xx = fliplr(xx);
+        yy = fliplr(yy);
+        zz = fliplr(zz);
+    end
+end
