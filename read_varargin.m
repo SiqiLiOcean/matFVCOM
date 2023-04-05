@@ -15,6 +15,7 @@
 %==========================================================================
 function out = read_varargin(in, s_name, s_default)
 
+s_name = cellstr(s_name);
 n = length(s_name);
 
 % Set the default values
