@@ -19,7 +19,7 @@
 % Updates:
 %
 %==========================================================================
-function write_initial_ts(fini, zsl, tsl, ssl, time0)
+function write_initial_ts(fini, zsl, tsl, ssl, time0, varargin)
 
 varargin = read_varargin2(varargin, {'Ideal'});
 

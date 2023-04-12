@@ -1,4 +1,4 @@
-%==========================================================================
+ %==========================================================================
 % Write the FVCOM river forcing input file
 %
 % input  :
@@ -84,15 +84,15 @@ if ~isempty(Ideal)
     time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
     netcdf.putAtt(ncid, time_varid, 'long_name', 'time');
     netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
-    netcdf.putAtt(ncid, time_varid, 'time_zone', 'UTC');
+    netcdf.putAtt(ncid, time_varid, 'time_zone', 'none');
     % Itime
     Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
     netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
-    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'UTC');
+    netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'none');
     % Itime2
     Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
     netcdf.putAtt(ncid, Itime2_varid, 'units', 'msec since 00:00:00');
-    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'UTC');
+    netcdf.putAtt(ncid, Itime2_varid, 'time_zone', 'none');
 else
     % time
     time_varid = netcdf.defVar(ncid,'time', 'float', time_dimid);
