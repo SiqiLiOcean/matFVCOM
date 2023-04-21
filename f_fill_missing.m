@@ -14,7 +14,7 @@
 % Updates:
 %
 %==========================================================================
-function var2 = f_fill_missing(fgrid, var1)
+function [var2, dist] = f_fill_missing(fgrid, var1)
 
 
 n = size(var1, 1);
@@ -34,8 +34,10 @@ i_nan = find(isnan(var1(:,1)));
 i_num = find(~isnan(var1(:,1)));
 
 % k = ksearch([x(i_nan) y(i_nan)], [x(i_num) y(i_num)]);
-k = ksearch([x(i_num) y(i_num)], [x(i_nan) y(i_nan)]);
+[k, d] = ksearch([x(i_num) y(i_num)], [x(i_nan) y(i_nan)]);
 
 var2 = var1;
 
 var2(i_nan,:) = var1(i_num(k),:);
+dist = nan(n, 1);
+dist(i_nan) = d;
