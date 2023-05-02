@@ -19,15 +19,20 @@
 % 2023-01-30
 %
 % Updates:
-%
+% 2023-04-25  Added weights. 
 %==========================================================================
 function write_sss(fsss, x, y, time, sss, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+varargin = read_varargin(varargin, {'Weight'}, {1});
 varargin = read_varargin2(varargin, {'Ideal'});
 
 node = length(x);
 nt = length(time);
+
+if numel(Weight) == 1
+    Weight = ones(node,1) * Weight;
+end
 
 [time, Itime, Itime2, Times] = convert_fvcom_time(time, Ideal);
 
@@ -100,6 +105,12 @@ sss_varid = netcdf.defVar(ncid, 'sss', 'float', [node_dimid time_dimid]);
 netcdf.putAtt(ncid, sss_varid, 'long_name', 'Sea Surface Salinity');
 netcdf.putAtt(ncid, sss_varid, 'units', 'PSU');
 
+% Weight
+weight_varid = netcdf.defVar(ncid, 'weight', 'float', node_dimid);
+netcdf.putAtt(ncid, weight_varid, 'long_name', 'Sea Surface Salinity weight');
+netcdf.putAtt(ncid, weight_varid, 'units', '1');
+
+
 % Global attribute
 netcdf.putAtt(ncid, -1, 'source', 'FVCOM grid (unstructured) surface forcing');
 
@@ -109,6 +120,7 @@ netcdf.endDef(ncid);
 %put data in the output file
 netcdf.putVar(ncid, x_varid, x);
 netcdf.putVar(ncid, y_varid, y);
+netcdf.putVar(ncid, weight_varid, Weight);
 for it = 1 : nt
     netcdf.putVar(ncid, time_varid, it-1, 1, time(it));
     netcdf.putVar(ncid, Itime_varid, it-1, 1, Itime(it));
