@@ -4,7 +4,7 @@
 % input  : foutput (dep path and name)
 %          x  (x coordinate)
 %          y  (y coordinate)
-%          dep (triangle matrix)
+%          dep (water depth, negative for land)
 %          
 % dep file format:
 % Node Number = 32709
