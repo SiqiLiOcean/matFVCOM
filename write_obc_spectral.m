@@ -12,7 +12,6 @@
 %
 % Output : \
 % 
-% Usage  : write_tidal_spectral(fini, zsl, datenum(2012, 10, 18, 0, 0, 0]), 'tsl', T);
 %
 % v1.0
 %
