@@ -36,6 +36,9 @@ varargin = read_varargin(varargin, {'alt'}, {zeros(n,1)});
 varargin = read_varargin(varargin, {'LineColor'}, {[255 255 0]});
 varargin = read_varargin(varargin, {'LineWidth'}, {2.2});
 
+if numel(alt) == 1
+    alt = ones(n,1) * alt;
+end
 
 switch class(LineColor)
 case 'char'

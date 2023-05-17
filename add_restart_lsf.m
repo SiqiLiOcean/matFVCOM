@@ -4,19 +4,19 @@
 % input  :
 %   fin
 %   fout
-%   lsf_nodes --- longshore flow node id
-%   geo       --- thermal wind flow adjustment scaling
-%   wdf       --- wind driven flow adjustment scaling
-% 
+%   lsf_nodes     --- longshore flow node id
+%   geo           --- thermal wind flow adjustment scaling
+%   wdf           --- wind driven flow adjustment scaling
+%   lsf_nodes_2nd --- longshore flow node id (2nd)
 % output :
 %
 % Siqi Li, SMAST
 % 2022-11-07
 %
 % Updates:
-%
+% Added the 2nd array of LSF nodes as an optional input
 %==========================================================================
-function add_restart_lsf(fin, fout, lsf_nodes, geo, wdf)
+function add_restart_lsf(fin, fout, lsf_nodes, geo, wdf, lsf_nodes_2nd)
 
 lsf_nodes = lsf_nodes(:);
 geo = geo(:);
@@ -103,11 +103,28 @@ netcdf.putAtt(ncid, geo_varid, 'valid_range', [0 1]);
 netcdf.putAtt(ncid, geo_varid, 'grid', 'lsf_grid');
 netcdf.endDef(ncid);
 
+% geo
+if exist('lsf_nodes_2nd', 'var')
+    if geo_varid>=0
+        disp('Variable geo already exists. Rename it.')
+        netcdf.reDef(ncid);
+        netcdf.renameVar(ncid, lsf_nodes_2nd_varid, 'old_geo');
+        netcdf.endDef(ncid);
+    end
+    netcdf.reDef(ncid);
+    lsf_nodes_2nd_varid = netcdf.defVar(ncid, 'geo', 'NC_FLOAT', nlsf_dimid);
+    netcdf.putAtt(ncid, lsf_nodes_2nd_varid, 'long_name', 'Longshore Flow Node Number (2nd)');
+    netcdf.putAtt(ncid, lsf_nodes_2nd_varid, 'grid', 'lsf_grid');
+    netcdf.endDef(ncid);
+end
 
 % Write the variables
 netcdf.putVar(ncid, lsf_nodes_varid, lsf_nodes);
 netcdf.putVar(ncid, wdf_varid, wdf);
 netcdf.putVar(ncid, geo_varid, geo);
+if exist('lsf_nodes_2nd', 'var')
+    netcdf.putVar(ncid, lsf_nodes_2nd_varid, lsf_nodes_2nd);
+end
 
 % Close the file
 netcdf.close(ncid);

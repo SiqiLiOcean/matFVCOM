@@ -35,20 +35,15 @@ varargin = read_varargin(varargin, {'alt'}, {ones(n,1)});
 % varargin = read_varargin(varargin, {'iconURL'}, {'http://maps.google.com/mapfiles/kml/pal4/icon57.png'});
 varargin = read_varargin(varargin, {'LineColor'}, {[255 255 0]});
 varargin = read_varargin(varargin, {'LineWidth'}, {2.2});
+varargin = read_varargin(varargin, {'PolyColor'}, {[255 255 0]});
+
 
 if numel(alt) == 1
     alt = ones(n,1)*alt;
 end
 
-switch class(LineColor)
-case 'char'
-    RGB = COLOR2RGB(LineColor);
-    LineColor = RGB2ABGR(255, RGB);
-case 'double'
-    LineColor = RGB2ABGR(255, LineColor);
-otherwise
-    error('Unknown iconColor')
-end
+LineColor = color2rgb(LineColor);
+PolyColor = color2rgb(PolyColor);
 
 
 m = find(isnan(lon));
@@ -67,9 +62,10 @@ for i = 1 : n
         k.poly(lon_tmp(i1:i2), lat_tmp(i1:i2), ...
                 'altitude', alt(i), ...
                 'altitudeMode', 'relativeToGround', ...
-                'name', Name{i});
-%                 'lineWidth', LineWidth,     ...
-%                 'lineColor', LineColor,     ...
+                'name', Name{i},     ...
+                'lineWidth', LineWidth,     ...
+                'lineColor', LineColor,     ...
+                'polyColor', PolyColor);
 
     end
 end
@@ -77,41 +73,3 @@ k.save(fout);
 
 end
 
-
-function ARGB = RGB2ABGR(alpha, RGB)
-
-    if max(alpha) <= 1
-        alpha = alpha * 255;
-    end
-    if max(RGB(:)) <= 1
-        RGB = RGB * 255;
-    end
-    
-    ARGB = [dec2hex(alpha,2) dec2hex(RGB(3),2) dec2hex(RGB(2),2) dec2hex(RGB(1),2)];
-    
-end
-
-function RGB = COLOR2RGB(COLOR)
-    
-    switch COLOR
-        case {'red', 'r'}
-            RGB = [255 0 0];
-        case {'green', 'g'}
-            RGB = [0 255 0];
-        case {'blue', 'b'}
-            RGB = [0 0 255];
-        case {'cyan', 'c'}
-            RGB = [0 255 255];
-        case {'magenta', 'm'}
-            RGB = [255 0 255];
-        case {'yellow', 'y'}
-            RGB = [255 255 0];
-        case {'black', 'k'}
-            RGB = [0 0 0];
-        case {'white', 'w'}
-            RGB = [255 255 255];
-        otherwise
-            error(['Unknown color code: ' COLOR])
-    end
-    
-end

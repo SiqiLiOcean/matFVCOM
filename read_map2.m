@@ -79,8 +79,8 @@ while ~feof(fid)
             ARC(j).nodes = [line3{2} line3{3}];
             ARC(j).n = line4{2};
             data = textscan(fid, '%f%f%f', ARC(j).n);
-           	ARC(j).x = data{1};
-            ARC(j).y = data{2};
+           	ARC(j).x = [data{1}(:)' nan];
+            ARC(j).y = [data{2}(:)' nan];
             ARC(j).h = data{3};
             fgetl(fid);
             fgetl(fid);
