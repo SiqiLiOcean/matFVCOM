@@ -4,21 +4,19 @@
 % input  :
 %   fgrid    --- fvcom grid
 %   mod_time --- model time
-%   mod_u    --- current u
 %   mod_v    --- current v
 %   obs      --- observation structure read via read_ts
 % 
 % output :
 %   mod_zt
-%   data_t
-%   data_s
+%   data_v
 %
 % Siqi Li, SMAST
 % 2022-11-08
 %
 % Updates:
 %==========================================================================
-function [mod_zt, data_u, data_v, source] = f_interp_uv(fgrid, mod_time, mod_u, mod_v, obs)
+function [mod_zt, data_v, source] = f_interp_v(fgrid, mod_time, mod_v, obs)
 
 
 n = length(obs);
@@ -26,10 +24,8 @@ n = length(obs);
 
 id = ksearch([fgrid.xc fgrid.yc], [[obs.x]' [obs.y]']);
 for i = 1 : n
-    u0 = squeeze(mod_u(id(i),:,:)); 
     v0 = squeeze(mod_v(id(i),:,:)); 
     for it = 1 : length(mod_time)
-        mod_zt(i).U(:,it) = interp_vertical(u0(:,it)', fgrid.deplayc(id(i), :), obs(i).depth');
         mod_zt(i).V(:,it) = interp_vertical(v0(:,it)', fgrid.deplayc(id(i), :), obs(i).depth');
     end
 end
@@ -57,11 +53,9 @@ end
 % %     mod_zt(i).V = f_interp_xyzt(fgrid, mod_time, mod_v, obs(i).x,obs(i).y, obs(i).depth, obs(i).time);    
 % % end
 
-data_u = [];
 data_v = [];
 source = [];
 for i = 1 : n
-    data_u = [data_u; obs(i).U(:) mod_zt(i).U(:)];
     data_v = [data_v; obs(i).V(:) mod_zt(i).V(:)];
     source = [source; repmat(convertCharsToStrings(obs(i).source),obs(i).nz*obs(i).nt,1)];
 end
