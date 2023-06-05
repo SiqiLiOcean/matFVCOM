@@ -28,8 +28,7 @@ varargin = read_varargin2(varargin, {'Ideal'});
 node = length(x);
 nele = size(nv, 1);
 nt = length(time);
-xc = mean(x(nv), 2);
-yc = mean(y(nv), 2);
+
 
 varargin = read_varargin(varargin, {'Flux'}, {zeros(node,nt)});
 varargin = read_varargin(varargin, {'Temperature'}, {zeros(node,nt)});
@@ -125,8 +124,7 @@ netcdf.endDef(ncid);
 %put data in the output file
 netcdf.putVar(ncid, x_varid, x);
 netcdf.putVar(ncid, y_varid, y);
-netcdf.putVar(ncid, xc_varid, xc);
-netcdf.putVar(ncid, yc_varid, yc);
+
 
 
 for it = 1 : nt
