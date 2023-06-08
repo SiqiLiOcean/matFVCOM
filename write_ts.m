@@ -12,10 +12,11 @@
 % 2021-12-02
 %
 % Updates:
-%
+% 2023-06-08  Siqi Li  Added the ideal time option.
 %==========================================================================
 function write_ts(sta, fxy, fdat)
 
+varargin = read_varargin2(varargin, {'Ideal'});
 
 missing_value = -99.90;
 
@@ -24,7 +25,9 @@ out_source = isfield(sta, 'source');
 
 % MJD
 mjd = datenum(1858, 11, 17, 0, 0, 0);
-
+if ~isempty(Ideal)
+    mjd = 0;
+end
 
 % --------------Write xy file---------------
 disp('Write xy file')
