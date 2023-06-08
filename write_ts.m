@@ -14,7 +14,7 @@
 % Updates:
 % 2023-06-08  Siqi Li  Added the ideal time option.
 %==========================================================================
-function write_ts(sta, fxy, fdat)
+function write_ts(sta, fxy, fdat, varargin)
 
 varargin = read_varargin2(varargin, {'Ideal'});
 
