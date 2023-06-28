@@ -34,6 +34,8 @@ varargin = read_varargin(varargin, {'Temperature'}, {[]});
 varargin = read_varargin(varargin, {'Salinity'}, {[]});
 varargin = read_varargin(varargin, {'U'}, {[]});
 varargin = read_varargin(varargin, {'V'}, {[]});
+varargin = read_varargin(varargin, {'Ua'}, {[]});
+varargin = read_varargin(varargin, {'Va'}, {[]});
 varargin = read_varargin(varargin, {'Hyw'}, {[]});
 varargin = read_varargin(varargin, {'Weight_node'}, {[]});
 varargin = read_varargin(varargin, {'Weight_cell'}, {[]});
@@ -64,12 +66,12 @@ if length(Weight_cell(:)) == fn.nele
 end
 
 dzc = -diff(fn.siglevc, 1, 2);
-if ~isempty(U)
+if isempty(Ua) && ~isempty(U)
     for it = 1 : nt
         Ua(:,it) = sum(U(:,:,it).*dzc, 2);
     end
 end
-if ~isempty(V)
+if isempty(Va) && ~isempty(V)
     for it = 1 : nt
         Va(:,it) = sum(V(:,:,it).*dzc, 2);
     end
@@ -198,6 +200,8 @@ if ~isempty(U)
     u_varid = netcdf.defVar(ncid, 'u', 'float', [nele_dimid siglay_dimid time_dimid]);
     netcdf.putAtt(ncid, u_varid, 'long_name', 'Eastward Water Velocity');
     netcdf.putAtt(ncid, u_varid, 'units', 'm/s');
+end
+if ~isempty(Ua)
     % ua
     ua_varid = netcdf.defVar(ncid, 'ua', 'float', [nele_dimid time_dimid]);
     netcdf.putAtt(ncid, ua_varid, 'long_name', 'Vertically Averaged x-velocity');
@@ -208,6 +212,8 @@ if ~isempty(V)
     v_varid = netcdf.defVar(ncid, 'v', 'float', [nele_dimid siglay_dimid time_dimid]);
     netcdf.putAtt(ncid, v_varid, 'long_name', 'Northward Water Velocity');
     netcdf.putAtt(ncid, v_varid, 'units', 'm/s');
+end
+if ~isempty(Va)
     % va
     va_varid = netcdf.defVar(ncid, 'va', 'float', [nele_dimid time_dimid]);
     netcdf.putAtt(ncid, va_varid, 'long_name', 'Vertically Averaged y-velocity');
