@@ -37,6 +37,13 @@ t2 = -999;
 for i = 1 : nf
     time = f_load_time(fin{i});
     it = find(time>t2);
+    if isempty(it)
+        for j = 1 : nf
+            t = f_load_time(fin{i});
+            disp([fin{j} ': ' datestr(t(1), 'yyyy-mm-ddTHH:MM') ' - ' datestr(t(end), 'yyyy-mm-ddTHH:MM')])
+        end
+        error('The file order is not right.')
+    end
     it1(i) = it(1);
     it2(i) = it(end);
     t2 = time(it2(i));
