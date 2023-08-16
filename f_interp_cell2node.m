@@ -34,7 +34,7 @@ v1(nele+1, :) = nan;
 nslide = size(v1, 2);
 v2 = nan(node, nslide);
 for i = 1 : nslide
-    v2(:,i) = nanmean(reshape(v1(nbve,i),fgrid.node,[]), 2);
+    v2(:,i) = mean(reshape(v1(nbve,i),fgrid.node,[]), 2);
 end
 
 var2 = reshape(v2, dims2);

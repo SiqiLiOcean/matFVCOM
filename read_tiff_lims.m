@@ -1,25 +1,38 @@
 %==========================================================================
-% Read tiff file limits
+% Read tiff file to get xlims and ylims
 %
 % input  : 
 %   fin --- tiff input file.
 % 
 % output :
-%   xlims --- x/longitude limits
-%   ylims --- y/latitude limits
+%   xlims --- x lims
+%   ylims --- y limits
 %
 % Siqi Li, SMAST
-% 2022-10-20
+% 2023-07-24
 %
 % Updates:
 %
 %==========================================================================
-function [xlims, ylims] = read_tiff_lims(ftiff)
+function [xlims, ylims] = read_tiff_lims(fin, varargin)
 
- info = geotiffinfo(ftiff);
 
- BoundingBox = info.BoundingBox;
 
- xlims = BoundingBox(1:2, 1);
- ylims = BoundingBox(1:2, 2);
- 
+% Read the tiff file
+[~,R] = readgeoraster(fin);
+
+% Read the dimension information
+% disp(R.CoordinateSystemType)
+switch R.CoordinateSystemType
+    case 'geographic'
+        xlims = R.LongitudeLimits;
+        ylims = R.LatitudeLimits;
+    case 'planar'
+        xlims = R.XWorldLimits;
+        ylims = R.YWorldLimits;
+    otherwise
+        error(['Unknown CoordinateSystemType: ' R.CoordinateSystemType])
+end
+
+xlims = [min(xlims) max(xlims)];
+ylims = [min(ylims) max(ylims)];

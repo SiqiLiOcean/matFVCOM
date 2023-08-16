@@ -6,6 +6,9 @@
 %          y  (y coordinate)
 %          nv (triangle matrix)
 %          h  (depth)
+%          ns (node IDs of node strings)
+%          tail
+%          id
 %
 % 2dm file format:
 % MESH2D

@@ -35,10 +35,10 @@ while i< length(k3)
         disp([i,length(k3)])
     end
     
-%     dxy = sqrt( (x2(id(i+1:end))-x2(id(i))).^2 + ...
-%                 (y2(id(i+1:end))-y2(id(i))).^2 );
-    dxy = pdist2([x2(k3(i+1:end)), y2(k3(i+1:end))], ...
-                 [x2(k3(i)), y2(k3(i))]);
+    dxy = sqrt( (x2(id(i+1:end))-x2(id(i))).^2 + ...
+                (y2(id(i+1:end))-y2(id(i))).^2 );
+    % dxy = pdist2([x2(k3(i+1:end)), y2(k3(i+1:end))], ...
+    %              [x2(k3(i)), y2(k3(i))]);
     k = find(dxy<d0);
     k3(k+i) = [];
     i = i+1;
