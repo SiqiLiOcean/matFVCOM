@@ -68,7 +68,7 @@ for i = 1 : nlayer
     if i>1
         tmp = setdiff(tmp, [cell_layer{1:i-1}]);
     end
-    cell_layer{i} = tmp(:)';
+    cell_layer{i} = int32(tmp(:)');
     weight_cell{i} = double(cell_layer{i})*0 + Cell_weight(i);
 
     all_node = unique(nv(cell_layer{i},:));
