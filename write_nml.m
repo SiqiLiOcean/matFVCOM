@@ -5,7 +5,7 @@
 %   fnml --- output nml file path and name
 %   nml  --- nml struct
 %   options
-%     --- 'OldStyle', write the float array in new style .
+%     --- 'OldStyle', write the float array in old style .
 %     --- 'EndComma', the variable lines are ended with a comma.
 %     --- 'WithQuote', all the strings are with quotes.
 % output :
@@ -22,6 +22,8 @@ function write_nml(fnml, nml0, varargin)
 varargin = read_varargin2(varargin, {'OldStyle'});
 varargin = read_varargin2(varargin, {'EndComma'});
 varargin = read_varargin2(varargin, {'WithQuote'});
+varargin = read_varargin2(varargin, {'Append'});
+
 
 
 if ~isempty(EndComma)
@@ -48,7 +50,11 @@ for i = 1 : length(group_names)
     end
 end
 
-fid = fopen(fnml, 'w');
+if ~isempty(Append)
+    fid = fopen(fnml, 'a+');
+else
+    fid = fopen(fnml, 'w');
+end
 for i = 1 : length(group_names)
 
     vars_all = getfield(nml0, group_names{i});
@@ -67,7 +73,7 @@ for i = 1 : length(group_names)
             fprintf(fid, format, ' ', var_name, '=');
 
             switch class(var_data)
-                case 'double'
+                case {'double', 'int32'} 
                     if all(floor(var_data)==var_data)
                         for k = 1 : length(var_data)
                             fprintf(fid, '%d%s', var_data(k), EndSymbol);
@@ -96,6 +102,9 @@ for i = 1 : length(group_names)
                     for k = 1 : length(var_data)
                         fprintf(fid, '%s%s%s%s', StringSymbol, var_data(k), StringSymbol, EndSymbol);
                     end
+                
+                case 'char'
+                    fprintf(fid, '%s', StringSymbol, var_data, StringSymbol, EndSymbol);
 
                 otherwise
                     disp(var_data)

@@ -1,10 +1,7 @@
 %==========================================================================
 % Draw 2d image for fvcom-grid variables
 %
-% input  : x   (x coordinate)
-%          y   (y coordinate)
-%          nv  (triangle matrix)
-%          (The variables above will be got from fgrid)
+% input  : fgrid
 %          var (the drawn variable)  --- (node, 1), draw variable on node
 %                                    --- (nele, 1), draw variable on nele
 %          varargin (the rest settings for the patch)

@@ -11,7 +11,7 @@
 % 
 % output :
 %
-% Usage : write_met_forcing(fout, lon, lat, time, 'air_pressure', slp);
+% Usage : write_met_forcing(fout, lon, lat, nv, time, 'air_pressure', slp);
 %
 % Siqi Li, SMAST
 % 2023-01-03
