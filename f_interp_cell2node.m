@@ -1,3 +1,20 @@
+%==========================================================================
+% matFVCOM package
+%   Interpolate FVCOM data from cell to grid
+%
+% input  :
+%   fgrid
+%   var1   : source data
+% 
+% output :
+%   var2   : destination data
+%
+% Siqi Li, SMAST
+% 2023-09-26
+%
+% Updates:
+%
+%==========================================================================
 function var2 = f_interp_cell2node(fgrid, var1)
 
 node = fgrid.node;
@@ -34,7 +51,7 @@ v1(nele+1, :) = nan;
 nslide = size(v1, 2);
 v2 = nan(node, nslide);
 for i = 1 : nslide
-    v2(:,i) = mean(reshape(v1(nbve,i),fgrid.node,[]), 2);
+    v2(:,i) = mean(reshape(v1(nbve,i),fgrid.node,[]), 2, 'omitnan');
 end
 
 var2 = reshape(v2, dims2);

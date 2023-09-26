@@ -3,8 +3,14 @@
 %
 % input  :
 %   name      : tide constituent name (cell or char)
-%   amplitude : constituent amplitude
-%   phase     : constituent phase
+%   ------For elevation-----
+%   amplitude : constituent amplitude (m)
+%   phase     : constituent phase (degree)
+%   ------For elevation-----
+%   fmaj      : constituent major axis (m/s)
+%   fmin      : constituent minor axis (m/s)
+%   finc      : ellipse orientations (degree)
+%   pha       : constituent phase (degree)
 % 
 % output :
 %   tidestruc : for t_predic
