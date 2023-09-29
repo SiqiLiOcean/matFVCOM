@@ -13,7 +13,12 @@
 %==========================================================================
 function weight = interp_3d_calc_weight(depth1, std, depth2, method, varargin)  
 
-n1 = length(varargin{1});   
+if isempty(std)
+    std = [0:2:12 15:5:50 60:10:100 125:25:150 200:50:400 ...
+   500:100:900 1000:250:1500 2000:500:3000 4000 5000];
+end
+
+n1 = length(varargin{1});
 n2 = length(varargin{4});   
 varargin = read_varargin(varargin, {'List1'}, {1:n1});
 varargin = read_varargin(varargin, {'List2'}, {1:n2});

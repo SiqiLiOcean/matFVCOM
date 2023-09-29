@@ -3,12 +3,12 @@
 %
 % input  :
 %   fgrid   --- fvcom grid cell
-%   u       --- y current
-%   v       --- x current
+%   con     --- input variable of layers
 %   'Order' --- 0 : nearest interpolation (same method as that in FVCOM)
 %               1 : 1st order interpolation
 % 
 % output :
+%   cona    --- depth-averaged variable
 %
 % Siqi Li, SMAST
 % 2021-10-20

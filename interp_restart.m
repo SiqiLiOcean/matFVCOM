@@ -24,7 +24,7 @@
 % Updates:
 %
 %==========================================================================
-function interp_restart(fin, fgrid_in, fgrid_out, fout, std, varargin)
+function interp_restart(fgrid_in, fgrid_out, fin, fout, std, varargin)
 
 if isfile(fout)
     error('The output file already exists. Delete it or set another name.')

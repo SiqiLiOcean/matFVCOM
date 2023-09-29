@@ -27,7 +27,7 @@ siglev = zeros(fgrid.node, kb);
 switch sigma.type
     case 'UNIFORM'
         for iz = 1 : kb
-            siglev(:,k) = -(iz-1) / (kb-1);
+            siglev(:,iz) = -(iz-1) / (kb-1);
         end
 
     case 'GEOMETRIC'
