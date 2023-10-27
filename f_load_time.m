@@ -17,8 +17,9 @@
 function time = f_load_time(fnc, varargin)
 
 varargin = read_varargin2(varargin, {'MJD'});
+varargin = read_varargin(varargin, {'Method'}, {1});
 
-if any(contains({ncinfo(fnc).Variables.Name}, 'Times'))
+if any(contains({ncinfo(fnc).Variables.Name}, 'Times')) && Method==1
     Times = ncread(fnc, 'Times')';
 
     delimiter = Times(1,11);

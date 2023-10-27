@@ -28,27 +28,13 @@ if isempty(Data)
         error('Unknown resolution. Options: c, l, i, h, f');
     end
 
-    % gshhs_path = [fundir('plane_coast') 'data\gshhs_' Resolution '.b'];
-    % gshhs_index = [fundir('plane_coast') 'data\gshhs_' Resolution '.i'];
     if contains(computer, 'WIN')
-%         gshhs_path = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.b'];
-%         gshhs_index = [fundir('w_2d_coast') 'data\gshhs_' Resolution '.i'];
         gshhs_path = [PATH.gshhs '\gshhs_' Resolution '.b'];
         gshhs_index = [PATH.gshhs '\gshhs_' Resolution '.i'];
     else
         gshhs_path = [PATH.gshhs '/gshhs_' Resolution '.b'];
         gshhs_index = [PATH.gshhs '/gshhs_' Resolution '.i'];
     end
-
-    % if contains(computer, 'WIN')
-    %     k = strfind(gshhs_path, '\');
-    %     gshhs_path = [gshhs_path(1:k(end)) 'data\gshhs_' Resolution '.b'];
-    %     gshhs_index = [gshhs_path(1:k(end)) 'data\gshhs_' Resolution '.i'];
-    % else
-    %     k = strfind(gshhs_path, '/');
-    %     gshhs_path = [gshhs_path(1:k(end)) 'data/gshhs_' Resolution '.b'];
-    %     gshhs_index = [gshhs_path(1:k(end)) 'data/gshhs_' Resolution '.i'];
-    % end
 
     % Read the gshhs coastline data
     if ~isfile(gshhs_index)
