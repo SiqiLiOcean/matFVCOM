@@ -54,7 +54,7 @@ for i = ndomain : -1 : 1
     unfound = find(idm==0);
 end
 if ~isempty(unfound)
-    disp(['There are totally ' sum(k) ' FVCOM nodes out of domains.'])
+    disp(['There are totally ' sum(unfound) ' FVCOM nodes out of domains.'])
     disp('The extrapolation of the 1st WRF domain will be applied.')
 end
 
