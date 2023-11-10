@@ -143,9 +143,9 @@ if ismember('T2', varname)
 end
 % SPQ
 if ismember('SPQ', varname)
-    Q2_varid = netcdf.defVar(ncid, 'SPQ', 'float', [node_dimid time_dimid]);
-    netcdf.putAtt(ncid, Q2_varid, 'long_name', 'Specific humidity');
-    netcdf.putAtt(ncid, Q2_varid, 'units', 'kg/kg');
+    SPQ_varid = netcdf.defVar(ncid, 'SPQ', 'float', [node_dimid time_dimid]);
+    netcdf.putAtt(ncid, SPQ_varid, 'long_name', 'Specific humidity');
+    netcdf.putAtt(ncid, SPQ_varid, 'units', 'kg/kg');
 end
 % cloud_cover
 if ismember('cloud_cover', varname)
