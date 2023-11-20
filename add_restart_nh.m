@@ -18,9 +18,7 @@
 %==========================================================================
 function add_restart_nh(fin, fout)
 
-
 copyfile(fin, fout);
-
 
 % Open the output NC file
 ncid = netcdf.open(fout, 'NC_WRITE');
