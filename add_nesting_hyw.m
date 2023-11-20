@@ -19,7 +19,7 @@
 %==========================================================================
 function add_nesting_hyw(fin, fout, varargin)
 
-varargin = read_varargin(varargin, 'hyw', {0});
+varargin = read_varargin(varargin, {'hyw'}, {0});
 
 if exist('fout', 'var')
     copyfile(fin, fout);
