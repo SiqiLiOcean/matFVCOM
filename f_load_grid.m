@@ -171,8 +171,8 @@ fgrid.y = y;
 
 % Check if the grid is 'Global' or 'Regional'
 fgrid.type = check_grid_type(x, y);
-if strcmp(fgrid.type, 'Global')
-    fgrid.x = calc_lon_same(MaxLon, fgrid.x);
+if strcmp(fgrid.type, 'Global') || strcmpi(Coordinate, 'Geo')
+    fgrid.x = calc_lon_same([MaxLon-360 MaxLon], fgrid.x);
 end
 fgrid.MaxLon = MaxLon;
 
