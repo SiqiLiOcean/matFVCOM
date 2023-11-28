@@ -18,6 +18,15 @@
 % function [var2, dist] = f_fill_missing(fgrid, var1, type)
 function var2 = f_fill_missing(fgrid, var1, type)
 
+if ~exist('type', 'var')
+    type = 'nearest';
+end
+
+if all(isnan(var1))
+    var2 = var1;
+    return
+end
+
 n = size(var1, 1);
 switch n
     case fgrid.node
