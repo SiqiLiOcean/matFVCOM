@@ -34,6 +34,10 @@ varargin = read_varargin(varargin, {'Lat'}, {'lat'});
 
 files = dir(fin_prefix);
 
+if length(files) == 0
+    error('Wrong fin_prefix.')
+end
+
 varargin = read_varargin(varargin, {'File_start'}, {1});
 varargin = read_varargin(varargin, {'File_stride'}, {1});
 varargin = read_varargin(varargin, {'File_index'}, {File_start : File_stride : length(files)});
