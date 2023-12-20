@@ -30,11 +30,11 @@ end
 
 varargin = read_varargin2(varargin, {'Extrap'});
 varargin = read_varargin(varargin, {'K'}, {7});
-if Extrap
+% if Extrap
     h_topo = interp_2d(-fgrid.h, 'TRI', fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'Extrap', 'K', K);
-else
-    h_topo = interp_2d(-fgrid.h, 'TRI', fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'K', K);
-end
+% else
+    % h_topo = interp_2d(-fgrid.h, 'TRI', fgrid.x, fgrid.y, fgrid.nv, x_sec, y_sec, 'K', K);
+% end
 
 z1 = min(h_topo);
 z2 = max(h_topo);
@@ -48,8 +48,11 @@ else
     if ~isempty(zlims)
         z1 = zlims(1);
     end
-    poly_topo = polyshape([d_sec(:)' d_sec(end) d_sec(1) d_sec(1)], ...
-                          [h_topo(:)' z1 z1 h_topo(1)], ...
+    lx = [d_sec(:)' d_sec(end) d_sec(1) d_sec(1)];
+    ly = [h_topo(:)' z1 z1 h_topo(1)];
+    lx
+    ly
+    poly_topo = polyshape(lx, ly, ...
                           'KeepCollinearPoints', true);
 %     if ~isempty(zlims)
 %         poly = polyshape([d_sec(1) d_sec(end) d_sec(end) d_sec(1) d_sec(1)], ...

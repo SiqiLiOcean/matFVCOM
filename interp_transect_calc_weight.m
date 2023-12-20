@@ -84,7 +84,9 @@ z_sec = interp_transect_pixel_vertical(zlims, 'npixel', npixel);
 % permute(z_sec(:)',[1 3 2])
 z1 = reshape(z1, numel(x1), []);
 z2 = repmat(z_sec, numel(x1), 1);
-weight.v = interp_vertical_calc_weight(z1, z2, 'list',unique(weight.h.id));
+List = unique(weight.h.id);
+List(isnan(List)) = [];
+weight.v = interp_vertical_calc_weight(z1, z2, 'list', List);
 
 % ====================Generate the transect grid====================
 % [dd,hh]=meshgrid(d_sec,-h_sec);
