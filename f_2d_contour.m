@@ -28,6 +28,8 @@ varargin = read_varargin(varargin, {'ylims'}, {[]});
 varargin = read_varargin2(varargin, {'Manual'});     
 varargin = read_varargin2(varargin, {'NoLabel'});
 varargin = read_varargin2(varargin, {'Global'});
+varargin = read_varargin2(varargin, {'Angle'});
+
 
 
 node = fgrid.node;
@@ -63,27 +65,29 @@ yl = linspace(ylims(1), ylims(2), 200);
 [yy, xx] = meshgrid(yl, xl);
 zz = griddata(x, y, var, xx, yy);
 
-
-if isempty(Levels)
-    [C, h] = contour(xx, yy, zz);
+if ~isempty(Angle)
+    contour_angle(xx, yy, zz, Levels);
 else
-    [C, h] = contour(xx, yy, zz, Levels);
-end
 
-
-set(h, 'linecolor', Color)
-
-
-if isempty(NoLabel)
-    
-    if Manual
-        clabel(C, h, 'manual', ...
-              'fontsize',FontSize, ...
-              'Color', Color);
+    if isempty(Levels)
+        [C, h] = contour(xx, yy, zz);
     else
-        clabel(C, h, 'fontsize',FontSize, ...
+        [C, h] = contour(xx, yy, zz, Levels);
+    end
+
+    set(h, 'linecolor', Color)
+
+    if isempty(NoLabel)
+
+        if Manual
+            clabel(C, h, 'manual', ...
+                'fontsize',FontSize, ...
+                'Color', Color);
+        else
+            clabel(C, h, 'fontsize',FontSize, ...
                 'LabelSpacing', LabelSpacing, ...
                 'Color', Color);
+        end
     end
 end
 

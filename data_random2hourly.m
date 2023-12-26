@@ -54,7 +54,7 @@ function  [time, data] = data_random2hourly(time0, data0, varargin)
 %     Twindow = varargin{2};
 % end
 
-varargin = read_varargin(varargin, {'Tlim'}, {[]});
+varargin = read_varargin(varargin, {'Tlims'}, {[]});
 varargin = read_varargin(varargin, {'Twindow'}, {15});
 
 
@@ -63,7 +63,7 @@ varargin = read_varargin(varargin, {'Twindow'}, {15});
 % data0 = buoy1(1).wspd;
 
 
-if isempty(Tlim)
+if isempty(Tlims)
     
     t1 = min(time0);
     t2 = max(time0);
@@ -79,7 +79,7 @@ if isempty(Tlim)
     time = time(:);
     
 else
-    time = Tlim(1) : 1/24 : Tlim(2);
+    time = Tlims(1) : 1/24 : Tlims(2);
     time = time(:);
 end
 
