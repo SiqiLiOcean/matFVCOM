@@ -28,7 +28,7 @@ dims1 = size(var1);
 
 
 var1 = reshape(var1, nx, ny, []);
-nslice = reshape(var1, 3);
+nslice = size(var1, 3);
 
 
 Kmat = (1/K/K) * ones(K);

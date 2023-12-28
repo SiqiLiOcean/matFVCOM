@@ -14,7 +14,7 @@
 % Siqi Li, SMAST
 % 2020-07-16
 %==========================================================================
-function [C, h, t] = f_2d_contour(fgrid, var, varargin)
+function [C, h] = f_2d_contour(fgrid, var, varargin)
 
 varargin = read_varargin(varargin, ...
             {'FontSize', 'LabelSpacing', 'Color'}, ...
@@ -63,12 +63,16 @@ yl = linspace(ylims(1), ylims(2), 200);
 
 
 [yy, xx] = meshgrid(yl, xl);
-zz = griddata(x, y, var, xx, yy);
+
 
 if ~isempty(Angle)
-    contour_angle(xx, yy, zz, Levels);
+    var = calc_lon_360(var);
+    zz_360 = griddata(x, y, var, xx, yy);
+    var = calc_lon_180(var);
+    zz_180 = griddata(x, y, var, xx, yy);
+    contour_angle(xx, yy, zz_360, zz_180, Levels);
 else
-
+    zz = griddata(x, y, var, xx, yy);
     if isempty(Levels)
         [C, h] = contour(xx, yy, zz);
     else

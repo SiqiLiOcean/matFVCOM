@@ -1,12 +1,13 @@
 function [levels, Cout] = read_contourC(C, varargin)
 
 
-varargin = read_varargin(varargin, {'MinNum'}, {4}); % At least it should be a triangle.
+varargin = read_varargin(varargin, {'MinNum'}, {40}); % At least it should be a triangle.
 varargin = read_varargin2(varargin, {'Closed'});
 
 i = 0;
 k = 0;
 
+levels = [];
 Cout = [];
 while i < size(C,2)
     if C(2,i+1)>=MinNum
