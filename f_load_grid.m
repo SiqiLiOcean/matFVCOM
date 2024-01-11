@@ -165,17 +165,16 @@ fgrid.node = length(x);
 fgrid.nele = size(nv, 1);
 
 
-% Node variables
-fgrid.x = x;
-fgrid.y = y;
-
 % Check if the grid is 'Global' or 'Regional'
 fgrid.type = check_grid_type(x, y);
 if strcmp(fgrid.type, 'Global') || strcmpi(Coordinate, 'Geo')
-    fgrid.x = calc_lon_same([MaxLon-360 MaxLon], fgrid.x);
+    x = calc_lon_same([MaxLon-360 MaxLon], x);
 end
 fgrid.MaxLon = MaxLon;
 
+% Node variables
+fgrid.x = x;
+fgrid.y = y;
 
 % Cell variables
 fgrid.nv = nv;
