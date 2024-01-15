@@ -261,7 +261,7 @@ if isfield(fgrid, 'kbm1')
 end
 disp(['   X / Longitude : ' num2str(min(fgrid.x(:))) ' ~ ' num2str(max(fgrid.x(:)))])
 disp(['   Y / Latitude  : ' num2str(min(fgrid.y(:))) ' ~ ' num2str(max(fgrid.y(:)))])
-if isfield(fgridgrid, 'h')
+if isfield(fgrid, 'h')
     disp(['   Depth         : ' num2str(min(fgrid.h(:))) ' ~ ' num2str(max(fgrid.h(:)))])
 end
 disp('------------------------------------------------')
