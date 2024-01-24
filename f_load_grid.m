@@ -38,6 +38,8 @@ function fgrid = f_load_grid(varargin)
 varargin = read_varargin(varargin, {'Rotate', 'Scale'}, {0, 1});
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
 varargin = read_varargin(varargin, {'MaxLon'}, {180});
+varargin = read_varargin2(varargin, {'Global'});
+
 
 fgrid.Scale = Scale;
 
@@ -166,7 +168,12 @@ fgrid.nele = size(nv, 1);
 
 
 % Check if the grid is 'Global' or 'Regional'
-fgrid.type = check_grid_type(x, y);
+if isempty(Global)
+    fgrid.type = check_grid_type(x, y);
+else
+    fgrid.type = 'Global';
+end
+
 if strcmp(fgrid.type, 'Global') || strcmpi(Coordinate, 'Geo')
     x = calc_lon_same([MaxLon-360 MaxLon], x);
 end
