@@ -24,6 +24,14 @@ function write_spg(fout, spg_node, spg_R, spg_f)
 
 n = length(spg_node);
 
+if length(spg_R)==1
+    spg_R = spg_node*0 + spg_R;
+end
+if length(spg_f)==1
+    spg_f = spg_node*0 + spg_f;
+end
+
+
 % Create the new file.
 fid=fopen(fout, 'w');
 

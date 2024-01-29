@@ -110,7 +110,8 @@ switch class(varargin{1})
 %         while isa(varargin{n}, 'single') || isa(varargin{n}, 'double')
 %             n = n + 1;
 %         end
-        n = nargin;
+        % n = nargin;
+        n = legnth(varargin);
         x = double(varargin{1}(:));
         y = double(varargin{2}(:));
         nv = varargin{3};

@@ -30,7 +30,7 @@ else
     
     
     Resolution = lower(Resolution);
-    if sum(ismember('clih', Resolution)) ~= 1
+    if sum(ismember('clih', convertStringsToChars(Resolution))) ~= 1
         error('Unknown resolution. Options: c, l, i, h');
     end
     
