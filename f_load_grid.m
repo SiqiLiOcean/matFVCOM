@@ -111,7 +111,7 @@ switch class(varargin{1})
 %             n = n + 1;
 %         end
         % n = nargin;
-        n = legnth(varargin);
+        n = length(varargin);
         x = double(varargin{1}(:));
         y = double(varargin{2}(:));
         nv = varargin{3};
