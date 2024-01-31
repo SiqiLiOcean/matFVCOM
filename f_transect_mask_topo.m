@@ -50,8 +50,7 @@ else
     end
     lx = [d_sec(:)' d_sec(end) d_sec(1) d_sec(1)];
     ly = [h_topo(:)' z1 z1 h_topo(1)];
-    lx
-    ly
+
     poly_topo = polyshape(lx, ly, ...
                           'KeepCollinearPoints', true);
 %     if ~isempty(zlims)
