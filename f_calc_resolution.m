@@ -46,6 +46,7 @@ end
 
 d_cell = mean(d, 2);
 
+
 disp(' ')
 disp('------------------------------------------------')
 fprintf(' Resolution: %f ~ %f \n', min(min(d_cell)), max(max(d_cell)))
