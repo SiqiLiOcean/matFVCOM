@@ -112,7 +112,7 @@ temperature_varid = netcdf.defVar(ncid, 'temp_clim', 'float', [node_dimid siglay
 netcdf.putAtt(ncid, temperature_varid, 'long_name', 'temperature');
 netcdf.putAtt(ncid, temperature_varid, 'units', 'degree_C');
 
-salinity_varid = netcdf.defVar(ncid, 'temp_clim', 'float', [node_dimid siglay_dimid time_dimid]);
+salinity_varid = netcdf.defVar(ncid, 'salinity_clim', 'float', [node_dimid siglay_dimid time_dimid]);
 netcdf.putAtt(ncid, salinity_varid, 'long_name', 'salinity');
 netcdf.putAtt(ncid, salinity_varid, 'units', 'psu');
 
