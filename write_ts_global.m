@@ -130,8 +130,8 @@ for it = 1 : nt
     if isempty(Ideal)
         netcdf.putVar(ncid, Times_varid, [0 it-1], [length(Times(it,:)) 1], Times(it,:));
     end
-    netcdf.putVar(ncid, temperature_varid, [0 0 it-1], [node siglay 1], t0(:,:,it));
-    netcdf.putVar(ncid, salinity_varid, [0 0 it-1], [node siglay 1], s0(:,:,it));
+    netcdf.putVar(ncid, temperature_varid, [0 0 it-1], [node kbm1 1], t0(:,:,it));
+    netcdf.putVar(ncid, salinity_varid, [0 0 it-1], [node kbm1 1], s0(:,:,it));
 end
 
 % Close the nesting file
