@@ -63,7 +63,7 @@ nt = length(time);
 ncid = netcdf.create(fout, 'CLOBBER');
 
 % Define global attributes
-netcdf.putAtt(ncid, -1, 'source', 'FVCOM river input');
+netcdf.putAtt(ncid, -1, 'source', 'FVCOM TS data assimilation input (Global)');
 
 % Define dimensions
 time_dimid = netcdf.defDim(ncid, 'time', 0);
