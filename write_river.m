@@ -121,7 +121,7 @@ end
 name_varid = netcdf.defVar(ncid, 'river_names', 'char', [namelen_dimid rivers_dimid]);
 netcdf.putAtt(ncid, name_varid, 'long_name', 'river names');
 
-% temperature
+% Flux
 if ismember('Flux', varname)
     Flux_varid = netcdf.defVar(ncid, 'river_flux', 'float', [rivers_dimid time_dimid]);
     netcdf.putAtt(ncid, Flux_varid, 'long_name', 'river runoff volume flux');
