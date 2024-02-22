@@ -119,6 +119,8 @@ for iv = 1 : length(variables)
     end
 
     nc_def_var(fout, varname, vartype, vardims);
+    nc_copy_att(fin, varname, fout, varname);
+
     if ismember(varname, List_user)
         fprintf('%20s%s\n', varname, ' : User defined')
         cmd = ['nc_put_var(fout, ''' varname ''', ' varname ');'];
