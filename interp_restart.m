@@ -26,10 +26,6 @@
 %==========================================================================
 function interp_restart(fgrid_in, fgrid_out, fin, fout, std, varargin)
 
-if isfile(fout)
-    error('The output file already exists. Delete it or set another name.')
-end
-
 List_ignore = ["nprocs" "ML_Depth" "ML_Nsiglay" "xc" "yc" "lonc" "latc" "partition"];
 List_grid = ["x" "y" "lon" "lat" "nv" "siglay" "siglev" "h"];
 List_user = [];
@@ -48,6 +44,17 @@ while length(varargin)>1
     List_user = [List_user convertCharsToStrings(name)];
 end
 
+varargin = read_varargin2(varargin, {'Overwrite'});
+
+if ~isempty(Overwrite)
+    if exist(fout, 'file') == 2
+        delete(fout);
+    end
+else
+    if exist(fout, 'file') == 2
+        error('The output exists. Change another fout or use Overwrite.')
+    end
+end
 
 % % Read input grid
 % fgrid_in = f_load_grid(fin);
@@ -58,16 +65,16 @@ end
 disp('====Calculate weights')
 disp('   for 2d (node x layer)')
 w_node_siglay = interp_3d_calc_weight(fgrid_in.deplay, std, fgrid_out.deplay, ...
-                                 'TRI', fgrid_in.x, fgrid_in.y, fgrid_in.nv, fgrid_out.x, fgrid_out.y, 'Extrap');
+                                 'TRI', fgrid_in.x, fgrid_in.y, fgrid_in.nv, fgrid_out.x, fgrid_out.y, 'Extrap', fgrid_in.type);
 disp('   for 2d (node x level)')
 w_node_siglev = interp_3d_calc_weight(fgrid_in.deplev, std, fgrid_out.deplev, ...
-                                 'TRI', fgrid_in.x, fgrid_in.y, fgrid_in.nv, fgrid_out.x, fgrid_out.y, 'Extrap');
+                                 'TRI', fgrid_in.x, fgrid_in.y, fgrid_in.nv, fgrid_out.x, fgrid_out.y, 'Extrap', fgrid_in.type);
 disp('   for 2d (cell x layer)')
 w_cell_siglay = interp_3d_calc_weight(fgrid_in.deplayc, std, fgrid_out.deplayc, ...
-                                 'TRI', fgrid_in.xc, fgrid_in.yc, fgrid_in.nv, fgrid_out.xc, fgrid_out.yc, 'Extrap');
+                                 'TRI', fgrid_in.xc, fgrid_in.yc, fgrid_in.nv, fgrid_out.xc, fgrid_out.yc, 'Extrap', fgrid_in.type);
 disp('   for 2d (cell x level)')
 w_cell_siglev = interp_3d_calc_weight(fgrid_in.deplevc, std, fgrid_out.deplevc, ...
-                                 'TRI', fgrid_in.xc, fgrid_in.yc, fgrid_in.nv, fgrid_out.xc, fgrid_out.yc, 'Extrap');
+                                 'TRI', fgrid_in.xc, fgrid_in.yc, fgrid_in.nv, fgrid_out.xc, fgrid_out.yc, 'Extrap', fgrid_in.type);
 disp('   for 1d (node)')
 w_node = w_node_siglay.h;
 disp('   for 1d (cell)')

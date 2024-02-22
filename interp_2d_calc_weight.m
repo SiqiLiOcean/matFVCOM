@@ -194,8 +194,9 @@ switch upper(METHOD_2D)
         n2 = length(xo);
 
         % Use (xc, yc) to find the posible cell (default K = 7)
-        xc = mean(x(nv), 2);
-        yc = mean(y(nv), 2);
+%        xc = mean(x(nv), 2);
+%        yc = mean(y(nv), 2);
+        [xc, yc] = calc_xcyc(x, y, nv, Global);
         k = ksearch([xc yc], [xo yo], 'K', K);
         
 %         % Use (x, y) to find the posible cell (default K = 1)
