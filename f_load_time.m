@@ -13,13 +13,13 @@
 %
 % Updates:
 % 2023-06-28  Siqi Li  Allowed to read nesting NetCDF
+% 
 %==========================================================================
 function time = f_load_time(fnc, varargin)
 
-varargin = read_varargin2(varargin, {'MJD'});
-varargin = read_varargin(varargin, {'Method'}, {1});
+varargin = read_varargin2(varargin, {'Times'});
 
-if any(contains({ncinfo(fnc).Variables.Name}, 'Times')) && Method==1
+if any(contains({ncinfo(fnc).Variables.Name}, 'Times')) && ~isempty(Times)
     Times = ncread(fnc, 'Times')';
 
     delimiter = Times(1,11);
