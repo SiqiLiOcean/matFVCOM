@@ -28,7 +28,9 @@ else
     Itime = double(ncread(fnc, 'Itime'));
     Itime2 = double(ncread(fnc, 'Itime2'));
     time = Itime + Itime2/1000/3600/24;
-    if contains(ncreadatt(fnc, 'Itime', 'format'), 'MJD')
-        time = time + datenum(1858,11,17);
+    if ismember('format', {ncinfo(fnc, 'Itime').Attributes.Name})
+        if contains(ncreadatt(fnc, 'Itime', 'format'), 'MJD')
+            time = time + datenum(1858,11,17);
+        end
     end
 end

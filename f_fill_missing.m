@@ -23,6 +23,11 @@ if ~exist('type', 'var')
 end
 
 if all(isnan(var1))
+    disp('All values from input are NaN. Failed to do the fill-missing.')
+    var2 = var1;
+    return
+elseif all(~isnan(var1))
+    disp('All values from input are normal. No need to do the fill-missing.')
     var2 = var1;
     return
 end
