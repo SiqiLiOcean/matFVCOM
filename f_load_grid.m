@@ -32,6 +32,7 @@
 % Updates:
 % 2021-06-19  Siqi Li  Added the function of rotating the (x,y)
 % 2022-10-16  Siqi Li  Support grd.dat, 2dm, and nc
+% 2024-02-27  Siqi Li  Added nv direction adjustment for grd and 2dm
 %==========================================================================
 function fgrid = f_load_grid(varargin)
 
@@ -56,24 +57,24 @@ switch class(varargin{1})
                 y = double(ncread(fnc, 'y'));
                 LON = double(ncread(fnc, 'lon'));
                 LAT = double(ncread(fnc, 'lat'));
-                
+
                 fgrid.LON = LON;
                 fgrid.LAT = LAT;
-         
+
             case 'geo'
                 x = double(ncread(fnc, 'lon'));
                 y = double(ncread(fnc, 'lat'));
                 LON = double(ncread(fnc, 'lon'));
                 LAT = double(ncread(fnc, 'lat'));
 
-                
+
                 fgrid.LON = LON;
                 fgrid.LAT = LAT;
             otherwise
                 error('Unknown coordinate. Choose: xy or geo')
         end
         nv = ncread(fnc, 'nv');
- 
+
         if nc_Var_exist(fnc, 'h')
             h = double(ncread(fnc, 'h'));
         else
@@ -89,6 +90,7 @@ switch class(varargin{1})
         elseif endsWith(varargin{1}, 'grd.dat')
             varargin{1}
             [x, y, nv, h] = read_grd(varargin{1});
+            nv = nv(:,[1 3 2]);
             LON = x;
             LAT = y;
             fgrid.LON = LON;
@@ -96,6 +98,7 @@ switch class(varargin{1})
             siglay = nan;
         elseif endsWith(varargin{1}, '.2dm')
             [x, y, nv, h] = read_2dm(varargin{1});
+            nv = nv(:,[1 3 2]);
             LON = x;
             LAT = y;
             fgrid.LON = LON;
