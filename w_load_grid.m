@@ -18,10 +18,12 @@
 % Updates:
 % 2021-06-20  Siqi Li  Added the function of rotating the (x,y)
 % 2021-06-21  Siqi Li  Added nv, so that we can use it to patch.
+% 2024-03-02  Chenyu Zhang  Added 'Global' option and fixed the longitude
 %==========================================================================
 function wgrid = w_load_grid(varargin)
 
 varargin = read_varargin(varargin, {'MaxLon'}, {360});
+varargin = read_varargin2(varargin, {'Global'});
 
 wgrid.type = 'WRF';
 
@@ -116,9 +118,15 @@ switch class(varargin{1})
         n = 2;
 end
 
-wgrid.type = check_grid_type(x, y);
+if isempty(Global)
+    wgrid.type = check_grid_type(x, y);
+else
+    wgrid.type = 'Global';
+end
+
 if strcmp(wgrid.type, 'Global')
-    x = calc_lon_same(MaxLon, x);
+    x = calc_lon_same([MaxLon-360 MaxLon], x);
+    % x = calc_lon_same(MaxLon, x);
 end
 wgrid.MaxLon = MaxLon;
 

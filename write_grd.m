@@ -23,12 +23,13 @@
 % Updates
 % 2022-12-27  Siqi Li  Set Fix_direction as an option (default is off)
 % 2022-10-16  Siqi Li  Add h as an option input
+% 2024-03-02  Siqi Li  Changed Fix_direction to Fix_direction_off
 %==========================================================================
 function write_grd(fout, x, y, nv, h, varargin)
 
-varargin = read_varargin2(varargin, {'Fix_direction'});
+varargin = read_varargin2(varargin, {'Fix_direction_off'});
 
-if ~isempty(Fix_direction)
+if isempty(Fix_direction_off)
     % Make sure the direction of cell nodes are counter clockwise
     tf = f_calc_grid_direction(x, y, nv);
     k = find(tf>0);
