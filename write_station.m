@@ -9,7 +9,7 @@
 %   'Type'  --- 'Node' or 'Cell' (optional, default is 'Node')
 %   'Id'    --- integer array of Id list (optional, default is the nearest
 %               node or cell
-%   'Depth' --- Station depth array (optional, default is the depth of 
+%   'Depth' --- Station depth array (optional, default is the depth of
 %               selected nodes or cells)
 %   'Name'  --- Station name (optional, default is from 1 to n)
 % output :
@@ -66,9 +66,11 @@ fclose(fid1);
 fid2 = fopen(fedge, 'w');
 MX_NBR_ELEM = size(fgrid.nbve, 2);
 fprintf(fid2, '%d\n', MX_NBR_ELEM);
-format = [repmat('%10d ', 1, MX_NBR_ELEM+2) '\n'];
 for i = 1 : fgrid.node
-    data = fgrid.nbve(i, :) <= fgrid.nele;
-    fprintf(fid2, format, i, length(data), data);
+    data = fgrid.nbve(i, :);
+    data(data > fgrid.nele) = [];
+    m = length(data);
+    format = [repmat('%10d ', 1, m+2) '\n'];
+    fprintf(fid2, format, i, m, data);
 end
 fclose(fid2);
