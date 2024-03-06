@@ -26,9 +26,9 @@
 % 5 -87.68333 30.27833 40673 5.50 '8731439 Gulf Shores ICWW, AL'
 %
 % Updates:
-%
+% 2024-03-06  Siqi Li  Added edge input
 %==========================================================================
-function write_station(fout, fgrid, x, y, varargin)
+function write_station(finfo, fedge, fgrid, x, y, varargin)
 
 varargin = read_varargin(varargin, {'Type'}, {'Node'});
 n = length(x);
@@ -51,14 +51,24 @@ varargin = read_varargin(varargin, {'Depth'}, {depth0});
 varargin = read_varargin(varargin, {'Name'}, {name0});
 
 
-fid = fopen(fout, 'w');
-fprintf(fid, '%s\n', 'No   X   Y   Node   Depth (m)   Station Name');
+fid1 = fopen(finfo, 'w');
+fprintf(fid1, '%s\n', 'No   X   Y   Node   Depth (m)   Station Name');
 str = sprintf('%6s %10s %14s %10s %s', 'Index', 'Id', 'O-M Distance', 'Depth', 'Name');
 disp(str);
 for i = 1 : n
-    fprintf(fid, '%6d %14.6f %14.6f %10d %10.2f %s\n', ...
+    fprintf(fid1, '%6d %14.6f %14.6f %10d %10.2f %s\n', ...
                    i, x(i), y(i), Id(i), Depth(i), Name{i});
     str = sprintf('%6d %10d %14.6f %10.2f %s', i, Id(i), d(i), Depth(i), Name{i});
     disp(str);
 end
-fclose(fid);
+fclose(fid1);
+
+fid2 = fopen(fedge, 'w');
+MX_NBR_ELEM = size(fgrid.nbve, 2);
+fprintf(fid2, '%d\n', MX_NBR_ELEM);
+format = [repmat('%10d ', 1, MX_NBR_ELEM+2) '\n'];
+for i = 1 : fgrid.node
+    data = fgrid.nbve(i, :) <= fgrid.nele;
+    fprintf(fid2, format, i, length(data), data);
+end
+fclose(fid2);
