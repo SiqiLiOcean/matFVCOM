@@ -64,9 +64,13 @@ for i = 1 : ndomain
     disp(['    Domain ' num2str(i)])
     id = find(idm==i);
     weight{i}.id = id;
-    if strcmpi(w{i}.type, 'Global')
-        weight{i}.w = interp_2d_calc_weight('GLOBAL_BI', w{i}.x(:,1), w{i}.y(1,:)', dst_x(id), dst_y(id));
+    if isempty(id)
+        weight{i}.w = [];
     else
-        weight{i}.w = interp_2d_calc_weight('QU', w{i}.x, w{i}.y, dst_x(id), dst_y(id));
+        if strcmpi(w{i}.type, 'Global')
+            weight{i}.w = interp_2d_calc_weight('GLOBAL_BI', w{i}.x(:,1), w{i}.y(1,:)', dst_x(id), dst_y(id));
+        else
+            weight{i}.w = interp_2d_calc_weight('QU', w{i}.x, w{i}.y, dst_x(id), dst_y(id));
+        end
     end
 end

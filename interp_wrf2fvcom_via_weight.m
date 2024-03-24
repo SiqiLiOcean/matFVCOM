@@ -34,5 +34,7 @@ end
 dst = nan(dst_dims);
 
 for i = 1 : ndomain
-    dst(weight{i}.id,:) = interp_2d_via_weight(src{i}, weight{i}.w);
+    if ~isempty(weight{i}.w)
+        dst(weight{i}.id,:) = interp_2d_via_weight(src{i}, weight{i}.w);
+    end
 end

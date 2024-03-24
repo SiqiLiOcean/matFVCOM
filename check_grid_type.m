@@ -15,7 +15,9 @@
 %==========================================================================
 function type = check_grid_type(x, y)
 
-eps = 1e-2;
+% eps = 1e-2;
+eps = 0.11;
+
 
 xlims = minmax(x);
 ylims = minmax(y);
