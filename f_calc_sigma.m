@@ -74,7 +74,7 @@ switch sigma.type
                     siglev(i,iz) = siglev(i,iz-1) - sigma.zku(iz-1)/h(i);
                 end
                 for iz = sigma.ku+2 : kb-sigma.kl
-                    siglev(i,iz) = siglev(i,iz) - DR;
+                    siglev(i,iz) = siglev(i,iz-1) - DR;
                 end
                 KK = 0;
                 for iz = kb-sigma.kl+1 : kb
