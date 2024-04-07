@@ -19,7 +19,7 @@ if isempty(std)
 end
 
 n1 = length(varargin{1});
-n2 = length(varargin{4});   
+n2 = length(varargin{4}); 
 varargin = read_varargin(varargin, {'List1'}, {1:n1});
 varargin = read_varargin(varargin, {'List2'}, {1:n2});
 
