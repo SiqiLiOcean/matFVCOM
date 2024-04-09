@@ -2,7 +2,7 @@ function k_out = rarefy(x0, y0, d0, varargin)
 
 
 
-varargin = read_varargin(varargin, {'xlims', 'ylims'}, {[min(x0) max(x0)], [min(y0) max(y0)]});
+varargin = read_varargin(varargin, {'xlims', 'ylims'}, {[min(x0(:)) max(x0(:))], [min(y0(:)) max(y0(:))]});
 
 % if isempty(varargin)
 %     xlims = [min(x0) max(x0)];
