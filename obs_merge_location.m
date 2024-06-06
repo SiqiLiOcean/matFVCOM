@@ -72,10 +72,10 @@ for i = 1 : size(lonlat, 1)
     for k = 1 : length(list)
         tmp = nan(nz, nt);
 
-        data = [[obs(id).depth]' [obs(id).time]' [obs(id).(list{k})]'];
-
 	if ~isempty(Record)
-            Idz = ksearch(depth(:), data(:,1));
+            data = [[obs(id).depth]' [obs(id).time]' [obs(id).(list{k})]'];
+
+	    Idz = ksearch(depth(:), data(:,1));
             Idt = ksearch(time(:), data(:,2));
             ind = sub2ind([nz nt], Idz, Idt);
             tmp(ind) = data(:,3);
