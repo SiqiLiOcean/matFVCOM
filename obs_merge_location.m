@@ -11,7 +11,7 @@
 % 2022-06-17
 %
 % Updates:
-%
+% 2024-06-06  Siqi Li  Added an option for the record 
 %==========================================================================
 function out = obs_merge_location(obs, varargin)
 
@@ -21,7 +21,7 @@ if isempty(obs)
 end
 
 varargin = read_varargin(varargin, {'eps'}, {1e-5});
-
+varargin = read_varargin2(varargin, {'Record'});
 
 n = length(obs);
 lon = [obs.lon];
@@ -71,24 +71,30 @@ for i = 1 : size(lonlat, 1)
 %     out(i).id = id;
     for k = 1 : length(list)
         tmp = nan(nz, nt);
-        for j = 1 : length(id)
 
+        data = [[obs(id).depth]' [obs(id).time]' [obs(id).(list{k})]'];
 
-            for jt = 1 : nt0(id(j))
+	if ~isempty(Record)
+            Idz = ksearch(depth(:), data(:,1));
+            Idt = ksearch(time(:), data(:,2));
+            ind = sub2ind([nz nt], Idz, Idt);
+            tmp(ind) = data(:,3);
+        else
+            for j = 1 : length(id)
+                for jt = 1 : nt0(id(j))
 
-                jtime = obs(id(j)).time(jt);
-                jt2 = find(time==jtime, 1);
+                    jtime = obs(id(j)).time(jt);
+                    jt2 = find(time==jtime, 1);
 
-                jdepth = obs(id(j)).depth;
-                jz1 = ksearch(jdepth(:), depth(:))';
-                jz2 = find(ismember(depth, jdepth));
-                jz = jz1(jz2);
+                    jdepth = obs(id(j)).depth;
+                    jz1 = ksearch(jdepth(:), depth(:))';
+                    jz2 = find(ismember(depth, jdepth));
+                    jz = jz1(jz2);
 
-                tmp(jz2, jt2) = obs(id(j)).(list{k})(jz, jt);
-
+                    tmp(jz2, jt2) = obs(id(j)).(list{k})(jz, jt);
+                end
             end
-
-        end
+	end
         out(i).(list{k}) = tmp;
     end
 end
