@@ -56,7 +56,17 @@ for i = 1 : size(lonlat, 1)
     out(i).lon = lonlat(i, 1);
     out(i).lat = lonlat(i, 2);
     
-    id = find(sqrt((lon-lonlat(i,1)).^2 + (lat-lonlat(i,2)).^2) < eps);
+    % id = find(sqrt((lon-lonlat(i,1)).^2 + (lat-lonlat(i,2)).^2) < eps);
+    id = knnsearch([lon(:) lat(:)], lonlat(i, :));
+
+    if length(id) == 1
+        out(i).depth = obs(id).depth;
+        out(i).time = obs(id).time;
+        for k = 1 : length(list)
+            out(i).(list{k}) = obs(id).(list{k});
+        end
+        continue
+    end
 
     depth = sort(unique([obs(id).depth]));
     depth = depth(~isnan(depth));
@@ -68,14 +78,15 @@ for i = 1 : size(lonlat, 1)
 
     out(i).depth = depth(:);
     out(i).time = time;
-%     out(i).id = id;
+    %     out(i).id = id;
+
     for k = 1 : length(list)
         tmp = nan(nz, nt);
 
-	if ~isempty(Record)
+    	if ~isempty(Record)
             data = [[obs(id).depth]' [obs(id).time]' [obs(id).(list{k})]'];
 
-	    Idz = ksearch(depth(:), data(:,1));
+    	    Idz = ksearch(depth(:), data(:,1));
             Idt = ksearch(time(:), data(:,2));
             ind = sub2ind([nz nt], Idz, Idt);
             tmp(ind) = data(:,3);
@@ -94,7 +105,7 @@ for i = 1 : size(lonlat, 1)
                     tmp(jz2, jt2) = obs(id(j)).(list{k})(jz, jt);
                 end
             end
-	end
+    	end
         out(i).(list{k}) = tmp;
     end
 end
