@@ -16,7 +16,7 @@
 function t_GMT = tconvert_NY2GMT(t_NY)
 
 % Check if the time is during Daylight Saving Time
-tf = isdst(t_NY);
+tf = isdst(datetime(t_NY, 'ConvertFrom', 'datenum'));
 
 % Daylight Saving Time
 t_GMT(tf) = t_NY + 4/24;
