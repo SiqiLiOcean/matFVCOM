@@ -38,6 +38,8 @@ varargin = read_varargin(varargin, {'List'},  {1:fgrid.nele});
 varargin = read_varargin(varargin, {'Scale'}, {1});
 varargin = read_varargin(varargin, {'Color'}, {'k'});
 varargin = read_varargin(varargin, {'Vh'}, {[]});
+varargin = read_varargin(varargin, {'Vmax'}, {[]});
+
 
 Xh = 4;
 Yh = 3; %2.5; %1.5;
@@ -62,6 +64,11 @@ Scale0 = diff(xlims) / 500;
 
 theta = atan2d(v, u);
 spd = sqrt(u.^2 + v.^2);
+
+if ~isempty(Vmax)
+    disp(111)
+    spd(spd>Vmax) = 0;
+end
 
 if isempty(Vh)
     spd_sorted = sort(spd);

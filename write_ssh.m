@@ -19,15 +19,20 @@
 % 2021-09-21
 %
 % Updates:
-%
+% 2024-08-15  Added weights. 
 %==========================================================================
 function write_ssh(fssh, x, y, time, ssh, varargin)
 
 varargin = read_varargin(varargin, {'Coordinate'}, {'xy'});
+varargin = read_varargin(varargin, {'Weight'}, {1});
 varargin = read_varargin2(varargin, {'Ideal'});
 
 node = length(x);
 nt = length(time);
+
+if numel(Weight) == 1
+    Weight = ones(node,1) * Weight;
+end
 
 [time, Itime, Itime2, Times] = convert_fvcom_time(time, Ideal);
 
@@ -98,8 +103,13 @@ end
 
 % ssh
 ssh_varid = netcdf.defVar(ncid, 'ssh', 'float', [node_dimid time_dimid]);
-netcdf.putAtt(ncid, ssh_varid, 'long_name', 'Water Surface Elevation');
+netcdf.putAtt(ncid, ssh_varid, 'long_name', 'Water Surface Height');
 netcdf.putAtt(ncid, ssh_varid, 'units', 'meters');
+
+% Weight
+weight_varid = netcdf.defVar(ncid, 'weight', 'float', node_dimid);
+netcdf.putAtt(ncid, weight_varid, 'long_name', 'Sea Surface Height weight');
+netcdf.putAtt(ncid, weight_varid, 'units', '1');
 
 % Global attribute
 netcdf.putAtt(ncid, -1, 'source', 'FVCOM grid (unstructured) surface forcing');
