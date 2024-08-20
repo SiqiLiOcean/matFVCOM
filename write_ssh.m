@@ -120,6 +120,7 @@ netcdf.endDef(ncid);
 %put data in the output file
 netcdf.putVar(ncid, x_varid, x);
 netcdf.putVar(ncid, y_varid, y);
+netcdf.putVar(ncid, weight_varid, Weight);
 for it = 1 : nt
     netcdf.putVar(ncid, time_varid, it-1, 1, time(it));
     netcdf.putVar(ncid, Itime_varid, it-1, 1, Itime(it));
