@@ -32,11 +32,12 @@ h=-h/h(end)*(hmax-hmin)-hmin;
 
 
 [~, ~, ~, deplev] = calc_sigma(-h, sigma);
-x = interp1(h, 1:300, -sigma.min_const_depth);
+
 
 % Plot
 hold on
 if isfield(sigma, 'min_const_depth')
+    x = interp1(h, 1:300, -sigma.min_const_depth);
     plot([x x],[0 -225],'k--')
 end
 patch([1:300 1 1],[h -hmax -hmin],[222,184,135]/255)
