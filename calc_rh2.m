@@ -7,7 +7,7 @@
 %         Q2, 2m air QV, kg/kg
 % output: RH2, %
 %
-% Siqi Li, SMAST
+% Siqi Li, SMAST  K
 % 2021-09-14
 %
 % Updates:

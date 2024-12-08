@@ -103,7 +103,7 @@ end
 
 set(h, 'linecolor', Color)
 
-if ~NoLabel
+if isempty(NoLabel)
     
     if Manual
         clabel(C, h, 'manual', ...
