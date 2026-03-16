@@ -12,7 +12,7 @@
 % 2021-08-30  Siqi Li  Considered h 
 %
 %==========================================================================
-function fgrid2 = f_merge_grid(varargin)
+function fgrid2 = f_grid_merge(varargin)
 
 varargin = read_varargin(varargin, {'Eps'}, {1e-6});
 
@@ -47,5 +47,5 @@ else
     fgrid2 = f_load_grid(x, y, nv);
 end
 
-fgrid2 = f_check_grid(fgrid2, 'Eps', Eps);
+fgrid2 = f_grid_check(fgrid2, 'Eps', Eps);
 

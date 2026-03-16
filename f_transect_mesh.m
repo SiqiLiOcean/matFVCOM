@@ -55,7 +55,7 @@ end
 
 
 % depth2 = interp_horizontal(x1, y1, depth1, x_sec, y_sec);
-depth2 = interp_2d('TRI', depth1, x1, y1, nv1,  x_sec, y_sec);
+depth2 = interp_2d(depth1, 'TRI', x1, y1, nv1,  x_sec, y_sec);
 
 h = plot(d_sec, -depth2(:,:), 'k-');
 

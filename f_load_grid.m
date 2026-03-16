@@ -32,7 +32,7 @@
 % Updates:
 % 2021-06-19  Siqi Li  Added the function of rotating the (x,y)
 % 2022-10-16  Siqi Li  Support grd.dat, 2dm, and nc
-% 2024-02-27  Siqi Li  Added nv direction adjustment for grd and 2dm
+% 2024-02-27  Siqi Li  Added nv direction adjustment for grd and 2dm (!!!)
 %==========================================================================
 function fgrid = f_load_grid(varargin)
 
@@ -55,11 +55,11 @@ switch class(varargin{1})
             case 'xy'
                 x = double(ncread(fnc, 'x'));
                 y = double(ncread(fnc, 'y'));
-                LON = double(ncread(fnc, 'lon'));
-                LAT = double(ncread(fnc, 'lat'));
+                % LON = double(ncread(fnc, 'lon'));
+                % LAT = double(ncread(fnc, 'lat'));
 
-                fgrid.LON = LON;
-                fgrid.LAT = LAT;
+                % fgrid.LON = LON;
+                % fgrid.LAT = LAT;
 
             case 'geo'
                 x = double(ncread(fnc, 'lon'));
@@ -233,7 +233,7 @@ if ~isnan(siglay)
     for i = 2 : fgrid.kb
         fgrid.siglev(:, i) = fgrid.siglay(:, i-1)*2 - fgrid.siglev(:, i-1);
     end
-%     if abs((min(fgrid.siglev(:,end))+1)*(max(fgrid.siglev(:,end))+1))>1e-5
+%     if abs((min(fgrid.siglev(:,end))+1)1*(max(fgrid.siglev(:,end))+1))>1e-5
 %         error('Make sure your input is SIGLAY, rather than SIGLEV')
 %     end
     

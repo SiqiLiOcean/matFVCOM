@@ -57,7 +57,7 @@ for i = 1 : nsta
         depth(iz) = str2double(fgetl(fid));
     end
     
-    sta(i,1).depth = depth;
+    sta(i,1).z = depth;
 end
 fclose(fid);
 
@@ -83,8 +83,8 @@ for i = 1 : nsta
     [U, V] = check_missing(U, V);
     
     sta(i,1).time = time + datenum(1858, 11, 17, 0, 0, 0);
-    sta(i,1).U = U / 100;
-    sta(i,1).V = V / 100;
+    sta(i,1).u = U / 100;
+    sta(i,1).v = V / 100;
 end   
 fclose(fid);
 
