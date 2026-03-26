@@ -68,6 +68,7 @@ end
 function [x2, y2, nv2, h2] = move_node(mode, id_move, x1, y1, nv1, h1)
 
 id1 = 1 : length(x1);
+id_move = id_move(:)';
 
 switch lower(mode)
     case 'start'

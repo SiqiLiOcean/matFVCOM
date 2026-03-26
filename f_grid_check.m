@@ -111,6 +111,7 @@ else
             x(num2) = nan;
             y(num2) = nan;
             id(num2) = nan;
+            h(num2) = nan;
             nv(nv==num2) = num1;
         end
     end
@@ -148,7 +149,7 @@ else
     
     x = x(~isnan(x));
     y = y(~isnan(y));
-    h = h(~isnan(x));
+    h = h(~isnan(h));
     id = id(~isnan(id));
     
     nv = renumber_grid(nv, id);
