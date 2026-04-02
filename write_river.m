@@ -18,7 +18,7 @@
 %   TA              total alkalinity             (n, nt)     umol/kg 
 %   DIC             dissolved inorganic carbon   (n, nt)     mmol C/m3
 %   Bioalk          arbonate bioalkalinity       (n, nt)     umol/kg
-%
+%   DYE             released dye                 (n, nt)     1
 %
 % output :
 %
@@ -57,7 +57,8 @@ end
 
 varlist = {'Flux', 'Temperature', 'Salinity', ...
            'PO4', 'NO3', 'NH4', 'SiO4', ...
-           'DO', 'DIC', 'TA', 'Bioalk'};
+           'DO', 'DIC', 'TA', 'Bioalk', ...
+           'DYE'};
 
 if any(~ismember(varname, varlist)) || isempty(varargin)
     disp('Variable name is not in the list. Select one from the followings:')
@@ -91,7 +92,7 @@ if ~isempty(Ideal)
     netcdf.putAtt(ncid, time_varid, 'time_zone', 'none');
     % Itime
     Itime_varid = netcdf.defVar(ncid, 'Itime', 'int', time_dimid);
-    netcdf.putAtt(ncid, time_varid, 'units', 'days since 0.0');
+    netcdf.putAtt(ncid, Itime_varid, 'units', 'days since 0.0');
     netcdf.putAtt(ncid, Itime_varid, 'time_zone', 'none');
     % Itime2
     Itime2_varid = netcdf.defVar(ncid, 'Itime2', 'int', time_dimid);
@@ -188,7 +189,12 @@ if ismember('Bioalk', varname)
     netcdf.putAtt(ncid, Bioalk_varid, 'long_name', 'carbonate bioalkalinity');
     netcdf.putAtt(ncid, Bioalk_varid, 'units', 'umol/kg');
 end
-
+% DYE
+if ismember('DYE', varname)
+    DYE_varid = netcdf.defVar(ncid, 'river_dye', 'float', [rivers_dimid time_dimid]);
+    netcdf.putAtt(ncid, DYE_varid, 'long_name', 'dye');
+    netcdf.putAtt(ncid, DYE_varid, 'units', '1');
+end
 % End define mode
 netcdf.endDef(ncid);
 
