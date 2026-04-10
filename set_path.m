@@ -15,7 +15,7 @@
 function PATH = set_path
 
 % Type your GSHHS coastline data directory here
-PATH.gshhs = 'C:\data';
+PATH.gshhs = '~/Data/gshhg';
 % Type your ETOPO1 data path here
 PATH.etopo1 = 'C:\data\ETOPO1_Bed_g_gmt4.grd';
 

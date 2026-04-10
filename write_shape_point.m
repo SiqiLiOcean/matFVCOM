@@ -19,18 +19,26 @@ if mod(nargin-3, 2) ~= 0
     error('Not enouth inputs')
 end
 nvar = (nargin - 3) / 2;
-
 %------------------ Create the structure -------------------
 for i = 1:length(lon)
     S(i).Geometry = 'Point';       
     S(i).Lon = lon(i);             
-    S(i).Lat = lat(i);        
+    S(i).Lat = lat(i);  
     for iv = 1 : nvar
-        S(i).(varargin{iv*2-1}) = varargin{iv*2}(i); 
+        S(i).(varargin{iv*2-1}) = varargin{iv*2}(i);
     end
 end
 
 %------------------ Write the shp -------------------------
+[fp, fn, ~] = fileparts(fshp);
+exts = {'.shp','.shx','.dbf','.prj','.cpg'};
+for k = 1:length(exts)
+    ftmp = fullfile(fp, [fn exts{k}]);
+    if exist(ftmp, 'file')
+        delete(ftmp)
+    end
+end
+
 shapewrite(S, fshp);
 
 % Write the prj file
