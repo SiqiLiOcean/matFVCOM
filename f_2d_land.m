@@ -10,7 +10,7 @@
 % Siqi Li, SMAST
 % 2021-03-10
 %==========================================================================
-function h = f_2d_land(fgrid, varargin)
+function [h, pg_out] = f_2d_land(fgrid, varargin)
 
 varargin = read_varargin(varargin, {'xlims'}, {minmax(fgrid.x)});
 varargin = read_varargin(varargin, {'ylims'}, {minmax(fgrid.y)});
